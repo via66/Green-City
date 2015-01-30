@@ -1,3 +1,3 @@
 # Django-Unchained
 
-Creating merge conflict
+Conflicts and things
