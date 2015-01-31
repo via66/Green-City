@@ -1,22 +1,9 @@
 # Django-Unchained
 
-<<<<<<< HEAD
-Creating merge conflict
-testinasdf
-=======
-<<<<<<< Updated upstream
+The proc file is used by heroku to determine how to run the project.
 
-//conflicts are good
-Oh and also conflicts. Conflicts and things.
-But no violence. 
+It needs the requirements.txt file so that it can install all the necessary python libraries.
 
-blab blab Marina did it, sorry ><
-Hi Marina, don't be sorry.
-
-END
-=======
-Conflicts and things
-blablabla Marina did it, sorry ><
-Did anyone change this?
->>>>>>> Stashed changes
->>>>>>> 12866394391890c6c6f9005cac10074114b8a383
+If you look in the settings file, the database is set based on the development_type evironment variable.
+In heroku, that variable is set to "PRODUCTION", so on the heroku server it sets the database based on the "DATABASE_URL" which gives
+the user_id and password and db url and port.
