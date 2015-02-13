@@ -1,3 +1,5 @@
+import os
+import dj_database_url
 """
 Django settings for DjangoUnchained project.
 
@@ -8,9 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
-import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -92,6 +91,7 @@ if DEPLOYMENT == PRODUCTION:
     # Static asset configuration
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     STATIC_URL = '/static/'
+    STATIC_ROOT = 'staticfiles'
 
     STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
