@@ -53,13 +53,6 @@ WSGI_APPLICATION = 'DjangoUnchained.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -72,7 +65,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
@@ -89,7 +81,7 @@ else:
 if DEPLOYMENT == PRODUCTION:
     DEBUG = False
     TEMPLATE_DEBUG = False
-    DATABASES['default'] = dj_database_url.config()
+    DATABASES = {'default': dj_database_url.config(default=os.environ.get('CLEARDB_DATABASE_URL'))}
 
     # Honor the 'X-Forwarded-Proto' header for request.is_secure()
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -105,6 +97,12 @@ if DEPLOYMENT == PRODUCTION:
     os.path.join(BASE_DIR, 'static'),
     )
 else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
     DEBUG = True
     TEMPLATE_DEBUG = True
     STATIC_URL = '/static/'
