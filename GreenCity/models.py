@@ -8,7 +8,7 @@ class GreenProject(models.Model):
     cat_1 = models.CharField(max_length=50)
     cat_2 = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
-    description = models.CharField(max_field=200)
+    description = models.CharField(max_length=200)
     url_1 = models.URLField()
     url_2 = models.URLField()
     url_3 = models.URLField()
