@@ -7,3 +7,4 @@ It needs the requirements.txt file so that it can install all the necessary pyth
 If you look in the settings file, the database is set based on the development_type evironment variable.
 In heroku, that variable is set to "PRODUCTION", so on the heroku server it sets the database based on the "DATABASE_URL" which gives
 the user_id and password and db url and port.
+This is a comment to test Integrated Deployment
