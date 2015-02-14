@@ -1,5 +1,5 @@
 # Django-Unchained
-![Codeship Status](https://www.codeship.io/projects8c5b7870-96cf-0132-19b3-76c54edd661d/status)
+![Codeship Status](https://www.codeship.io/projects/8c5b7870-96cf-0132-19b3-76c54edd661d/status)
 
 The proc file is used by heroku to determine how to run the project.
 
