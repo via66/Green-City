@@ -10,4 +10,3 @@ In heroku, that variable is set to "PRODUCTION", so on the heroku server it sets
 the user_id and password and db url and port.
 This is a comment to test Integrated Deployment
 
-Test db
