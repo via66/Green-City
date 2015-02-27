@@ -78,6 +78,7 @@ else:
     DEPLOYMENT = DEV
 
 if DEPLOYMENT == PRODUCTION:
+    print "in prod"
     DEBUG = False
     TEMPLATE_DEBUG = False
     DATABASES = {'default': dj_database_url.config(default=os.environ.get('CLEARDB_DATABASE_URL'))}
