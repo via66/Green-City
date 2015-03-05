@@ -101,7 +101,7 @@ class CommunityGarden(models.Model):
 
 
 #UrlTitle, UrlLink, PubDate
-class ParserUrl(models.Model):
+class DatasetUrl(models.Model):
     url_title = models.CharField(max_length=200)
     url_link = models.URLField()
     pub_date = models.DateTimeField('date published')
