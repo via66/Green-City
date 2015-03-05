@@ -3,6 +3,8 @@ from django.db import models
 # List of models:
 # Park, GreenCityProjects, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden
 
+#Name, StreetNumber, StreetName, Longitude, Latitude, Hectare, NeighbourhoodName,
+#NeighbourhoodURL, URL, Washrooms
 class Park(models.Model):
 	name = models.CharField(max_length=250)
 	streetNumber = models.CharField(max_length=250)
@@ -18,6 +20,8 @@ class Park(models.Model):
 	def __str__(self):
 		return self.name
 
+#Name, Category1, Category2, Address, shortDescription, Url1, Url2, Url3, Longitude
+#Latitude	
 class GreenCityProject(models.Model):
 	name = models.CharField(max_length=250)
 	category1 = models.CharField(max_length=250)
@@ -32,7 +36,8 @@ class GreenCityProject(models.Model):
 	
 	def __str__(self):
 		return self.name
-
+	
+#Longitude, Latitude, LotOperator, Address
 class ElectricVehicleChargingStation(models.Model):
 	longitude = models.DecimalField(max_digits = 18, decimal_places = 15)
 	latitude = models.DecimalField(max_digits = 18, decimal_places = 15)
@@ -42,6 +47,7 @@ class ElectricVehicleChargingStation(models.Model):
 	def __str__(self):
 		return self.address
 
+#StreetNumber, StreetName, NumberOfRacks, Longitude, Latitude
 class BikeRack(models.Model):
 	streetNumber = models.CharField(max_length=250)
 	streetName = models.CharField(max_length=250)
@@ -52,6 +58,8 @@ class BikeRack(models.Model):
 	def __str__(self):
 		return self.streetNumber + " " + self.streetName
 
+#Name, Year, MarketType, Operator, StreetNumber, StreetName, Url, Day, OpenHours, CloseHours
+#MonthsOfOperation, NumberOfVendors, Offerings, Longitude, Latitude	
 class CommunityFoodMarket(models.Model):
 	name = models.CharField(max_length=250)
 	year = models.DateField() #saves year, month and day 
@@ -72,6 +80,8 @@ class CommunityFoodMarket(models.Model):
 	def __str__(self):
 		return self.name
 
+#Name, StreetNumber, StreetName, Longitude, Latitude, NumberOfPlots, NumberOfFoodTrees
+#FoodTreeVarieties, Jurisdiction,StewardsOrManagingOrganization, PublicEmail, Url	
 class CommunityGarden(models.Model):
 	name = models.CharField(max_length=250)
 	streetNumber = models.CharField(max_length=10)
@@ -89,3 +99,11 @@ class CommunityGarden(models.Model):
 	def __str__(self):
 		return self.name
 
+
+#UrlTitle, UrlLink, PubDate
+class ParserUrl(models.Model):
+    url_title = models.CharField(max_length=200)
+    url_link = models.URLField()
+    pub_date = models.DateTimeField('date published')
+    def __str__(self):
+        return self.url_link
