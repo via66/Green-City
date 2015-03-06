@@ -6,16 +6,6 @@ from django.core.urlresolvers import reverse
 
 
 
-
-
-class PurlAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ('Title',               {'fields': ['url_title']}),
-        ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
-        ('Link', {'fields': ['url_link']}),
-    ]
-    list_display = ('url_title', 'url_link', 'pub_date')
-
 class PostAdmin(admin.ModelAdmin):
     def response_change(self, request, obj):
         opts = obj._meta
@@ -27,7 +17,7 @@ class PostAdmin(admin.ModelAdmin):
 
                  #  return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
 
-admin.site.register(PUrl, PostAdmin)
+admin.site.register(DatasetLink, PostAdmin)
 admin.site.register(Park)
 admin.site.register(GreenCityProject)
 admin.site.register(ElectricVehicleChargingStation)
