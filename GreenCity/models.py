@@ -101,9 +101,10 @@ class CommunityGarden(models.Model):
 
 
 #UrlTitle, UrlLink, PubDate
-class DatasetUrl(models.Model):
+class DatasetLink(models.Model):
     url_title = models.CharField(max_length=200)
-    url_link = models.URLField()
+    #pk = url_link
+    url_link = models.URLField(max_length=200, unique = True)
     pub_date = models.DateTimeField('date published')
     def __str__(self):
         return self.url_link
