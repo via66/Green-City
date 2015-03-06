@@ -62,4 +62,11 @@ class CommunityGarden(Feature):
 	publicEmail = models.EmailField()
 	url = models.URLField()
 
-
+#UrlTitle, UrlLink, PubDate
+class DatasetLink(models.Model):
+    url_title = models.CharField(max_length=200)
+    #pk = url_link
+    url_link = models.URLField(max_length=200, unique = True)
+    pub_date = models.DateTimeField('date published')
+    def __str__(self):
+        return self.url_link
