@@ -11,12 +11,10 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='BikeRack',
+            name='Feature',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('streetNumber', models.CharField(max_length=250)),
-                ('streetName', models.CharField(max_length=250)),
-                ('numberOfRacks', models.IntegerField()),
+                ('name', models.CharField(max_length=250)),
                 ('longitude', models.DecimalField(max_digits=18, decimal_places=15)),
                 ('latitude', models.DecimalField(max_digits=18, decimal_places=15)),
             ],
@@ -25,10 +23,38 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='ElectricVehicleChargingStation',
+            fields=[
+                ('feature_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='GreenCity.Feature')),
+                ('lotOperator', models.CharField(max_length=250)),
+                ('address', models.CharField(max_length=250)),
+            ],
+            options={
+            },
+            bases=('GreenCity.feature',),
+        ),
+        migrations.CreateModel(
+            name='CommunityGarden',
+            fields=[
+                ('feature_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='GreenCity.Feature')),
+                ('streetNumber', models.CharField(max_length=10)),
+                ('streetName', models.CharField(max_length=250)),
+                ('numberOfPlots', models.IntegerField()),
+                ('numberOfFoodTrees', models.IntegerField()),
+                ('foodTreeVarieties', models.CharField(max_length=250)),
+                ('jurisdiction', models.CharField(max_length=250)),
+                ('stewarsOrManagingOrganization', models.CharField(max_length=250)),
+                ('publicEmail', models.EmailField(max_length=75)),
+                ('url', models.URLField()),
+            ],
+            options={
+            },
+            bases=('GreenCity.feature',),
+        ),
+        migrations.CreateModel(
             name='CommunityFoodMarket',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=250)),
+                ('feature_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='GreenCity.Feature')),
                 ('year', models.DateField()),
                 ('marketType', models.CharField(max_length=250)),
                 ('operator', models.CharField(max_length=250)),
@@ -41,52 +67,27 @@ class Migration(migrations.Migration):
                 ('monthsOfOperations', models.CharField(max_length=250)),
                 ('numberOfVendors', models.IntegerField()),
                 ('offerings', models.CharField(max_length=250)),
-                ('longitude', models.DecimalField(max_digits=18, decimal_places=15)),
-                ('latitude', models.DecimalField(max_digits=18, decimal_places=15)),
             ],
             options={
             },
-            bases=(models.Model,),
+            bases=('GreenCity.feature',),
         ),
         migrations.CreateModel(
-            name='CommunityGarden',
+            name='BikeRack',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=250)),
-                ('streetNumber', models.CharField(max_length=10)),
+                ('feature_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='GreenCity.Feature')),
+                ('streetNumber', models.CharField(max_length=250)),
                 ('streetName', models.CharField(max_length=250)),
-                ('longitude', models.DecimalField(max_digits=18, decimal_places=15)),
-                ('latitude', models.DecimalField(max_digits=18, decimal_places=15)),
-                ('numberOfPlots', models.IntegerField()),
-                ('numberOfFoodTrees', models.IntegerField()),
-                ('foodTreeVarieties', models.CharField(max_length=250)),
-                ('jurisdiction', models.CharField(max_length=250)),
-                ('stewarsOrManagingOrganization', models.CharField(max_length=250)),
-                ('publicEmail', models.EmailField(max_length=75)),
-                ('url', models.URLField()),
+                ('numberOfRacks', models.IntegerField()),
             ],
             options={
             },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='ElectricVehicleChargingStation',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('longitude', models.DecimalField(max_digits=18, decimal_places=15)),
-                ('latitude', models.DecimalField(max_digits=18, decimal_places=15)),
-                ('lotOperator', models.CharField(max_length=250)),
-                ('address', models.CharField(max_length=250)),
-            ],
-            options={
-            },
-            bases=(models.Model,),
+            bases=('GreenCity.feature',),
         ),
         migrations.CreateModel(
             name='GreenCityProject',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=250)),
+                ('feature_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='GreenCity.Feature')),
                 ('category1', models.CharField(max_length=250)),
                 ('category2', models.CharField(max_length=250)),
                 ('address', models.CharField(max_length=250)),
@@ -94,30 +95,24 @@ class Migration(migrations.Migration):
                 ('url1', models.URLField()),
                 ('url2', models.URLField()),
                 ('url3', models.URLField()),
-                ('longitude', models.DecimalField(max_digits=18, decimal_places=15)),
-                ('latitude', models.DecimalField(max_digits=18, decimal_places=15)),
             ],
             options={
             },
-            bases=(models.Model,),
+            bases=('GreenCity.feature',),
         ),
         migrations.CreateModel(
             name='Park',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=250)),
-                ('street_number', models.CharField(max_length=250)),
-                ('street_name', models.CharField(max_length=250)),
-                ('longitude', models.DecimalField(max_digits=18, decimal_places=15)),
-                ('latitude', models.DecimalField(max_digits=18, decimal_places=15)),
+                ('feature_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='GreenCity.Feature')),
+                ('streetNumber', models.CharField(max_length=250)),
+                ('streetName', models.CharField(max_length=250)),
                 ('hectare', models.DecimalField(max_digits=6, decimal_places=2)),
                 ('neighbourhoodName', models.CharField(max_length=250)),
                 ('neighbourhoodURL', models.URLField()),
-                ('url', models.URLField()),
                 ('washrooms', models.BooleanField(default=False)),
             ],
             options={
             },
-            bases=(models.Model,),
+            bases=('GreenCity.feature',),
         ),
     ]
