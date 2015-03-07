@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
+from adminapp.models import Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
 from django.contrib import admin
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
@@ -93,7 +93,15 @@ class DatasetLinkAdmin(admin.ModelAdmin):
         verbose_name = opts.verbose_name
         module_name = opts.module_name
         pk_value = obj._get_pk_val()
+        url_to_parse = DatasetLink.objects.get(pk = pk_value)
         if '_update' in request.POST:
+            print(url_to_parse)
+            valid = DatasetLink.objects.filter(url_link__endswith='.csv')
+            print(valid)
+            if valid.exists():
+                print('url valid')
+            else:
+                print('url not valid')
             return render(request, 'admin/success_display.html', {})
 
                  #  return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
