@@ -2,10 +2,10 @@ from django.db import models
 from model_utils.managers import InheritanceManager
 
 # List of models:
-# Park, GreenCityProjects, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden
+# Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden
 
 class Feature(models.Model):
-	name = models.CharField(max_length=250)
+	name = models.CharField(max_length=250, unique=True)
 	longitude = models.DecimalField(max_digits = 18, decimal_places = 15)
 	latitude = models.DecimalField(max_digits = 18, decimal_places = 15)
 
