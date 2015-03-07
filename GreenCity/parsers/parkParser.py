@@ -15,13 +15,16 @@ def parsePark(url):
 			neighbourhoodURL = unicode(row[10],"ISO-8859-1"),
 			washrooms = stringToBoolean(unicode(row[14],"ISO-8859-1"))
 		)
-		newPark.save()
+		try:
+			newPark.save()
+		except:
+			print "Could not save your data, check if you entered a valid list of parks."
 	
 def googleMapDest(longitude_and_latitude, coordinate_type):
 	separate_coordinates = longitude_and_latitude.split(",")
-	if coordinate_type == "longitude":
+	if coordinate_type == "latitude":
 		return separate_coordinates[0]
-	elif coordinate_type == "latitude":
+	elif coordinate_type == "longitude":
 		return separate_coordinates[1]
 
 def stringToBoolean(string):
