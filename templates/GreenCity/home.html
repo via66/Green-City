@@ -6,16 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <!-- Optional theme -->
+    {% load static from staticfiles %}
+    <link href="{% static 'map-style.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-    <style>
-    #map-canvas {
-	    width:700px;
-        height: 550px;
-    }
-    </style>
     <title>Django Unchained</title>
 </head>
 <body>
@@ -94,7 +88,6 @@
             var icon;
             {% load greencitytags %}
             {% for feature in features %}
-                var text = "{{ feature }}";
                 icon = markerIcons["{{feature|field_type}}"];
                 var coord = new google.maps.LatLng({{feature.latitude}}, {{feature.longitude}});
                 var marker = new google.maps.Marker({
