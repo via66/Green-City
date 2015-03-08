@@ -1,75 +1,116 @@
-from django.db import models
-from model_utils.managers import InheritanceManager
+from django.contrib import admin
+from models import Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
+from django.contrib import admin
+from django.shortcuts import render
+from django.core.urlresolvers import reverse
 
-# List of models:
-# Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden
+class ParkAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Name',               {'fields': ['name']}),
+        ('Lat/Long', {'fields': ['longitude', 'latitude']}),
+        ('Street', {'fields': ['streetNumber', 'streetName']}),
+        ('Hectare', {'fields': ['hectare']}),
+        ('Neighbourhood', {'fields': ['neighbourhoodName', 'neighbourhoodURL']}),
+        ('Washrooms', {'fields': ['washrooms']}),
+    ]
+    list_display = ('name', 'longitude', 'latitude', 'streetNumber', 'streetName',
+                    'hectare', 'neighbourhoodName', 'neighbourhoodURL',
+                    'washrooms')
+    
+class BikeRackAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Street', {'fields': ['streetNumber', 'streetName']}),
+        ('Lat/Long', {'fields': ['longitude', 'latitude']}),
+        ('Number of racks', {'fields': ['numberOfRacks']}),
+    ]
+    list_display = ('streetNumber', 'streetName', 'numberOfRacks')
+    
+class GreenCityProjectAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Name',               {'fields': ['name']}),
+        ('Lat/Long', {'fields': ['longitude', 'latitude']}),
+        ('Address', {'fields': ['address']}),
+        ('Categories', {'fields': ['category1', 'category2']}),
+        ('Description', {'fields': ['shortDescription']}),
+        ('URLs', {'fields': ['url1', 'url2', 'url3']}),
+    ]
+    list_display = ('name', 'longitude', 'latitude', 'address', 'category1',
+                    'category2', 'shortDescription', 'url1', 'url2', 'url3')
 
-class Feature(models.Model):
-	name = models.CharField(max_length=250, unique=True)
-	longitude = models.DecimalField(max_digits = 18, decimal_places = 15)
-	latitude = models.DecimalField(max_digits = 18, decimal_places = 15)
+class ChargingStationAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Name',               {'fields': ['name']}),
+        ('Lat/Long', {'fields': ['longitude', 'latitude']}),
+        ('Address ', {'fields': ['address']}),
+        ('Lot Operator', {'fields': ['lotOperator']})
+        ]
+    list_display = ('name', 'longitude', 'latitude', 'address', 'lotOperator')
 
-	objects = InheritanceManager()
+class FoodMarketAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Name',               {'fields': ['name']}),
+        ('Lat/Long', {'fields': ['longitude', 'latitude']}),
+        ('Street', {'fields': ['streetNumber', 'streetName']}),
+        ('Market Type', {'fields': ['marketType']}),
+        ('Year', {'fields': ['year']}),
+        ('Operator', {'fields': ['operator']}),
+        ('Day', {'fields': ['day']}),
+        ('Hours', {'fields': ['openHours', 'closeHours']}),
+        ('Months of Operation', {'fields': ['monthsOfOperations']}),
+        ('Number of Vendors', {'fields': ['numberOfVendors']}),
+        ('Offerings', {'fields': ['offerings']}),
+    ]
+    list_display = ('name', 'longitude', 'latitude', 'year', 'marketType', 'operator',
+                    'streetNumber', 'streetName', 'url', 'day', 'openHours', 'closeHours',
+                    'monthsOfOperations', 'numberOfVendors', 'offerings')
 
-	def __str__(self):
-		return self.name
+class GardenAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Name',               {'fields': ['name']}),
+        ('Lat/Long', {'fields': ['longitude', 'latitude']}),
+        ('Street', {'fields': ['streetNumber', 'streetName']}),
+        ('Number of Plots', {'fields': ['numberOfPlots']}),
+        ('Food Trees', {'fields': ['numberOfFoodTrees', 'foodTreeVarieties']}),
+        ('Jurisdiction', {'fields': ['jurisdiction']}),
+        ('Managing Organization', {'fields': ['stewarsOrManagingOrganization']}),
+        ('Email', {'fields': ['publicEmail']}),
+        ('Url', {'fields': ['url']})
+    ]
+    list_display = ('name', 'longitude', 'latitude', 'streetNumber', 'streetName', 'numberOfPlots',
+                    'numberOfFoodTrees', 'foodTreeVarieties', 'jurisdiction', 'stewarsOrManagingOrganization',
+                    'publicEmail', 'url')
+    
+class DatasetLinkAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Title',               {'fields': ['url_title']}),
+        ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+        ('Link', {'fields': ['url_link']}),
+    ]
+    list_display = ('url_title', 'url_link', 'pub_date')
 
-class BikeRack(Feature):
-	streetNumber = models.CharField(max_length=250)
-	streetName = models.CharField(max_length=250)
-	numberOfRacks = models.IntegerField()
+    def response_change(self, request, obj):
+        opts = obj._meta
+        verbose_name = opts.verbose_name
+        module_name = opts.module_name
+        pk_value = obj._get_pk_val()
+        url_to_parse = DatasetLink.objects.get(pk = pk_value)
+        if '_update' in request.POST:
+            print(url_to_parse)
+            valid = DatasetLink.objects.filter(url_link__endswith='.csv')
+            print(valid)
+            if valid.exists():
+                print('url valid')
+                return render(request, 'admin/success_display.html', {})
+            else:
+                print('url not valid')
+                return render(request, 'admin/failure_display.html', {})
 
-class Park(Feature):
-	streetNumber = models.CharField(max_length=250)
-	streetName = models.CharField(max_length=250)
-	hectare = models.DecimalField(max_digits = 6, decimal_places = 2)
-	neighbourhoodName = models.CharField(max_length=250)
-	neighbourhoodURL = models.URLField()
-	washrooms = models.BooleanField(default = False)
+                 #  return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
 
-class GreenCityProject(Feature):
-	category1 = models.CharField(max_length=250)
-	category2 = models.CharField(max_length=250)
-	address = models.CharField(max_length=250)
-	shortDescription = models.TextField()
-	url1 = models.URLField()
-	url2 = models.URLField()
-	url3 = models.URLField() 
-
-class ElectricVehicleChargingStation(Feature):
-	lotOperator = models.CharField(max_length=250)
-	address = models.CharField(max_length=250)
-
-class CommunityFoodMarket(Feature):
-	year = models.DateField() #saves year, month and day 
-	marketType = models.CharField(max_length=250)
-	operator = models.CharField(max_length=250)
-	streetNumber = models.CharField(max_length=250)
-	streetName = models.CharField(max_length=250)
-	url = models.URLField()
-	day = models.CharField(max_length=10)
-	openHours = models.TimeField()
-	closeHours = models.TimeField()
-	monthsOfOperations = models.CharField(max_length=250)
-	numberOfVendors = models.IntegerField()
-	offerings = models.CharField(max_length=250)
-
-class CommunityGarden(Feature):
-	streetNumber = models.CharField(max_length=10)
-	streetName = models.CharField(max_length=250)
-	numberOfPlots = models.IntegerField()
-	numberOfFoodTrees = models.IntegerField()
-	foodTreeVarieties = models.CharField(max_length=250)
-	jurisdiction = models.CharField(max_length=250)
-	stewarsOrManagingOrganization = models.CharField(max_length=250)
-	publicEmail = models.EmailField()
-	url = models.URLField()
-
-#UrlTitle, UrlLink, PubDate
-class DatasetLink(models.Model):
-    url_title = models.CharField(max_length=200)
-    #pk = url_link
-    url_link = models.URLField(max_length=200, unique = True)
-    pub_date = models.DateTimeField('date published')
-    def __str__(self):
-        return self.url_link
+admin.site.register(DatasetLink, DatasetLinkAdmin)
+admin.site.register(Park, ParkAdmin)
+admin.site.register(GreenCityProject, GreenCityProjectAdmin)
+admin.site.register(ElectricVehicleChargingStation,ChargingStationAdmin)
+admin.site.register(BikeRack, BikeRackAdmin)
+admin.site.register(CommunityFoodMarket, FoodMarketAdmin)
+admin.site.register(CommunityGarden, GardenAdmin)
