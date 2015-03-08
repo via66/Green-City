@@ -1,5 +1,5 @@
 from django.contrib import admin
-from adminapp.models import Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
+from models import Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
 from django.contrib import admin
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
