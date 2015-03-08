@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
+from adminapp.models import Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
 from django.contrib import admin
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
@@ -100,9 +100,10 @@ class DatasetLinkAdmin(admin.ModelAdmin):
             print(valid)
             if valid.exists():
                 print('url valid')
+                return render(request, 'admin/success_display.html', {})
             else:
                 print('url not valid')
-            return render(request, 'admin/success_display.html', {})
+                return render(request, 'admin/failure_display.html', {})
 
                  #  return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
 
