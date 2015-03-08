@@ -5,8 +5,10 @@ from GreenCity.models import Feature
 
 # Create your views here.
 
+
 def home(request):
-    return render(request, 'GreenCity/home.html')
+    features = Feature.objects.select_subclasses()
+    return render(request, 'GreenCity/home.html', {'features': features})
 
 
 def map(request):

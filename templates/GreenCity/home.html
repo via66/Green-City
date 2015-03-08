@@ -8,9 +8,14 @@
     <meta name="author" content="">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <style>
+    #map-canvas {
+	    width:700px;
+        height: 550px;
+    }
+    </style>
     <title>Django Unchained</title>
 </head>
 <body>
@@ -50,22 +55,7 @@
 
     <div class="container">
       <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-       </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
+      <div id="map-canvas" class="row">
       </div>
 
       <hr>
@@ -79,6 +69,44 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script src = "https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script>
+        var map;
+        function initalize() {
+            var mapOptions = {
+                zoom: 12,
+                center: new google.maps.LatLng(49.2827, -123.1207)
+            };
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+            var markerSize = new google.maps.Size(21, 34);
+            var markerOrigin = new google.maps.Point(0,0);
+            var markerAnchor = new google.maps.Point(10, 34);
+            var customIconURL = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|";
+            var markerIcons = {};
+            markerIcons['Park'] = new google.maps.MarkerImage(customIconURL + "a4de94",markerSize,markerOrigin,markerAnchor);
+            markerIcons['GreenCityProject'] = new google.maps.MarkerImage(customIconURL + "f75a70",markerSize,markerOrigin,markerAnchor);
+            markerIcons['BikeRack'] = new google.maps.MarkerImage(customIconURL + "99dbf6",markerSize,markerOrigin,markerAnchor);
+            markerIcons['ElectricVehicleChargingStation'] = new google.maps.MarkerImage(customIconURL + "f3e37b",markerSize,markerOrigin,markerAnchor);
+            markerIcons['CommunityGarden'] = new google.maps.MarkerImage(customIconURL + "dc99e2",markerSize,markerOrigin,markerAnchor);
+            markerIcons['CommunityFoodMarket'] = new google.maps.MarkerImage(customIconURL + "f5a864",markerSize,markerOrigin,markerAnchor);
+
+            var icon;
+            {% load greencitytags %}
+            {% for feature in features %}
+                var text = "{{ feature }}";
+                icon = markerIcons["{{feature|field_type}}"];
+                var coord = new google.maps.LatLng({{feature.latitude}}, {{feature.longitude}});
+                var marker = new google.maps.Marker({
+                    position: coord,
+                    map: map,
+                    icon: icon
+                });
+            {% endfor %}
+        }
+
+        google.maps.event.addDomListener(window, 'load', initalize);
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </body>
