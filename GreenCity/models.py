@@ -4,10 +4,9 @@ from django.db import models
 # Park, GreenCityProjects, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden
 
 class Feature(models.Model):
-	name = models.CharField(max_length=250)
+	name = models.CharField(max_length=250, unique=True)
 	longitude = models.DecimalField(max_digits = 18, decimal_places = 15)
 	latitude = models.DecimalField(max_digits = 18, decimal_places = 15)
-
 
 	def __str__(self):
 		return self.name
@@ -53,15 +52,15 @@ class CommunityFoodMarket(Feature):
 	offerings = models.CharField(max_length=250)
 
 class CommunityGarden(Feature):
-	streetNumber = models.CharField(max_length=10)
-	streetName = models.CharField(max_length=250)
-	numberOfPlots = models.IntegerField()
-	numberOfFoodTrees = models.IntegerField()
-	foodTreeVarieties = models.CharField(max_length=250)
-	jurisdiction = models.CharField(max_length=250)
-	stewarsOrManagingOrganization = models.CharField(max_length=250)
-	publicEmail = models.EmailField()
-	url = models.URLField()
+	streetNumber = models.CharField(max_length=10, blank=True, null=True)
+	streetName = models.CharField(max_length=250, blank=True, null=True)
+	numberOfPlots = models.IntegerField(blank=True, null=True)
+	numberOfFoodTrees = models.IntegerField(blank=True, null=True)
+	foodTreeVarieties = models.CharField(max_length=250, blank=True, null=True)
+	jurisdiction = models.CharField(max_length=250, blank=True, null=True)
+	stewarsOrManagingOrganization = models.CharField(max_length=250, blank=True, null=True)
+	publicEmail = models.EmailField(blank=True, null=True)
+	url = models.URLField(blank=True, null=True)
 
 #UrlTitle, UrlLink, PubDate
 class DatasetLink(models.Model):

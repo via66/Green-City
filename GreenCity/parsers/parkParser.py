@@ -1,14 +1,14 @@
 
 def parsePark(url):
-    import csv
-    import urllib2
-    import time
-    from datetime import datetime
-    from GreenCity.models import Park
-    f = urllib2.urlopen(url)
-    reader = csv.reader(f)
-    reader.next()
-    for row in reader:
+	import csv
+	import urllib2
+	import time
+	from datetime import datetime
+	from GreenCity.models import Park
+	f = urllib2.urlopen(url)
+	reader = csv.reader(f)
+	reader.next()
+	for row in reader:
 		newPark = Park(
 			name = unicode(row[1],"ISO-8859-1"),
 			streetNumber = unicode(row[3],"ISO-8859-1"),
@@ -51,7 +51,6 @@ if __name__ == "__main__":
 	import urllib2
 	import time
 	from datetime import datetime
-	from GreenCity.models import Park
 
 	os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjangoUnchained.settings")
 	django.setup()
