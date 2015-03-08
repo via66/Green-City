@@ -5,6 +5,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from parsers.parkParser import parsePark
 from django.core.urlresolvers import reverse
 
+
 class ParkAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Name',               {'fields': ['name']}),
@@ -18,6 +19,7 @@ class ParkAdmin(admin.ModelAdmin):
                     'hectare', 'neighbourhoodName', 'neighbourhoodURL',
                     'washrooms')
     
+
 class BikeRackAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Street', {'fields': ['streetNumber', 'streetName']}),
@@ -26,6 +28,7 @@ class BikeRackAdmin(admin.ModelAdmin):
     ]
     list_display = ('streetNumber', 'streetName', 'numberOfRacks')
     
+
 class GreenCityProjectAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Name',               {'fields': ['name']}),
@@ -38,6 +41,7 @@ class GreenCityProjectAdmin(admin.ModelAdmin):
     list_display = ('name', 'longitude', 'latitude', 'address', 'category1',
                     'category2', 'shortDescription', 'url1', 'url2', 'url3')
 
+
 class ChargingStationAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Name',               {'fields': ['name']}),
@@ -46,6 +50,7 @@ class ChargingStationAdmin(admin.ModelAdmin):
         ('Lot Operator', {'fields': ['lotOperator']})
         ]
     list_display = ('name', 'longitude', 'latitude', 'address', 'lotOperator')
+
 
 class FoodMarketAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -65,6 +70,7 @@ class FoodMarketAdmin(admin.ModelAdmin):
                     'streetNumber', 'streetName', 'url', 'day', 'openHours', 'closeHours',
                     'monthsOfOperations', 'numberOfVendors', 'offerings')
 
+
 class GardenAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Name',               {'fields': ['name']}),
@@ -81,6 +87,7 @@ class GardenAdmin(admin.ModelAdmin):
                     'numberOfFoodTrees', 'foodTreeVarieties', 'jurisdiction', 'stewarsOrManagingOrganization',
                     'publicEmail', 'url')
     
+
 class DatasetLinkAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Title',               {'fields': ['url_title']}),
