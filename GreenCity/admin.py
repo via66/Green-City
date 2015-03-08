@@ -91,6 +91,7 @@ class DatasetLinkAdmin(admin.ModelAdmin):
 
     def response_change(self, request, obj):
         if '_update' in request.POST:
+
             opts = obj._meta
             verbose_name = opts.verbose_name
             module_name = opts.module_name
@@ -110,7 +111,6 @@ class DatasetLinkAdmin(admin.ModelAdmin):
                 return render(request, 'admin/success_display.html', {})
             except:
                 return render(request, 'admin/duplicate_display.html', {})
-
         else:
             return HttpResponseRedirect(reverse('http://127.0.0.1:8000/'))
 
