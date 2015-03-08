@@ -88,7 +88,7 @@ class DatasetLinkAdmin(admin.ModelAdmin):
         ('Link', {'fields': ['url_link']}),
     ]
     list_display = ('url_title', 'url_link', 'pub_date')
-
+    '''
     def response_change(self, request, obj):
         if '_update' in request.POST:
 
@@ -113,7 +113,53 @@ class DatasetLinkAdmin(admin.ModelAdmin):
                 return render(request, 'admin/duplicate_display.html', {})
         else:
             return HttpResponseRedirect(reverse('http://127.0.0.1:8000/'))
-
+    '''
+    def response_change(self, request, obj):
+        if '_update' in request.POST:
+            opts = obj._meta
+            verbose_name = opts.verbose_name
+            module_name = opts.module_name
+            pk_value = obj._get_pk_val()
+            #pass url_to_parse to the correct parser
+            url_to_parse = DatasetLink.objects.get(pk = pk_value)
+            print(url_to_parse) 
+            validGarden = DatasetLink.objects.filter(url_link__endswith='ftp://webftp.vancouver.ca/OpenData/csv/CommunityGardensandFoodTrees.csv' , pk = pk_value)
+            validMarket = DatasetLink.objects.filter(url_link__endswith='ftp://webftp.vancouver.ca/OpenData/csv/CommunityFoodMarketsandFarmersMarkets.csv' , pk = pk_value)
+            validPark = DatasetLink.objects.filter(url_link__endswith='ftp://webftp.vancouver.ca/OpenData/csv/parks.csv' , pk = pk_value)
+            validBike = DatasetLink.objects.filter(url_link__endswith='ftp://webftp.vancouver.ca/opendata/bike_rack/BikeRackData.csv' , pk = pk_value)
+            validCharge = DatasetLink.objects.filter(url_link__endswith='ftp://webftp.vancouver.ca/OpenData/csv/electric_vehicle_charging_stations.csv' , pk = pk_value)
+            validProject = DatasetLink.objects.filter(url_link__endswith='ftp://webftp.vancouver.ca/OpenData/csv/greenest_city_projects.csv' , pk = pk_value)
+            print(validGarden)
+            if validGarden.exists():
+                print('Valid Garden Url')
+                #Insert call to Gardens parser here
+                return render(request, 'admin/success_display.html', {})
+            elif validMarket.exists():
+                print('Valid Market Url')
+                #Insert call to Market parser here
+                return render(request, 'admin/success_display.html', {})
+            elif validPark.exists():
+                print('Valid Park Url')
+                #Insert call to Park parser here
+                return render(request, 'admin/success_display.html', {})
+            elif validBike.exists():
+                print('Valid Bike Url')
+                #Insert call to Bike parser here
+                return render(request, 'admin/success_display.html', {})
+            elif validCharge.exists():
+                print('Valid Charge Url')
+                #Insert call to Charge parser here
+                return render(request, 'admin/success_display.html', {})
+            elif validProject.exists():
+                print('Valid Project Url')
+                #Insert call to Prject parser here
+                return render(request, 'admin/success_display.html', {})
+            else:
+                print('url not valid')
+                return render(request, 'admin/failure_display.html', {})
+        else:
+            return HttpResponseRedirect(reverse('http://127.0.0.1:8000/'))
+        
 admin.site.register(DatasetLink, DatasetLinkAdmin)
 admin.site.register(Park, ParkAdmin)
 admin.site.register(GreenCityProject, GreenCityProjectAdmin)
