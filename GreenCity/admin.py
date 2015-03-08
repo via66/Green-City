@@ -1,7 +1,8 @@
 from django.contrib import admin
 from models import Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
 from django.contrib import admin
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
+from parsers.parkParser import parsePark
 from django.core.urlresolvers import reverse
 
 class ParkAdmin(admin.ModelAdmin):
@@ -89,22 +90,29 @@ class DatasetLinkAdmin(admin.ModelAdmin):
     list_display = ('url_title', 'url_link', 'pub_date')
 
     def response_change(self, request, obj):
-        opts = obj._meta
-        verbose_name = opts.verbose_name
-        module_name = opts.module_name
-        pk_value = obj._get_pk_val()
-        url_to_parse = DatasetLink.objects.get(pk = pk_value)
         if '_update' in request.POST:
-            print(url_to_parse)
-            valid = DatasetLink.objects.filter(url_link__endswith='.csv')
-            print(valid)
-            if valid.exists():
-                print('url valid')
-            else:
-                print('url not valid')
-            return render(request, 'admin/success_display.html', {})
+            opts = obj._meta
+            verbose_name = opts.verbose_name
+            module_name = opts.module_name
+            pk_value = obj._get_pk_val()
+            url_to_parse = DatasetLink.objects.get(pk = pk_value).url_link
+            try:
+                parsePark(url_to_parse)
+                print verbose_name
+                print module_name
+                print(url_to_parse)
+                valid = DatasetLink.objects.filter(url_link__endswith='.csv')
+                print(valid)
+                if valid.exists():
+                    print('url valid')
+                else:
+                    print('url not valid')
+                return render(request, 'admin/success_display.html', {})
+            except:
+                return render(request, 'admin/duplicate_display.html', {})
 
-                 #  return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
+        else:
+            return HttpResponseRedirect(reverse('http://127.0.0.1:8000/'))
 
 admin.site.register(DatasetLink, DatasetLinkAdmin)
 admin.site.register(Park, ParkAdmin)
