@@ -64,41 +64,26 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src = "https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script src = {% static "javascript/initialize_map.js" %}></script>
     <script>
-        var map;
-        function initalize() {
-            var mapOptions = {
-                zoom: 12,
-                center: new google.maps.LatLng(49.2827, -123.1207)
-            };
-            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-            var markerSize = new google.maps.Size(21, 34);
-            var markerOrigin = new google.maps.Point(0,0);
-            var markerAnchor = new google.maps.Point(10, 34);
-            var customIconURL = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|";
-            var markerIcons = {};
-            markerIcons['Park'] = new google.maps.MarkerImage(customIconURL + "a4de94",markerSize,markerOrigin,markerAnchor);
-            markerIcons['GreenCityProject'] = new google.maps.MarkerImage(customIconURL + "f75a70",markerSize,markerOrigin,markerAnchor);
-            markerIcons['BikeRack'] = new google.maps.MarkerImage(customIconURL + "99dbf6",markerSize,markerOrigin,markerAnchor);
-            markerIcons['ElectricVehicleChargingStation'] = new google.maps.MarkerImage(customIconURL + "f3e37b",markerSize,markerOrigin,markerAnchor);
-            markerIcons['CommunityGarden'] = new google.maps.MarkerImage(customIconURL + "dc99e2",markerSize,markerOrigin,markerAnchor);
-            markerIcons['CommunityFoodMarket'] = new google.maps.MarkerImage(customIconURL + "f5a864",markerSize,markerOrigin,markerAnchor);
-
-            var icon;
-            {% load greencitytags %}
-            {% for feature in features %}
-                icon = markerIcons["{{feature|field_type}}"];
-                var coord = new google.maps.LatLng({{feature.latitude}}, {{feature.longitude}});
-                var marker = new google.maps.Marker({
-                    position: coord,
-                    map: map,
-                    icon: icon
-                });
-            {% endfor %}
-        }
-
-        google.maps.event.addDomListener(window, 'load', initalize);
+            function initialize() {
+                var mapOptions = {
+                    zoom: 12,
+                    center: new google.maps.LatLng(49.2827, -123.1207)
+                };
+                var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                var data = [];
+                {% load greencitytags %}
+                {% for feature in features %}
+                   data.push( { name:"{{ feature.name }}",
+                                ftype:"{{ feature|field_type }}",
+                                lat:{{ feature.latitude}},
+                                long:{{ feature.longitude }}
+                   });
+                {% endfor %}
+                plot_markers(map, data);
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
