@@ -9,10 +9,7 @@ def parseCommunityGardens(url):
 	f = urllib2.urlopen(url)
 	reader = csv.reader(f)
 	reader.next()
-	i = 0
 	for row in reader:
-		print "row: "+str(i)
-		i = i+1
 		newName = unicode(row[1],"ISO-8859-1")
 		newLongitude = unicode(row[7],"ISO-8859-1")
 		newLatitude = unicode(row[8],"ISO-8859-1")
@@ -63,7 +60,7 @@ def parseCommunityGardens(url):
 			try:
 				newCommunityGarden.save()
 			except:
-				print "Could not save your data, check if you entered a valid list of parks."
+				print "Could not save your data, check if you entered a valid list of community gardens."
 
 def is_number(s):
 	try:

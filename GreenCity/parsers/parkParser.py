@@ -18,7 +18,8 @@ def parsePark(url):
 			hectare = float(row[8]),
 			neighbourhoodName = unicode(row[9],"ISO-8859-1"),
 			neighbourhoodURL = unicode(row[10],"ISO-8859-1"),
-			washrooms = stringToBoolean(unicode(row[14],"ISO-8859-1"))
+			washrooms = stringToBoolean(unicode(row[14],"ISO-8859-1")),
+			completeAddress = unicode(row[3],"ISO-8859-1") + " " + unicode(row[4],"ISO-8859-1")
 		)
 		try:
 			newPark.save()

@@ -25,7 +25,7 @@ def parseGreenCityProject(url):
 		try:
 			newProject.save()
 		except:
-			print "Could not save your data, check if you entered a valid list of parks."
+			print "Could not save your data, check if you entered a valid list of projects."
 
 # run from "manage.py shell"
 # execfile('path to the file')

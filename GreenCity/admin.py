@@ -1,9 +1,11 @@
 from django.contrib import admin
-from models import Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
+from models import Feature,Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
 from django.contrib import admin
 from django.shortcuts import render, HttpResponseRedirect
 from parsers.parkParser import parsePark
 from django.core.urlresolvers import reverse
+
+admin.site.register(Feature)
 
 class ParkAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -20,7 +22,7 @@ class ParkAdmin(admin.ModelAdmin):
     
 class BikeRackAdmin(admin.ModelAdmin):
     fieldsets = [
-        ('Street', {'fields': ['streetNumber', 'streetName']}),
+        ('Street', {'fields': ['streetNumber', 'streetName', 'streetSide']}),
         ('Lat/Long', {'fields': ['longitude', 'latitude']}),
         ('Number of racks', {'fields': ['numberOfRacks']}),
     ]
@@ -121,3 +123,4 @@ admin.site.register(ElectricVehicleChargingStation,ChargingStationAdmin)
 admin.site.register(BikeRack, BikeRackAdmin)
 admin.site.register(CommunityFoodMarket, FoodMarketAdmin)
 admin.site.register(CommunityGarden, GardenAdmin)
+
