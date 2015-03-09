@@ -49,12 +49,6 @@ def stringToBoolean(string):
 # run from "manage.py shell"
 # execfile('path to the file')
 #
-if __name__ == "__main__" or __name__ == '__builtin__':
-    import os
-    import django
-
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjangoUnchained.settings")
-    django.setup()
 
 if __name__ == "__main__":
 	

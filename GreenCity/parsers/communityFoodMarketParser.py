@@ -6,6 +6,8 @@ def parseCommunityFoodMarket(url):
 	from datetime import datetime
 	from GreenCity.models import CommunityFoodMarket
 	from django.core.exceptions import ValidationError
+	from django.core.exceptions import ValidationError
+	
 
 	f = urllib2.urlopen(url)
 	reader = csv.reader(f)
@@ -18,15 +20,15 @@ def parseCommunityFoodMarket(url):
 				name = unicode(row[2],"ISO-8859-1"),
 				longitude = 0.0,
 				latitude = 0.0,
-				year = unicode(row[0],"ISO-8859-1"), #TESTING TO GET THE DATE FROM UNICODE
+				year = unicode(row[0],"ISO-8859-1"),
 				marketType = unicode(row[1],"ISO-8859-1"),
 				operator = unicode(row[3],"ISO-8859-1"),
 				streetNumber = unicode(row[4],"ISO-8859-1"),
 				streetName = unicode(row[6],"ISO-8859-1"),
 				url = unicode(row[10],"ISO-8859-1"),
 				day = unicode(row[11],"ISO-8859-1"),
-				openHours = unicode(row[12],"ISO-8859-1"), #TESTING TO GET THE TIME FROM UNICE
-				closeHours = unicode(row[13],"ISO-8859-1"), #TESTING TO GET THE TIME FROM UNICE
+				openHours = unicode(row[12],"ISO-8859-1"), 
+				closeHours = unicode(row[13],"ISO-8859-1"),
 				monthsOfOperations = unicode(row[14],"ISO-8859-1"),
 				numberOfVendors = unicode(row[15],"ISO-8859-1"),
 				offerings = unicode(row[16],"ISO-8859-1"),
@@ -39,15 +41,18 @@ def parseCommunityFoodMarket(url):
 				print "Could not save your data, check if you entered a valid list of community food markets."
 	f.close()
 	print "Starting to get the geolocation of community food markets."
+	print newFoodMarketList
 	for foodMarketID in newFoodMarketList:
-		try:
-			foodMarket = CommunityFoodMarket.objects.get(id=foodMarketID)
-			print "Food Market "+str(foodMarketID)+"."
+		foodMarket = CommunityFoodMarket.objects.get(pk=foodMarketID)
+		print "Food Market "+str(foodMarket.name)+"."
+		try: 
 			foodMarket.longitude = getGeoLocation(foodMarket.completeAddress,"longitude")
 			foodMarket.latitude = getGeoLocation(foodMarket.completeAddress,"latitude")
 			foodMarket.save()
 		except:
+			print foodMarket.completeAddress #If the address present any error, we cannot get the lat/long!
 			pass
+		
 
 def generateName(streetNumber,streetName):
 	return streetNumber + " " + streetName
@@ -77,7 +82,9 @@ if __name__ == "__main__":
 	import urllib2
 	import time
 	from datetime import datetime
+	from geopy.geocoders import Nominatim
 
+	from decimal import *
 	os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjangoUnchained.settings")
 	django.setup()
 	
