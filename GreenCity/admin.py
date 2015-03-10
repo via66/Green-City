@@ -4,6 +4,11 @@ from django.contrib import admin
 from django.shortcuts import render, HttpResponseRedirect
 from parsers.parkParser import parsePark
 from django.core.urlresolvers import reverse
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
+
+validate = URLValidator()
+
 
 class ParkAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -111,8 +116,19 @@ class DatasetLinkAdmin(admin.ModelAdmin):
                 return render(request, 'admin/success_display.html', {})
             except:
                 return render(request, 'admin/duplicate_display.html', {})
+        if '_save' in request.POST:
+            try:
+                validate('ftp://webftp.vancouver.ca/OpenData/csv/parks.csv')
+                validate('ftp://webftp.vancouver.ca/OpenData/csv/greenest_city_projects.csv')
+                validate('ftp://webftp.vancouver.ca/OpenData/csv/electric_vehicle_charging_stations.csv')
+                validate('ftp://webftp.vancouver.ca/opendata/bike_rack/BikeRackData.csv')
+                validate('ftp://webftp.vancouver.ca/OpenData/csv/CommunityFoodMarketsandFarmersMarkets.csv')
+                validate('ftp://webftp.vancouver.ca/OpenData/csv/CommunityGardensandFoodTrees.csv')
+            except ValidationError, e:
+                print e
+            return HttpResponseRedirect('http://127.0.0.1:8000/admin/GreenCity/datasetlink')
         else:
-            return HttpResponseRedirect(reverse('http://127.0.0.1:8000/'))
+            return HttpResponseRedirect('http://127.0.0.1:8000/admin/GreenCity/datasetlink')
 
 admin.site.register(DatasetLink, DatasetLinkAdmin)
 admin.site.register(Park, ParkAdmin)
