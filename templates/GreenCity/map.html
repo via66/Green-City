@@ -18,35 +18,20 @@
 				var markerSize = new google.maps.Size(21, 34);
 				var markerOrigin = new google.maps.Point(0,0);
 				var markerAnchor = new google.maps.Point(10, 34);
-				var customIconURL = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"
-				var parkIcon = new google.maps.MarkerImage(customIconURL + "a4de94",markerSize,markerOrigin,markerAnchor);
-				var projectIcon = new google.maps.MarkerImage(customIconURL + "f75a70",markerSize,markerOrigin,markerAnchor);
-				var bikeIcon = new google.maps.MarkerImage(customIconURL + "99dbf6",markerSize,markerOrigin,markerAnchor);
-				var vehicleIcon = new google.maps.MarkerImage(customIconURL + "f3e37b",markerSize,markerOrigin,markerAnchor);
-				var gardenIcon = new google.maps.MarkerImage(customIconURL + "dc99e2",markerSize,markerOrigin,markerAnchor);
-				var marketIcon = new google.maps.MarkerImage(customIconURL + "f5a864",markerSize,markerOrigin,markerAnchor);
+				var customIconURL = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|";
+                var markerIcons = {};
+				markerIcons['Park'] = new google.maps.MarkerImage(customIconURL + "a4de94",markerSize,markerOrigin,markerAnchor);
+				markerIcons['GreenCityProject'] = new google.maps.MarkerImage(customIconURL + "f75a70",markerSize,markerOrigin,markerAnchor);
+				markerIcons['BikeRack'] = new google.maps.MarkerImage(customIconURL + "99dbf6",markerSize,markerOrigin,markerAnchor);
+				markerIcons['ElectricVehicleChargingStation'] = new google.maps.MarkerImage(customIconURL + "f3e37b",markerSize,markerOrigin,markerAnchor);
+				markerIcons['CommunityGarden'] = new google.maps.MarkerImage(customIconURL + "dc99e2",markerSize,markerOrigin,markerAnchor);
+				markerIcons['CommunityFoodMarket'] = new google.maps.MarkerImage(customIconURL + "f5a864",markerSize,markerOrigin,markerAnchor);
 
 				var icon;
-
+                {% load greencitytags %}
 				{% for feature in features %}
-					{% load greencitytags %}
-					{% if feature|field_type == "Park" %}
-						icon = parkIcon
-					{% elif feature|field_type == "BikeRack" %}
-						icon = bikeIcon
-					{% elif feature|field_type == "GreenCityProject" %}
-						icon = projectIcon
-					{% elif feature|field_type == "ElectricVehicleChargingStation" %}
-						icon = vehicleIcon
-					{% elif feature|field_type == "CommunityFoodMarket" %}
-						icon = marketIcon
-					{% elif feature|field_type == "CommunityGarden" %}
-						icon = gardenIcon
-					{% else %} 
-						icon = parkIcon
-					{% endif %}
-					// TODO: reverse lat lng once db fixed
-					var coord = new google.maps.LatLng({{feature.longitude}}, {{feature.latitude}});
+					icon = markerIcons["{{feature|field_type}}"];
+					var coord = new google.maps.LatLng({{feature.latitude}}, {{feature.longitude}});
 					var marker = new google.maps.Marker({
 						position: coord,
 						map: map,

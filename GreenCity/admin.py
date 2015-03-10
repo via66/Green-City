@@ -1,14 +1,18 @@
 from django.contrib import admin
-from models import Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
+from models import Feature,Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
 from django.contrib import admin
 from django.shortcuts import render, HttpResponseRedirect
 from parsers.parkParser import parsePark
-from django.core.urlresolvers import reverse
-from django.core.validators import URLValidator
-from django.core.exceptions import ValidationError
+from parsers.communityGardenParser import parseCommunityGardens
+from parsers.bikeRackParser import parseBikeRack
+from parsers.communityFoodMarketParser import parseCommunityFoodMarket
+from parsers.electricVehicleChargingStationParser import parseElectricVehicleChargingStation
+from parsers.greenCityProjectParser import parseGreenCityProject
 
-validate = URLValidator()
 
+
+
+admin.site.register(Feature)
 
 class ParkAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -23,14 +27,16 @@ class ParkAdmin(admin.ModelAdmin):
                     'hectare', 'neighbourhoodName', 'neighbourhoodURL',
                     'washrooms')
     
+
 class BikeRackAdmin(admin.ModelAdmin):
     fieldsets = [
-        ('Street', {'fields': ['streetNumber', 'streetName']}),
+        ('Street', {'fields': ['streetNumber', 'streetName', 'streetSide']}),
         ('Lat/Long', {'fields': ['longitude', 'latitude']}),
         ('Number of racks', {'fields': ['numberOfRacks']}),
     ]
     list_display = ('streetNumber', 'streetName', 'numberOfRacks')
     
+
 class GreenCityProjectAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Name',               {'fields': ['name']}),
@@ -43,6 +49,7 @@ class GreenCityProjectAdmin(admin.ModelAdmin):
     list_display = ('name', 'longitude', 'latitude', 'address', 'category1',
                     'category2', 'shortDescription', 'url1', 'url2', 'url3')
 
+
 class ChargingStationAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Name',               {'fields': ['name']}),
@@ -51,6 +58,7 @@ class ChargingStationAdmin(admin.ModelAdmin):
         ('Lot Operator', {'fields': ['lotOperator']})
         ]
     list_display = ('name', 'longitude', 'latitude', 'address', 'lotOperator')
+
 
 class FoodMarketAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -70,6 +78,7 @@ class FoodMarketAdmin(admin.ModelAdmin):
                     'streetNumber', 'streetName', 'url', 'day', 'openHours', 'closeHours',
                     'monthsOfOperations', 'numberOfVendors', 'offerings')
 
+
 class GardenAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Name',               {'fields': ['name']}),
@@ -86,6 +95,7 @@ class GardenAdmin(admin.ModelAdmin):
                     'numberOfFoodTrees', 'foodTreeVarieties', 'jurisdiction', 'stewarsOrManagingOrganization',
                     'publicEmail', 'url')
     
+
 class DatasetLinkAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Title',               {'fields': ['url_title']}),
@@ -96,39 +106,67 @@ class DatasetLinkAdmin(admin.ModelAdmin):
 
     def response_change(self, request, obj):
         if '_update' in request.POST:
-
             opts = obj._meta
             verbose_name = opts.verbose_name
             module_name = opts.module_name
             pk_value = obj._get_pk_val()
+            #pass url_to_parse to the correct parser
             url_to_parse = DatasetLink.objects.get(pk = pk_value).url_link
-            try:
-                parsePark(url_to_parse)
-                print verbose_name
-                print module_name
-                print(url_to_parse)
-                valid = DatasetLink.objects.filter(url_link__endswith='.csv')
-                print(valid)
-                if valid.exists():
-                    print('url valid')
-                else:
-                    print('url not valid')
-                return render(request, 'admin/success_display.html', {})
-            except:
-                return render(request, 'admin/duplicate_display.html', {})
-        if '_save' in request.POST:
-            try:
-                validate('ftp://webftp.vancouver.ca/OpenData/csv/parks.csv')
-                validate('ftp://webftp.vancouver.ca/OpenData/csv/greenest_city_projects.csv')
-                validate('ftp://webftp.vancouver.ca/OpenData/csv/electric_vehicle_charging_stations.csv')
-                validate('ftp://webftp.vancouver.ca/opendata/bike_rack/BikeRackData.csv')
-                validate('ftp://webftp.vancouver.ca/OpenData/csv/CommunityFoodMarketsandFarmersMarkets.csv')
-                validate('ftp://webftp.vancouver.ca/OpenData/csv/CommunityGardensandFoodTrees.csv')
-            except ValidationError, e:
-                print e
-            return HttpResponseRedirect('http://127.0.0.1:8000/admin/GreenCity/datasetlink')
+            print(url_to_parse) 
+            validGarden = DatasetLink.objects.filter(url_link__endswith='ftp://webftp.vancouver.ca/OpenData/csv/CommunityGardensandFoodTrees.csv' , pk = pk_value)
+            validMarket = DatasetLink.objects.filter(url_link__endswith='ftp://webftp.vancouver.ca/OpenData/csv/CommunityFoodMarketsandFarmersMarkets.csv' , pk = pk_value)
+            validPark = DatasetLink.objects.filter(url_link__endswith= 'ftp://webftp.vancouver.ca/OpenData/csv/parks.csv', pk = pk_value)
+            validCharge = DatasetLink.objects.filter(url_link__endswith='ftp://webftp.vancouver.ca/OpenData/csv/electric_vehicle_charging_stations.csv' , pk = pk_value)
+            validProject = DatasetLink.objects.filter(url_link__endswith='ftp://webftp.vancouver.ca/OpenData/csv/greenest_city_projects.csv' , pk = pk_value)
+            validBike = DatasetLink.objects.filter(url_link__endswith='ftp://webftp.vancouver.ca/opendata/bike_rack/BikeRackData.csv' , pk = pk_value)
+
+            if validGarden.exists():
+                print('Valid Garden Url')
+                try:
+                    print(request)
+                    parseCommunityGardens(url_to_parse)
+                    return render(request, 'admin/success_display.html', {})
+                except:
+                    return render(request, 'admin/duplicate_display', {})
+            elif validMarket.exists():
+                print('Valid Market Url')
+                try:
+                    parseCommunityFoodMarket(url_to_parse)
+                    return render(request, 'admin/success_display.html', {})
+                except:
+                    return render(request, 'admin/duplicate_display.html', {})
+            elif validPark.exists():
+                print('Valid Park Url')
+                try:
+                    parsePark(url_to_parse)
+                    return render(request, 'admin/success_display.html', {})
+                except:
+                    return render(request, 'admin/duplicate_display.html', {})
+            elif validBike.exists():
+                print('Valid Bike Url')
+                try:
+                    parseBikeRack(url_to_parse)
+                    return render(request, 'admin/success_display.html', {})
+                except:
+                    return render(request, 'admin/duplicate_display.html', {})
+            elif validCharge.exists():
+                print('Valid Charge Url')
+                try:
+                    parseElectricVehicleChargingStation(url_to_parse)
+                    return render(request, 'admin/success_display.html', {})
+                except:
+                    return render(request, 'admin/duplicate_display.html', {})
+            elif validProject.exists():
+                print('Valid Project Url')
+                try:
+                    print(request)
+                    parseGreenCityProject(url_to_parse)
+                    return render(request, 'admin/success_display.html', {})
+                except:
+                    print(request)
+                    return render(request, 'admin/duplicate_display.html', {})
         else:
-            return HttpResponseRedirect('http://127.0.0.1:8000/admin/GreenCity/datasetlink')
+            return HttpResponseRedirect('http://127.0.0.1:8000/admin/GreenCity/datasetlink/')
 
 admin.site.register(DatasetLink, DatasetLinkAdmin)
 admin.site.register(Park, ParkAdmin)
@@ -137,3 +175,4 @@ admin.site.register(ElectricVehicleChargingStation,ChargingStationAdmin)
 admin.site.register(BikeRack, BikeRackAdmin)
 admin.site.register(CommunityFoodMarket, FoodMarketAdmin)
 admin.site.register(CommunityGarden, GardenAdmin)
+
