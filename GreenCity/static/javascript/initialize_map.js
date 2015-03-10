@@ -13,23 +13,36 @@ function plot_markers(map, data) {
     markerIcons['ElectricVehicleChargingStation'] = new google.maps.MarkerImage(customIconURL + "f3e37b", markerSize, markerOrigin, markerAnchor);
     markerIcons['CommunityGarden'] = new google.maps.MarkerImage(customIconURL + "dc99e2", markerSize, markerOrigin, markerAnchor);
     markerIcons['CommunityFoodMarket'] = new google.maps.MarkerImage(customIconURL + "f5a864", markerSize, markerOrigin, markerAnchor);
-    var icon;
-    var markers;
     for (var i = 0; i < data.length; i++)
     {
-        var data_point = data[i];
-        icon = markerIcons[data_point.ftype];
-        var coord = new google.maps.LatLng(data_point.lat, data_point.long);
         var marker = new google.maps.Marker({
-            position: coord,
+            position: data[i].pos,
             map: map,
-            icon: icon
+            icon: markerIcons[data[i].ftype]
         });
-        marker.description = data_point.name;
+        marker.description = data[i].name;
         google.maps.event.addListener(marker, 'click', function () {
             var infowindow = new google.maps.InfoWindow();
             infowindow.setContent(this.description);
             infowindow.open(map, this);
         });
-    };
+    }
+}
+
+function plot_heatmap(map, data){
+    var list_data = $.map(data, function (elem, indx) {
+        return elem.pos;
+    });
+    var heatmap = new google.maps.visualization.HeatmapLayer({
+        data: list_data,
+        dissipating: false,
+        radius: 0.002,
+        maxIntensity: 1
+     });
+    heatmap.setMap(map);
+    return heatmap;
+}
+
+function toggleHeatmap() {
+  heatmap.setMap(heatmap.getMap() ? null : map);
 }
