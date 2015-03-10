@@ -27,8 +27,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=250)),
-                ('longitude', models.DecimalField(max_digits=18, decimal_places=15)),
-                ('latitude', models.DecimalField(max_digits=18, decimal_places=15)),
+                ('longitude', models.FloatField()),
+                ('latitude', models.FloatField()),
             ],
             options={
             },
