@@ -1,45 +1,91 @@
 from django.db import models
+from model_utils.managers import InheritanceManager
+
+# List of models:
+# Park, GreenCityProjects, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden
 
 
 class Feature(models.Model):
-    name = models.CharField(max_length=100)
-    lat = models.FloatField()
-    lon = models.FloatField()
+    name = models.CharField(max_length=250)
+    longitude = models.FloatField()
+    latitude = models.FloatField()
+    objects = InheritanceManager()
+
+    def __str__(self):
+        return self.name
 
 
-# Green Project Model: MAPID,NAME,CATEGORY1,CATEGORY2,ADDRESS,SHORT_DESCRIPTION,URL,URL2,URL3,LATITUDE,LONGITUDE
-class GreenProject(Feature):
-    map_id = models.CharField(max_length=6)
-    cat_1 = models.CharField(max_length=50)
-    cat_2 = models.CharField(max_length=50)
-    address = models.CharField(max_length=50)
-    description = models.CharField(max_length=200)
-    url_1 = models.URLField()
-    url_2 = models.URLField()
-    url_3 = models.URLField()
+class BikeRack(Feature):
+    streetNumber = models.CharField(max_length=250)
+    streetName = models.CharField(max_length=250)
+    streetSide = models.CharField(max_length=250)
+    numberOfRacks = models.IntegerField()
+    completeAddress = models.CharField(max_length=250)
+
+    class Meta:
+        unique_together = ('streetSide', 'streetNumber', 'streetName')
 
 
 class Park(Feature):
+    streetNumber = models.CharField(max_length=250)
+    streetName = models.CharField(max_length=250)
+    hectare = models.DecimalField(max_digits=6, decimal_places=2)
+    neighbourhoodName = models.CharField(max_length=250)
+    neighbourhoodURL = models.URLField()
+    washrooms = models.BooleanField(default=False)
+    completeAddress = models.CharField(max_length=250, unique=True)
+
+
+class GreenCityProject(Feature):
+    category1 = models.CharField(max_length=250)
+    category2 = models.CharField(max_length=250)
+    address = models.CharField(max_length=250)
+    shortDescription = models.TextField()
+    url1 = models.URLField()
+    url2 = models.URLField()
+    url3 = models.URLField()
+
+
+class ElectricVehicleChargingStation(Feature):
+    lotOperator = models.CharField(max_length=250)
+    address = models.CharField(max_length=250, unique=True)
+
+
+class CommunityFoodMarket(Feature):
+    year = models.CharField(max_length=10)  # saves year, month and day
+    marketType = models.CharField(max_length=250)
+    operator = models.CharField(max_length=250)
+    streetNumber = models.CharField(max_length=250)
+    streetName = models.CharField(max_length=250)
     url = models.URLField()
-
-
-class FoodMarkets(Feature):
-    # Year,MarketType,MarketName/Location/Host,Market Operator\
-    #  ,StreetNumber,StreetDirection,StreetName,StreetType,MergedAddress,MarketDirection,\
-    # Website,Day,Open,Close,Months,NumberOfVendors,Offerings
-    year = models.IntegerField()
-    market_type = models.CharField(max_length=100)
-    operator = models.CharField(max_length=50)
-    street_num = models.CharField(max_length=10)
-    street_dir = models.CharField(max_length=10)
-    street_name = models.CharField(max_length=10)
-    street_type = models.CharField(max_length=10)
-    address = models.CharField(max_length=50)
-    market_dir = models.CharField(max_length=10)
-    website = models.URLField()
     day = models.CharField(max_length=10)
-    open = models.CharField(max_length=5)
-    close = models.CharField(max_length=5)
-    months = models.CharField(max_length=20)
-    num_vendors = models.IntegerField()
-    offerings = models.CharField(max_length=100)
+    openHours = models.CharField(max_length=10)
+    closeHours = models.CharField(max_length=10)
+    monthsOfOperations = models.CharField(max_length=250)
+    numberOfVendors = models.CharField(max_length=250)
+    offerings = models.CharField(max_length=250)
+    completeAddress = models.CharField(max_length=250, unique=True)
+
+
+class CommunityGarden(Feature):
+    streetNumber = models.CharField(max_length=10, blank=True, null=True)
+    streetName = models.CharField(max_length=250, blank=True, null=True)
+    numberOfPlots = models.IntegerField(blank=True, null=True)
+    numberOfFoodTrees = models.IntegerField(blank=True, null=True)
+    foodTreeVarieties = models.CharField(max_length=250, blank=True, null=True)
+    jurisdiction = models.CharField(max_length=250, blank=True, null=True)
+    stewarsOrManagingOrganization = models.CharField(max_length=250, blank=True, null=True)
+    publicEmail = models.EmailField(blank=True, null=True)
+    url = models.URLField(blank=True, null=True)
+  #  completeAddress = models.CharField(max_length=250, unique=True)
+
+
+# UrlTitle, UrlLink, PubDate
+class DatasetLink(models.Model):
+    url_title = models.CharField(max_length=200)
+    #pk = url_link
+    url_link = models.URLField(max_length=200, unique=True)
+    pub_date = models.DateTimeField('date published')
+
+    def __str__(self):
+        return self.url_link
