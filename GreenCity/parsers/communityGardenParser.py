@@ -8,9 +8,6 @@ def parseCommunityGardens(url):
     reader = csv.reader(f)
     reader.next()
     for row in reader:
-        newName = unicode(row[1], "ISO-8859-1")
-        newLongitude = unicode(row[7], "ISO-8859-1")
-        newLatitude = unicode(row[8], "ISO-8859-1")
         newStreetNumber = unicode(row[2], "ISO-8859-1")
         newStreetName = unicode(row[4], "ISO-8859-1")
 
@@ -39,25 +36,20 @@ def parseCommunityGardens(url):
         newPublicEmail = unicode(row[16], "ISO-8859-1")
         newUrl = unicode(row[17], "ISO-8859-1")
 
-        if newStreetNumber:
-            newCommunityGarden = CommunityGarden(
-                name=newName,
-                longitude=newLongitude,
-                latitude=newLatitude,
-                streetNumber=newStreetNumber,
-                streetName=newStreetName,
-                numberOfPlots=newNumberOfPlots,
-                numberOfFoodTrees=newNumberOfFoodTrees,
-                foodTreeVarieties=newFoodTreeVarieties,
-                jurisdiction=newJurisdiction,
-                stewarsOrManagingOrganization=newStewarsOrManagingOrganization,
-                publicEmail=newPublicEmail,
-                url=newUrl
-            )
-            try:
-                newCommunityGarden.save()
-            except:
-                print "Could not save your data, check if you entered a valid list of community gardens?"
+        CommunityGarden.objects.update_or_create(
+            name=unicode(row[1], "ISO-8859-1"),
+            longitude=unicode(row[7], "ISO-8859-1"),
+            latitude=unicode(row[8], "ISO-8859-1"),
+            streetNumber=newStreetNumber,
+            streetName=newStreetName,
+            numberOfPlots=newNumberOfPlots,
+            numberOfFoodTrees=newNumberOfFoodTrees,
+            foodTreeVarieties=newFoodTreeVarieties,
+            jurisdiction=newJurisdiction,
+            stewarsOrManagingOrganization=newStewarsOrManagingOrganization,
+            publicEmail=newPublicEmail,
+            url=newUrl
+        )
 
 
 def is_number(s):
