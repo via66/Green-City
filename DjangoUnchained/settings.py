@@ -78,8 +78,8 @@ else:
     DEPLOYMENT = DEV
 
 if DEPLOYMENT == PRODUCTION:
-    DEBUG = False
-    TEMPLATE_DEBUG = False
+    DEBUG = True
+    TEMPLATE_DEBUG = True
     DATABASES = {'default': dj_database_url.config(default=os.environ.get('CLEARDB_DATABASE_URL'))}
 
     # Honor the 'X-Forwarded-Proto' header for request.is_secure()
