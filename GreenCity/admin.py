@@ -166,7 +166,7 @@ class DatasetLinkAdmin(admin.ModelAdmin):
                     print(request)
                     return render(request, 'admin/duplicate_display.html', {})
         else:
-            return HttpResponseRedirect('http://127.0.0.1:8000/admin/GreenCity/datasetlink/')
+            return HttpResponseRedirect('/admin/GreenCity/datasetlink/')
 
 admin.site.register(DatasetLink, DatasetLinkAdmin)
 admin.site.register(Park, ParkAdmin)
