@@ -7,17 +7,17 @@ from GreenCity.models import Feature
 
 
 def test(request):
-    return render(request, 'GreenCity/test.html')
+    return render(request, '../templates/GreenCity/test.html')
 
 
 def home(request):
     print "in home view"
     features = Feature.objects.select_subclasses()
-    return render(request, 'GreenCity/home.html', {'features': features})
+    return render(request, '../templates/GreenCity/home.html', {'features': features})
 
 
 def map(request):
     features = Feature.objects.select_subclasses()
-    template = loader.get_template('GreenCity/map.html')
+    template = loader.get_template('../templates/GreenCity/map.html')
     context = RequestContext(request, {'features': features})
     return HttpResponse(template.render(context))

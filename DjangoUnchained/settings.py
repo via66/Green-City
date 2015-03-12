@@ -78,8 +78,8 @@ else:
     DEPLOYMENT = DEV
 
 if DEPLOYMENT == PRODUCTION:
-    DEBUG = True
-    TEMPLATE_DEBUG = True
+    DEBUG = False
+    TEMPLATE_DEBUG = False
     DATABASES = {'default': dj_database_url.config(default=os.environ.get('CLEARDB_DATABASE_URL'))}
 
     # Honor the 'X-Forwarded-Proto' header for request.is_secure()
@@ -95,6 +95,9 @@ if DEPLOYMENT == PRODUCTION:
 
     STATICFILES_DIRS = (
     os.path.join(BASE_DIR, '../GreenCity/static'),
+    )
+    TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR,  'templates'),
     )
 else:
     DATABASES = {
