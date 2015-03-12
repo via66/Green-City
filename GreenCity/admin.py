@@ -123,11 +123,10 @@ class DatasetLinkAdmin(admin.ModelAdmin):
             if validGarden.exists():
                 print('Valid Garden Url')
                 try:
-                    print(request)
                     parseCommunityGardens(url_to_parse)
                     return render(request, 'admin/success_display.html', {})
                 except:
-                    return render(request, 'admin/duplicate_display', {})
+                    return render(request, 'admin/duplicate_display.html', {})
             elif validMarket.exists():
                 print('Valid Market Url')
                 try:
