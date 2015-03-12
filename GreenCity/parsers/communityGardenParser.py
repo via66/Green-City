@@ -38,7 +38,6 @@ def parseCommunityGardens(url):
         newPublicEmail = unicode(row[16], "ISO-8859-1")
         newUrl = unicode(row[17], "ISO-8859-1")
         new_name = unicode(row[1], "ISO-8859-1")
-        # if is_number(new_lat) and is_number(new_long):
         try:
             CommunityGarden.objects.update_or_create(
                 name=new_name,
