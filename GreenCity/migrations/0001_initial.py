@@ -58,7 +58,6 @@ class Migration(migrations.Migration):
                 ('stewarsOrManagingOrganization', models.CharField(max_length=250, null=True, blank=True)),
                 ('publicEmail', models.EmailField(max_length=75, null=True, blank=True)),
                 ('url', models.URLField(null=True, blank=True)),
-                ('completeAddress', models.CharField(unique=True, max_length=250)),
             ],
             options={
             },
@@ -106,7 +105,7 @@ class Migration(migrations.Migration):
                 ('feature_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='GreenCity.Feature')),
                 ('category1', models.CharField(max_length=250)),
                 ('category2', models.CharField(max_length=250)),
-                ('address', models.CharField(unique=True, max_length=250)),
+                ('address', models.CharField(max_length=250)),
                 ('shortDescription', models.TextField()),
                 ('url1', models.URLField()),
                 ('url2', models.URLField()),
