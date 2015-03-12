@@ -6,18 +6,6 @@ from GreenCity.models import Feature
 # Create your views here.
 
 
-def test(request):
-    return render(request, '../templates/GreenCity/test.html')
-
-
 def home(request):
-    print "in home view"
     features = Feature.objects.select_subclasses()
     return render(request, '../templates/GreenCity/home.html', {'features': features})
-
-
-def map(request):
-    features = Feature.objects.select_subclasses()
-    template = loader.get_template('../templates/GreenCity/map.html')
-    context = RequestContext(request, {'features': features})
-    return HttpResponse(template.render(context))
