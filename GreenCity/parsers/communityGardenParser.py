@@ -30,16 +30,19 @@ def parseCommunityGardens(url):
             else:
                 newNumberOfFoodTrees = 0
 
+        new_lat = unicode(row[8], "ISO-8859-1")
+        new_long = unicode(row[7], "ISO-8859-1")
         newFoodTreeVarieties = unicode(row[12], "ISO-8859-1")
         newJurisdiction = unicode(row[14], "ISO-8859-1")
         newStewarsOrManagingOrganization = unicode(row[15], "ISO-8859-1")
         newPublicEmail = unicode(row[16], "ISO-8859-1")
         newUrl = unicode(row[17], "ISO-8859-1")
+        new_name = unicode(row[1], "ISO-8859-1")
 
         CommunityGarden.objects.update_or_create(
-            name=unicode(row[1], "ISO-8859-1"),
-            longitude=unicode(row[7], "ISO-8859-1"),
-            latitude=unicode(row[8], "ISO-8859-1"),
+            name=new_name,
+            longitude=new_long,
+            latitude=new_lat,
             streetNumber=newStreetNumber,
             streetName=newStreetName,
             numberOfPlots=newNumberOfPlots,
