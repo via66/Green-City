@@ -6,6 +6,10 @@ from GreenCity.models import Feature
 # Create your views here.
 
 
+def test(request):
+    return render(request, 'GreenCity/test.html')
+
+
 def home(request):
     print "in home view"
     features = Feature.objects.select_subclasses()
