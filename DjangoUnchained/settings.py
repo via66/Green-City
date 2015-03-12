@@ -97,8 +97,8 @@ if DEPLOYMENT == PRODUCTION:
     os.path.join(BASE_DIR, '../GreenCity/static'),
     )
     TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR,  'templates'),
-    )
+    os.path.join(BASE_DIR,  '../templates'),
+    )   # for some reason Heroku thinks that this is somewhere else so we have to move directories
 else:
     DATABASES = {
         'default': {
