@@ -11,7 +11,7 @@ class Feature(models.Model):
     latitude = models.FloatField()
     objects = InheritanceManager()
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 
