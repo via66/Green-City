@@ -89,6 +89,8 @@
                                 pos: new google.maps.LatLng({{ feature.latitude}},{{ feature.longitude }})
                    });
                 {% endfor %}
+		sample_data = data.slice(0, 5);
+		plot_markers(map, sample_data);
 {#                plot_markers(map, data);#}
                 heatmap = plot_heatmap(map, data);
             }
