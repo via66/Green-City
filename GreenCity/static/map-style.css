@@ -3,4 +3,23 @@
     height: 550px;
    	margin: 0;
    	padding: 0;
+   	display: inline;
+   	float: left;
+}
+
+
+#filter {
+	display:inline;
+	float:left;
+	padding-left: 15px;
+	font-size:10;
+}
+
+#filter label {
+	display:block;
+}
+
+.filterSection {
+	padding-top: 15px;
+	padding-bottom: 15px;
 }

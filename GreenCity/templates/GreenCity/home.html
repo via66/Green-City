@@ -51,7 +51,37 @@
       <div>
           <button  type="button" class="btn btn-default" onclick="toggleHeatmap()">Toggle Heatmap</button>
       </div>
-      <div id="map-canvas" class="row">
+
+      <div class="row">
+        <div id="map-canvas"></div>
+        <div id="filter">
+          <form action="">
+            {% csrf_token %}
+            <div class="filterSection">
+              <labeL><input type="checkbox" name="feature" value="Park"/>&nbsp;Parks</label>
+              <labeL><input type="checkbox" name="feature" value="BikeRack"/>&nbsp;Bike Racks</label>
+              <labeL><input type="checkbox" name="feature" value="GreenCityProject"/>&nbsp;Green Projects</label>
+              <labeL><input type="checkbox" name="feature" value="ElectricVehicleChargingStation"/>&nbsp;Electric Vehicle Charging Stations</label>
+              <labeL><input type="checkbox" name="feature" value="CommunityGarden"/>&nbsp;Community Gardens</label>
+              <labeL><input type="checkbox" name="feature" value="CommunityMarket"/>&nbsp;Community Markets</label>
+            </div>
+            <div class="filterSection">
+              <labeL> Search By &nbsp; <input type="text" name="searchBox"/> </label>
+            </div>
+            <div class="filterSection">
+              <label> Within &nbsp; 
+                <select> 
+                  <option value="">-</option>
+                  <option value="2">2km</option>
+                  <option value="5">5km</option>
+                  <option value="10">10km</option>
+                  <option value="15">15km</option>
+                </select>
+              </label>
+          </div>
+          </form>
+          <button type="submit" value="Submit" id="submitButton">Apply</button>
+        </div>
       </div>
 
       <hr>
@@ -72,6 +102,7 @@
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src = {% static "javascript/filter.js" %}></script>
     <script>
             var map;
             var heatmap;
