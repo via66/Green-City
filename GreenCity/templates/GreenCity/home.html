@@ -21,28 +21,24 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">Project Name</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>
+          <div class="navbar-right">
+          {% if user.is_authenticated %}
+          <a class="btn btn-primary" href="logout" role="button">Logout</a>
+          {% else %}
+          <a class="btn btn-primary" href="login" role="button">Login</a>
+          <a class="btn btn-primary" href="register" role="button">Register</a>
+          {% endif %}
+          </div>
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
-
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
         <h1>Hello, world!</h1>
-        <p><a class="btn btn-primary btn-lg" href="/accounts/login" role="button">Login &raquo;</a></p>
-           <a class="btn btn-primary btn-lg" href="/accounts/register" role="button">Register &raquo;</a>
       </div>
     </div>
 

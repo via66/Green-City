@@ -2,20 +2,17 @@
 
 {% block content %}
 
-  <h2>Register</h2>
+	<h2>Register</h2>
 
-  {% for field in form %}
-    {{field.error}}
+	{% if registered %}
+		Thank you for registering!
+	{% else %}
+		<form id="user_form" action="/register/" method="post">
+			{% csrf_token %}
+			{{user_form.as_p}}
+			{{profile_form.as_p}}
 
-  {% endfor %}
-
-  <form action="/accounts/register/" method="post">{% csrf_token %}
-  {{form}}
-
-
-
-  <input type="submit" value="Register" />
-
-  </form>
-
+			<input type="submit" name="submit" value="Register" />
+		</form>
+	{% endif %}
 {% endblock %}

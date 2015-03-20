@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Feature,Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
+from models import UserProfile, Feature, Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink
 from django.contrib import admin
 from django.shortcuts import render, HttpResponseRedirect
 from parsers.parkParser import parsePark
@@ -174,4 +174,5 @@ admin.site.register(ElectricVehicleChargingStation,ChargingStationAdmin)
 admin.site.register(BikeRack, BikeRackAdmin)
 admin.site.register(CommunityFoodMarket, FoodMarketAdmin)
 admin.site.register(CommunityGarden, GardenAdmin)
+admin.site.register(UserProfile)
 

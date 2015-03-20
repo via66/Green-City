@@ -1,5 +1,6 @@
 from django.db import models
 from model_utils.managers import InheritanceManager
+from django.contrib.auth.models import User
 
 # List of models:
 # Park, GreenCityProjects, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden
@@ -79,6 +80,12 @@ class CommunityGarden(Feature):
     url = models.URLField(blank=True, null=True)
   #  completeAddress = models.CharField(max_length=250, unique=True)
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    website = models.URLField(blank=True,null=True)
+
+    def __unicode__(self):
+        return self.user.username
 
 # UrlTitle, UrlLink, PubDate
 class DatasetLink(models.Model):
