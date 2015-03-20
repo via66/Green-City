@@ -20,6 +20,8 @@ def parseGreenCityProject(url):
             url1=unicode(row[6], "ISO-8859-1"),
             url2=unicode(row[7], "ISO-8859-1"),
             url3=unicode(row[8], "ISO-8859-1"),
+            #Keywords include name, categories, address, description
+            #keywords=unicode(row[1], "ISO-8859-1" + ", " + row[2], "ISO-8859-1" + ", " + row[3], "ISO-8859-1" + ", " row[5], "ISO-8859-1")
         )
 
 
