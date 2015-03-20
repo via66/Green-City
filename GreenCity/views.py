@@ -72,7 +72,7 @@ def user_login(request):
 				return HttpResponse("Your account is disabled.")
 		else:
 			user_not_found = True
-			return render(request, 'login.html', {'user_not_found':user_not_found})
+			return render(request, 'GreenCity/login.html', {'user_not_found':user_not_found})
 	else:
 		return render(request, 'GreenCity/login.html', {})
 
