@@ -57,6 +57,7 @@ def register(request):
 
 def user_login(request):
 	context_dict = {}
+	user_not_found = False
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
@@ -70,8 +71,8 @@ def user_login(request):
 			else:
 				return HttpResponse("Your account is disabled.")
 		else:
-			print "Invalid login details: {0}, {1}".format(username, password)
-			return HttpResponse("Invalid login details supplied.")
+			user_not_found = True
+			return render(request, 'login.html', {'user_not_found':user_not_found})
 	else:
 		return render(request, 'GreenCity/login.html', {})
 

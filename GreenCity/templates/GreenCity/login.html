@@ -6,6 +6,10 @@
         <p class="error">Sorry, not valid</p>
     {% endif %}
 
+    {% if user_not_found %}
+        Sorry, wrong username and password combination. <br />
+        <a href="{% url 'register' %}">Click here to register!</a>
+    {% endif %}
     <form id="login_form" action="/login/" method="post">{% csrf_token %}
         <label for="username">Username:</label>
         <input type="text" name="username" value="" id="username">
@@ -13,5 +17,5 @@
         <input type="password" name="password" value="" id="password">
         <input type="submit" value="submit" />
     </form>
-
+    
 {% endblock %}
