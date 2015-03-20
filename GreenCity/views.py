@@ -17,7 +17,7 @@ import json
 
 def home(request):
 	features = Feature.objects.select_subclasses()
-	return render(request, '../templates/GreenCity/home.html', {'features': features})
+	return render(request, 'GreenCity/home.html', {'features': features})
 
 
 def filter(request):
@@ -52,7 +52,7 @@ def register(request):
 		profile_form = UserProfileForm()
 
 	return render(request,
-			'register.html',
+			'GreenCity/register.html',
 			{'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
 
 def user_login(request):
@@ -73,7 +73,7 @@ def user_login(request):
 			print "Invalid login details: {0}, {1}".format(username, password)
 			return HttpResponse("Invalid login details supplied.")
 	else:
-		return render(request, 'login.html', {})
+		return render(request, 'GreenCity/login.html', {})
 
 @login_required
 def restricted(request):

@@ -1,50 +1,8 @@
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    {% load static from staticfiles %}
-    <link href="{% static 'map-style.css' %}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-    <title>Django Unchained</title>
-</head>
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project Name</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <div class="navbar-right">
-          {% if user.is_authenticated %}
-          <a class="btn btn-primary" href="logout" role="button">Logout</a>
-          {% else %}
-          <a class="btn btn-primary" href="login" role="button">Login</a>
-          <a class="btn btn-primary" href="register" role="button">Register</a>
-          {% endif %}
-          </div>
-        </div><!--/.navbar-collapse -->
-      </div>
-    </nav>
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Hello, world!</h1>
-      </div>
-    </div>
+{% extends "GreenCity/base_site.html" %}
+{% load static from staticfiles %}
+{% block content %}
 
-    <div class="container">
-      <!-- Example row of columns -->
-      <div>
+<div>
           <button  type="button" class="btn btn-default" onclick="toggleHeatmap()">Toggle Heatmap</button>
       </div>
 
@@ -80,24 +38,11 @@
         </div>
       </div>
 
-      <hr>
+{% endblock %}
 
-      <footer>
-        <p>&copy; Company 2014</p>
-      </footer>
-    </div> <!-- /container -->
+{% block scripts %}
 
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src = "https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
     <script src = {% static "javascript/initialize_map.js" %}></script>
-    <script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true_or_false">
-    </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script src = {% static "javascript/filter.js" %}></script>
     <script>
             var map;
@@ -123,6 +68,5 @@
             }
             google.maps.event.addDomListener(window, 'load', initialize);
     </script>
-</body>
-<!-- Latest compiled and minified JavaScript -->
-</html>
+
+{% endblock %}
