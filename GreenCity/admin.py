@@ -22,6 +22,7 @@ class ParkAdmin(admin.ModelAdmin):
         ('Hectare', {'fields': ['hectare']}),
         ('Neighbourhood', {'fields': ['neighbourhoodName', 'neighbourhoodURL']}),
         ('Washrooms', {'fields': ['washrooms']}),
+        #('Keywords', {'fields': ['keywords']}),
     ]
     list_display = ('name', 'longitude', 'latitude', 'streetNumber', 'streetName',
                     'hectare', 'neighbourhoodName', 'neighbourhoodURL',
@@ -33,6 +34,7 @@ class BikeRackAdmin(admin.ModelAdmin):
         ('Street', {'fields': ['streetNumber', 'streetName', 'streetSide']}),
         ('Lat/Long', {'fields': ['longitude', 'latitude']}),
         ('Number of racks', {'fields': ['numberOfRacks']}),
+        #('Keywords', {'fields': ['keywords']}),
     ]
     list_display = ('streetNumber', 'streetName', 'numberOfRacks')
     
@@ -45,6 +47,7 @@ class GreenCityProjectAdmin(admin.ModelAdmin):
         ('Categories', {'fields': ['category1', 'category2']}),
         ('Description', {'fields': ['shortDescription']}),
         ('URLs', {'fields': ['url1', 'url2', 'url3']}),
+        #('Keywords', {'fields': ['keywords']}),
     ]
     list_display = ('name', 'longitude', 'latitude', 'address', 'category1',
                     'category2', 'shortDescription', 'url1', 'url2', 'url3')
@@ -55,7 +58,8 @@ class ChargingStationAdmin(admin.ModelAdmin):
         ('Name',               {'fields': ['name']}),
         ('Lat/Long', {'fields': ['longitude', 'latitude']}),
         ('Address ', {'fields': ['address']}),
-        ('Lot Operator', {'fields': ['lotOperator']})
+        ('Lot Operator', {'fields': ['lotOperator']}),
+        #('Keywords', {'fields': ['keywords']}),
         ]
     list_display = ('name', 'longitude', 'latitude', 'address', 'lotOperator')
 
@@ -73,6 +77,7 @@ class FoodMarketAdmin(admin.ModelAdmin):
         ('Months of Operation', {'fields': ['monthsOfOperations']}),
         ('Number of Vendors', {'fields': ['numberOfVendors']}),
         ('Offerings', {'fields': ['offerings']}),
+        #('Keywords', {'fields': ['keywords']}),
     ]
     list_display = ('name', 'longitude', 'latitude', 'year', 'marketType', 'operator',
                     'streetNumber', 'streetName', 'url', 'day', 'openHours', 'closeHours',
@@ -89,7 +94,8 @@ class GardenAdmin(admin.ModelAdmin):
         ('Jurisdiction', {'fields': ['jurisdiction']}),
         ('Managing Organization', {'fields': ['stewarsOrManagingOrganization']}),
         ('Email', {'fields': ['publicEmail']}),
-        ('Url', {'fields': ['url']})
+        ('Url', {'fields': ['url']}),
+        #('Keywords', {'fields': ['keywords']}),
     ]
     list_display = ('name', 'longitude', 'latitude', 'streetNumber', 'streetName', 'numberOfPlots',
                     'numberOfFoodTrees', 'foodTreeVarieties', 'jurisdiction', 'stewarsOrManagingOrganization',

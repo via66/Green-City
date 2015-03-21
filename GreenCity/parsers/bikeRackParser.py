@@ -43,7 +43,7 @@ def parse_bike_rack_file(reader):
                 streetName=newStreetName,
                 numberOfRacks=newNumberOfRacks,
                 completeAddress=completeAddress
-                #keyword=newkeyword
+                #keywords=newkeyword
             )
         except:
             print "could not add duplicate;"

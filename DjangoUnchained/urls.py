@@ -4,6 +4,7 @@ from django.contrib import admin
 urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^$', 'GreenCity.views.home', name='home'),
+                       url(r'^filter/', 'GreenCity.views.filter', name='filter'),
                        # url(r'^index/', 'GreenCity.views.map', name='map'),
                        # user auth urls
                        url(r'^login/$', 'GreenCity.views.user_login',name='login'),
