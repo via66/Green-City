@@ -28,6 +28,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <div class="navbar-right">
           {% if user.is_authenticated %}
+          {{user.username}}
           <a class="btn navbar-btn" href="/logout" role="button">Logout</a>
           {% else %}
           <a class="btn navbar-btn" href="/login" role="button">Login</a>

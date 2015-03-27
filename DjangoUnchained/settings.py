@@ -32,6 +32,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'GreenCity',
+    'django_facebook',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -95,6 +96,7 @@ if DEPLOYMENT == PRODUCTION:
 
     STATICFILES_DIRS = (
     os.path.join(BASE_DIR, '../GreenCity/static'),
+        '../static',
     )
     TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  '../templates'),
@@ -113,6 +115,10 @@ else:
     TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
     )
+    STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'GreenCity/static'),
+        'static',
+    )
 
 TEMPLATE_LOADERS = (
 
@@ -120,3 +126,35 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 
 )
+
+#django-facebook changes
+FACEBOOK_APP_ID = "296712420453220"
+FACEBOOK_APP_SECRET = "2e21f47e04877e61f311d041e3c5c4c4"
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    #default django 1.7 TEMPLATE_CONTEXT_PROCESSORS
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+
+    #django-facebook integration
+    'django_facebook.context_processors.facebook',
+    # and add request if you didn't do so already
+    'django.core.context_processors.request',
+    )
+
+AUTHENTICATION_BACKENDS = (
+    #default django 1.7 AUTHENTICATION_BACKENDS
+    'django.contrib.auth.backends.ModelBackend',
+    
+    #django-facebook integration
+    'django_facebook.auth_backends.FacebookBackend',
+    )
+
+AUTH_PROFILE_MODULE = 'django_facebook.FacebookProfile'
+
+AUTH_USER_MODEL = 'GreenCity.NewUser'
