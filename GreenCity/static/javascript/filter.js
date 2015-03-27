@@ -1,10 +1,11 @@
 $('button#submitButton').click( function() {
     $.ajax({
         url: '/filter/',
-        type: 'post',
+        type: 'POST',
         dataType: 'json',
-        data: $('#filter').serialize(),
+        data: $('#filterForm').serialize(),
         success: function(data) {
+        console.log(data[0])
 		console.log("hello");
 		var map;
 		console.log("inside initalize");
