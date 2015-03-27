@@ -1,6 +1,12 @@
 from django.db import models
 from model_utils.managers import InheritanceManager
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,AbstractUser
+
+from django.dispatch.dispatcher import receiver
+from django_facebook.models import FacebookModel
+from django.db.models.signals import post_save
+from django_facebook.utils import get_user_model, get_profile_model
+from django.conf import settings
 
 # List of models:
 # Park, GreenCityProjects, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden
@@ -84,8 +90,8 @@ class CommunityGarden(Feature):
   #  completeAddress = models.CharField(max_length=250, unique=True)
     #keywords = models.CharField(max_length=250)
   
-class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+class GreenCityUserProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
     website = models.URLField(blank=True,null=True)
 
     def __unicode__(self):
@@ -100,3 +106,63 @@ class DatasetLink(models.Model):
 
     def __str__(self):
         return self.url_link
+
+
+
+
+class FacebookUserProfile(FacebookModel):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+
+    @receiver(post_save)
+    def create_profile(sender, instance, created, **kwargs):
+        """Create a matching profile whenever a user object is created."""
+        profile_model = None
+        if sender == get_user_model():
+            user = instance
+            profile_model = get_profile_model()
+        if profile_model == FacebookUserProfile and created:
+            profile, new = FacebookUserProfile.objects.get_or_create(user=instance)
+
+from django.core.exceptions import ImproperlyConfigured
+class NewUser(AbstractUser):
+    """
+    Users within the Django authentication system are represented by this
+    model.
+
+    Username, password and email are required. Other fields are optional.
+    """
+    class Meta(AbstractUser.Meta):
+        swappable = 'AUTH_USER_MODEL'
+
+    def get_profile(self):
+        """
+        Returns site-specific profile for this user. Raises
+        SiteProfileNotAvailable if this site does not allow profiles.
+        """
+        
+
+        if not hasattr(self, '_profile_cache'):
+            from django.conf import settings
+            if not getattr(settings, 'AUTH_PROFILE_MODULE', False):
+                raise SiteProfileNotAvailable(
+                    'You need to set AUTH_PROFILE_MODULE in your project '
+                    'settings')
+            try:
+                app_label, model_name = settings.AUTH_PROFILE_MODULE.split('.')
+            except ValueError:
+                raise SiteProfileNotAvailable(
+                    'app_label and model_name should be separated by a dot in '
+                    'the AUTH_PROFILE_MODULE setting')
+            try:
+                model = models.get_model(app_label, model_name)
+                if model is None:
+                    raise SiteProfileNotAvailable(
+                        'Unable to load the profile model, check '
+                        'AUTH_PROFILE_MODULE in your project settings')
+                self._profile_cache = model._default_manager.using(
+                                   self._state.db).get(user__id__exact=self.id)
+                self._profile_cache.user = self
+            except (ImportError, ImproperlyConfigured):
+                raise SiteProfileNotAvailable
+        return self._profile_cache
+

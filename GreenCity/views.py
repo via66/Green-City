@@ -1,7 +1,7 @@
 
 from django.http import HttpResponse
 from django.template import RequestContext, loader, Context
-from GreenCity.models import Feature, UserProfile
+from GreenCity.models import Feature, GreenCityUserProfile
 from django.core import serializers
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect
@@ -13,7 +13,6 @@ from GreenCity.forms import UserForm, UserProfileForm
 import json
 
 # Create your views here.
-
 
 def home(request):
 	features = Feature.objects.select_subclasses()
@@ -44,6 +43,12 @@ def register(request):
 			profile.save()
 
 			registered = True
+			
+			authenticated_user = authenticate(username=request.POST['username'],password=request.POST['password'])
+			login(request, authenticated_user)
+			return render(request,
+			'GreenCity/register.html',
+			{'registered': registered} )
 		else:
 			print user_form.errors, profile_form.errors
 
