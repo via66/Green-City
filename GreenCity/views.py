@@ -1,7 +1,7 @@
 
 from django.http import HttpResponse
 from django.template import RequestContext, loader, Context
-from GreenCity.models import Feature, UserProfile
+from GreenCity.models import Feature, Park, CommunityGarden, CommunityFoodMarket, GreenCityProject, BikeRack, UserProfile
 from django.core import serializers
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect
@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.context_processors import csrf
 from GreenCity.forms import UserForm, UserProfileForm
+from itertools import chain
 import json
 
 # Create your views here.
@@ -21,7 +22,27 @@ def home(request):
 
 
 def filter(request):
-	# temporarily returning all Features
+	print 'Raw Data: "%s"' % request.body 
+	search = request.POST.get('searchBox', '')
+
+	data = {}
+	features = request.POST.getlist('feature')
+	for f in features:
+		new_data = []
+		if f == "Park" :
+			data = list(chain(data, Park.objects.filter(keywords__contains = search)))
+		elif f == "BikeRack" :
+			data = list((chain(data, BikeRack.objects.filter(keywords__contains = search))))
+		elif f == "CommunityMarket" :
+			data = list((chain(data, CommunityFoodMarket.objects.filter(keywords__contains = search))))
+		elif f == "CommunityGarden" :
+			data = list((chain(data, CommunityGarden.objects.filter(keywords__contains = search))))
+		elif f == "GreenCityProject" :
+			data = list((chain(data, GreenCityProject.objects.filter(keywords__contains = search))))
+		elif f == "ElectricVehicleChargingStation" :
+			data = list((chain(data, ElectricVehicleChargingStation.objects.filter(keywords__contains = search))))
+
+	# temp return all features
 	data = serializers.serialize("json", Feature.objects.all())	
 	return HttpResponse(data, content_type="application/json")
 

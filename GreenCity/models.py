@@ -10,6 +10,7 @@ class Feature(models.Model):
     name = models.CharField(max_length=250)
     longitude = models.FloatField()
     latitude = models.FloatField()
+    keywords = models.CharField(max_length=250, default='')
     objects = InheritanceManager()
 
     def __unicode__(self):

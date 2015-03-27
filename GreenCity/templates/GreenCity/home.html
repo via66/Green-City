@@ -9,7 +9,7 @@
       <div class="row">
         <div id="map-canvas"></div>
         <div id="filter">
-          <form action="">
+          <form id= "filterForm" action="">
             {% csrf_token %}
             <div class="filterSection">
               <labeL><input type="checkbox" name="feature" value="Park"/>&nbsp;Parks</label>
@@ -25,11 +25,11 @@
             <div class="filterSection">
               <label> Within &nbsp; 
                 <select> 
-                  <option value="">-</option>
-                  <option value="2">2km</option>
-                  <option value="5">5km</option>
-                  <option value="10">10km</option>
-                  <option value="15">15km</option>
+                  <option name="distance" value="">-</option>
+                  <option name="distance" value="2">2km</option>
+                  <option name="distance" value="5">5km</option>
+                  <option name="distance" value="10">10km</option>
+                  <option name="distance" value="15">15km</option>
                 </select>
               </label>
           </div>
