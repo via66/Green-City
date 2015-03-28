@@ -1,9 +1,5 @@
 /* LOGIN FORM */
 
-body.login {
-    background-color:#E8F5E9;
-}
-
 .login #container {
     background: white;
     border: 1px solid #ccc;
