@@ -23,3 +23,7 @@
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
+
+#usr_lat, #usr_long {
+	display: none;
+}

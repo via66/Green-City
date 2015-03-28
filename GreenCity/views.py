@@ -24,6 +24,8 @@ def home(request):
 def filter(request):
 	# print 'Input Data: "%s"' % request.body 
 	search = request.POST.get('searchBox', '')
+	latitude = request.POST.get('latitude', '')
+	longitude = request.POST.get('longitude', '')
 
 	data = {}
 	features = request.POST.getlist('feature')

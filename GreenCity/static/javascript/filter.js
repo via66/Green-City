@@ -49,3 +49,17 @@ $.ajaxSetup({
          }
      } 
 });
+
+
+$( '#filterForm' ).ready(function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(fillLocation);
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+});
+
+function fillLocation(position) {
+    $( '#usr_lat' ).val(position.coords.latitude);
+    $( '#usr_long' ).val(position.coords.longitude); 
+}
