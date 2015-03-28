@@ -1,8 +1,10 @@
 
 [
+{% load greencitytags %}
 {% for feature in features %}
 	{
 		"fields": { 
+			"ftype": "{{feature|field_type}}",
 			"latitude": {{feature.latitude}},
 			"longitude": {{feature.longitude}},
 			"name": "{{feature.name}}"

@@ -29,7 +29,6 @@ def filter(request):
 	features = request.POST.getlist('feature')
 
 	for f in features:
-		new_data = []
 		if f == "Park" :
 			data = list(chain(data, Park.objects.filter( Q(name__icontains = search) | Q(neighbourhoodName__icontains = search) )))
 		elif f == "BikeRack" :
@@ -37,7 +36,7 @@ def filter(request):
 		elif f == "CommunityMarket" :
 			data = list(chain(data, CommunityFoodMarket.objects.filter( Q(name__icontains = search) | Q(marketType__icontains = search) | Q(operator__icontains = search) | Q(offerings__icontains = search) )))
 		elif f == "CommunityGarden" :
-			data = list(chain(data, CommunityGarden.objects.filter( Q(name__icontains = search) | Q(foodTreeVarieties__icontains = search) | Q(stewardsOrManagingOrganization__icontains = search) )))
+			data = list(chain(data, CommunityGarden.objects.filter( Q(name__icontains = search) | Q(foodTreeVarieties__icontains = search) | Q(stewarsOrManagingOrganization__icontains = search) )))
 		elif f == "GreenCityProject" :
 			data = list(chain(data, GreenCityProject.objects.filter( Q(name__icontains = search) | Q(shortDescription__icontains = search) )))
 		elif f == "ElectricVehicleChargingStation" :

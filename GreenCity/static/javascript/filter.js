@@ -13,7 +13,7 @@ $('button#submitButton').click( function() {
     			console.log(i);
     			console.log(data[i]);
     			console.log(data[i].fields.name);
-    			features.push( { name: data[i].fields.name,
+    			features.push( { ftype: data[i].fields.ftype, name: data[i].fields.name,
     					 pos: new google.maps.LatLng(data[i].fields.latitude,data[i].fields.longitude)
     			});
     		}
