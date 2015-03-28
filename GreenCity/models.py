@@ -16,7 +16,6 @@ class Feature(models.Model):
     name = models.CharField(max_length=250)
     longitude = models.FloatField()
     latitude = models.FloatField()
-    keywords = models.CharField(max_length=250, default='')
     objects = InheritanceManager()
 
     def __unicode__(self):
@@ -29,7 +28,6 @@ class BikeRack(Feature):
     streetSide = models.CharField(max_length=250)
     numberOfRacks = models.IntegerField()
     completeAddress = models.CharField(max_length=250)
-    #keywords = models.CharField(max_length=250)
 
     class Meta:
         unique_together = ('streetSide', 'streetNumber', 'streetName')
@@ -43,7 +41,6 @@ class Park(Feature):
     neighbourhoodURL = models.URLField()
     washrooms = models.BooleanField(default=False)
     completeAddress = models.CharField(max_length=250, unique=True)
-    #keywords = models.CharField(max_length=250)
 
 
 class GreenCityProject(Feature):
@@ -54,12 +51,10 @@ class GreenCityProject(Feature):
     url1 = models.URLField()
     url2 = models.URLField()
     url3 = models.URLField()
-    #keywords = models.CharField(max_length=250)
 
 class ElectricVehicleChargingStation(Feature):
     lotOperator = models.CharField(max_length=250)
     address = models.CharField(max_length=250, unique=True)
-    #keywords = models.CharField(max_length=250)
 
 class CommunityFoodMarket(Feature):
     year = models.CharField(max_length=10)  # saves year, month and day
@@ -75,7 +70,6 @@ class CommunityFoodMarket(Feature):
     numberOfVendors = models.CharField(max_length=250)
     offerings = models.CharField(max_length=250)
     completeAddress = models.CharField(max_length=250, unique=True)
-    #keywords = models.CharField(max_length=250)
 
 
 class CommunityGarden(Feature):
@@ -89,7 +83,6 @@ class CommunityGarden(Feature):
     publicEmail = models.EmailField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
   #  completeAddress = models.CharField(max_length=250, unique=True)
-    #keywords = models.CharField(max_length=250)
   
 class GreenCityUserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)

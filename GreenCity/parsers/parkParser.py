@@ -19,8 +19,6 @@ def parsePark(url):
             neighbourhoodURL=unicode(row[10], "ISO-8859-1"),
             washrooms=stringToBoolean(unicode(row[14], "ISO-8859-1")),
             completeAddress=unicode(row[3], "ISO-8859-1") + " " + unicode(row[4], "ISO-8859-1")
-            #Keywords include name, streetname, neighbourhoodname
-            #keywords=unicode(row[1], "ISO-8859-1" + ", " + row[4], "ISO-8859-1" + ", " + row[9], "ISO-8859-1")
         )
         try:
             newPark.save()

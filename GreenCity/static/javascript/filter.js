@@ -5,27 +5,23 @@ $('button#submitButton').click( function() {
         dataType: 'json',
         data: $('#filterForm').serialize(),
         success: function(data) {
-        console.log(data[0])
-		console.log("hello");
-		var map;
-		console.log("inside initalize");
-		var mapOptions = {
-			zoom: 12,
-			center: new google.maps.LatLng(49.2827, -123.1207)
-		};
-		map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-		var features = [];
-		for(i=0; i <= data.length-1; i++){
-			console.log(i);
-			console.log(data[i]);
-			console.log(data[i].fields.name);
-			features.push( { name: data[i].fields.name,
-					 pos: new google.maps.LatLng(data[i].fields.latitude,data[i].fields.longitude)
-			});
-		}
-		plot_markers(map, features);
-		console.log(features);
-                alert("Success!");
+            clear_markers();     
+            console.log(data[0])
+
+    		var features = [];
+    		for(i=0; i <= data.length-1; i++){
+    			console.log(i);
+    			console.log(data[i]);
+    			console.log(data[i].fields.name);
+    			features.push( { name: data[i].fields.name,
+    					 pos: new google.maps.LatLng(data[i].fields.latitude,data[i].fields.longitude)
+    			});
+    		}
+    		plot_markers(map, features);
+    		console.log(features);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
         }
     });
 });

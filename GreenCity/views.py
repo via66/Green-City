@@ -1,7 +1,7 @@
 
 from django.http import HttpResponse
 from django.template import RequestContext, loader, Context
-from GreenCity.models import Feature, GreenCityUserProfile, Park, CommunityGarden, CommunityFoodMarket, GreenCityProject, BikeRack, UserProfile
+from GreenCity.models import Feature, GreenCityUserProfile, Park, CommunityGarden, CommunityFoodMarket, GreenCityProject, BikeRack
 from django.core import serializers
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect
@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.context_processors import csrf
 from GreenCity.forms import UserForm, UserProfileForm
 from itertools import chain
+from django.db.models import Q
 import json
 
 # Create your views here.
@@ -21,29 +22,28 @@ def home(request):
 
 
 def filter(request):
-	print 'Raw Data: "%s"' % request.body 
+	# print 'Input Data: "%s"' % request.body 
 	search = request.POST.get('searchBox', '')
 
 	data = {}
 	features = request.POST.getlist('feature')
+
 	for f in features:
 		new_data = []
 		if f == "Park" :
-			data = list(chain(data, Park.objects.filter(keywords__contains = search)))
+			data = list(chain(data, Park.objects.filter( Q(name__icontains = search) | Q(neighbourhoodName__icontains = search) )))
 		elif f == "BikeRack" :
-			data = list((chain(data, BikeRack.objects.filter(keywords__contains = search))))
+			data = list(chain(data, BikeRack.objects.filter( Q(name__icontains = search) )))
 		elif f == "CommunityMarket" :
-			data = list((chain(data, CommunityFoodMarket.objects.filter(keywords__contains = search))))
+			data = list(chain(data, CommunityFoodMarket.objects.filter( Q(name__icontains = search) | Q(marketType__icontains = search) | Q(operator__icontains = search) | Q(offerings__icontains = search) )))
 		elif f == "CommunityGarden" :
-			data = list((chain(data, CommunityGarden.objects.filter(keywords__contains = search))))
+			data = list(chain(data, CommunityGarden.objects.filter( Q(name__icontains = search) | Q(foodTreeVarieties__icontains = search) | Q(stewardsOrManagingOrganization__icontains = search) )))
 		elif f == "GreenCityProject" :
-			data = list((chain(data, GreenCityProject.objects.filter(keywords__contains = search))))
+			data = list(chain(data, GreenCityProject.objects.filter( Q(name__icontains = search) | Q(shortDescription__icontains = search) )))
 		elif f == "ElectricVehicleChargingStation" :
-			data = list((chain(data, ElectricVehicleChargingStation.objects.filter(keywords__contains = search))))
+			data = list(chain(data, ElectricVehicleChargingStation.objects.filter( Q(name__icontains = search) | Q(lotOperator__icontains = search) )))
 
-	# temp return all features
-	data = serializers.serialize("json", Feature.objects.all())	
-	return HttpResponse(data, content_type="application/json")
+	return render(request, 'GreenCity/filterData.json', { 'features': data } )
 
 def register(request):
 	registered = False

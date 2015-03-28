@@ -38,8 +38,7 @@ def parseCommunityGardens(url):
         newPublicEmail = unicode(row[16], "ISO-8859-1")
         newUrl = unicode(row[17], "ISO-8859-1")
         new_name = unicode(row[1], "ISO-8859-1")
-        #Keywords include StreetName, new_name, Foodtrees, ManagingOrg
-        #keyword = unicode(row[4], "ISO-8859-1" + ", " + row[1], "ISO-8859-1" + ", " + row[12], "ISO-8859-1" + ", " + row[15], "ISO-8859-1")
+        
         try:
             CommunityGarden.objects.update_or_create(
                 name=new_name,

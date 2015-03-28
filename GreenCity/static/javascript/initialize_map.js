@@ -26,8 +26,16 @@ function plot_markers(map, data) {
             infowindow.setContent(this.description);
             infowindow.open(map, this);
         });
+        mapMarkers.push(marker);
     }
 }
+
+function clear_markers() {
+  for (var i = 0; i < mapMarkers.length; i++) {
+    mapMarkers[i].setMap(null);
+  }
+}
+
 
 function plot_heatmap(map, data){
     var list_data = $.map(data, function (elem, indx) {

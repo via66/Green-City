@@ -46,8 +46,10 @@
     <script src = {% static "javascript/filter.js" %}></script>
     <script>
             var map;
+            var mapMarkers;
             var heatmap;
             function initialize() {
+                mapMarkers = [];
                 var mapOptions = {
                     zoom: 12,
                     center: new google.maps.LatLng(49.2827, -123.1207)

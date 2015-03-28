@@ -14,8 +14,6 @@ def parseElectricVehicleChargingStation(url):
             latitude=unicode(row[0], "ISO-8859-1"),
             lotOperator=unicode(row[2], "ISO-8859-1"),
             address=unicode(row[3], "ISO-8859-1"),
-            #Keywords include address and name
-            #keywords=unicode(row[3], "ISO-8859-1" + ", " + row[3], "ISO-8859-1")
         )
         try:
             newChargingStation.save()

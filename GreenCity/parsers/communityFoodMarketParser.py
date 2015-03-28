@@ -37,8 +37,6 @@ def parse_market_file(reader):
                     monthsOfOperations=unicode(row[14], "ISO-8859-1"),
                     numberOfVendors=unicode(row[15], "ISO-8859-1"),
                     offerings=unicode(row[16], "ISO-8859-1"),
-                    #keywords include name, market type, streetname, offerings
-                    #keywords=unicode(row[2], "ISO-8859-1" + ", " + row[1], "ISO-8859-1" + ", " + row[6], "ISO-8859-1" + ", " + row[16], "ISO-8859-1"),
                     completeAddress=complete_address
                 )
             except:

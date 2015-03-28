@@ -31,8 +31,7 @@ def parse_bike_rack_file(reader):
         newStreetNumber = unicode(row[0], "ISO-8859-1")
         newStreetName = unicode(row[1], "ISO-8859-1")
         newNumberOfRacks = int(unicode(row[5], "ISO-8859-1"))
-        #keyword is Streetname
-        #newkeyword = unicode(row[1], "ISO-8859-1")
+
         try:
             BikeRack.objects.get_or_create(
                 name=newName,
@@ -43,7 +42,6 @@ def parse_bike_rack_file(reader):
                 streetName=newStreetName,
                 numberOfRacks=newNumberOfRacks,
                 completeAddress=completeAddress
-                #keywords=newkeyword
             )
         except:
             print "could not add duplicate;"
