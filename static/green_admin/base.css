@@ -1,8 +1,16 @@
 
 #header {
 width: 100%;
-background: #2E7D32;
+background: #43A047;
 border-color: #388E3C;
 color: #ffc;
 overflow: hidden;
+}
+
+body {
+    background-color:#E8F5E9;
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+	color: #F1F6F0;
 }
