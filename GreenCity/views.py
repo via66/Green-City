@@ -15,6 +15,8 @@ from django.db.models import Q
 import json
 
 # Create your views here.
+KM_PER_LAT = 111
+KM_PER_LONG = 111.321
 
 def home(request):
     features = Feature.objects.select_subclasses()
@@ -41,11 +43,11 @@ def filter(request):
                 data = list(
                     chain(data, Park.objects.filter(Q(name__icontains=search) | Q(neighbourhoodName__icontains=search),
                                                     (Q(longitude__gte=(
-                                                        float(longitude) - (float(proximity) / 111.321)))),
+                                                        float(longitude) - (float(proximity) / KM_PER_LONG)))),
                                                     (Q(longitude__lte=(
-                                                        float(longitude) + (float(proximity) / 111.321)))),
-                                                    (Q(latitude__gte=(float(latitude) - (float(proximity) / 111)))),
-                                                    (Q(latitude__lte=(float(latitude) + (float(proximity) / 111))))
+                                                        float(longitude) + (float(proximity) / KM_PER_LONG)))),
+                                                    (Q(latitude__gte=(float(latitude) - (float(proximity) / KM_PER_LAT)))),
+                                                    (Q(latitude__lte=(float(latitude) + (float(proximity) / KM_PER_LAT))))
                     )))
 
         elif f == "BikeRack":
@@ -54,13 +56,13 @@ def filter(request):
             elif proximity != "":
                 data = list(chain(data, BikeRack.objects.filter(Q(name__icontains=search),
                                                                 (Q(longitude__gte=(
-                                                                    float(longitude) - (float(proximity) / 111.321)))),
+                                                                    float(longitude) - (float(proximity) / KM_PER_LONG)))),
                                                                 (Q(longitude__lte=(
-                                                                    float(longitude) + (float(proximity) / 111.321)))),
+                                                                    float(longitude) + (float(proximity) / KM_PER_LONG)))),
                                                                 (Q(latitude__gte=(
-                                                                    float(latitude) - (float(proximity) / 111)))),
+                                                                    float(latitude) - (float(proximity) / KM_PER_LAT)))),
                                                                 (Q(latitude__lte=(
-                                                                    float(latitude) + (float(proximity) / 111))))
+                                                                    float(latitude) + (float(proximity) / KM_PER_LAT))))
                 )))
         elif f == "CommunityMarket":
             if proximity == "":
@@ -71,13 +73,13 @@ def filter(request):
                 data = list(chain(data, CommunityFoodMarket.objects.filter((Q(name__icontains=search) | Q(
                     marketType__icontains=search) | Q(operator__icontains=search) | Q(offerings__icontains=search)),
                                                                            (Q(longitude__gte=(float(longitude) - (
-                                                                               float(proximity) / 111.321)))),
+                                                                               float(proximity) / KM_PER_LONG)))),
                                                                            (Q(longitude__lte=(float(longitude) + (
-                                                                               float(proximity) / 111.321)))),
+                                                                               float(proximity) / KM_PER_LONG)))),
                                                                            (Q(latitude__gte=(float(latitude) - (
-                                                                               float(proximity) / 111)))),
+                                                                               float(proximity) / KM_PER_LAT)))),
                                                                            (Q(latitude__lte=(
-                                                                               float(latitude) + (float(proximity) / 111))))
+                                                                               float(latitude) + (float(proximity) / KM_PER_LAT))))
                 )))
         elif f == "CommunityGarden":
             if proximity == "":
@@ -88,13 +90,13 @@ def filter(request):
                 data = list(chain(data, CommunityGarden.objects.filter((Q(name__icontains=search) | Q(
                     foodTreeVarieties__icontains=search) | Q(stewarsOrManagingOrganization__icontains=search)),
                                                                        (Q(longitude__gte=(float(longitude) - (
-                                                                           float(proximity) / 111.321)))),
+                                                                           float(proximity) / KM_PER_LONG)))),
                                                                        (Q(longitude__lte=(float(longitude) + (
-                                                                           float(proximity) / 111.321)))),
+                                                                           float(proximity) / KM_PER_LONG)))),
                                                                        (Q(latitude__gte=(
-                                                                           float(latitude) - (float(proximity) / 111)))),
+                                                                           float(latitude) - (float(proximity) / KM_PER_LAT)))),
                                                                        (Q(latitude__lte=(
-                                                                           float(latitude) + (float(proximity) / 111))))
+                                                                           float(latitude) + (float(proximity) / KM_PER_LAT))))
                 )))
         elif f == "GreenCityProject":
             if proximity == "":
@@ -103,10 +105,10 @@ def filter(request):
             elif proximity != "":
                 data = list(chain(data, GreenCityProject.objects.filter(
                     (Q(name__icontains=search) | Q(shortDescription__icontains=search) ),
-                    (Q(longitude__gte=(float(longitude) - (float(proximity) / 111.321)))),
-                    (Q(longitude__lte=(float(longitude) + (float(proximity) / 111.321)))),
-                    (Q(latitude__gte=(float(latitude) - (float(proximity) / 111)))),
-                    (Q(latitude__lte=(float(latitude) + (float(proximity) / 111))))
+                    (Q(longitude__gte=(float(longitude) - (float(proximity) / KM_PER_LONG)))),
+                    (Q(longitude__lte=(float(longitude) + (float(proximity) / KM_PER_LONG)))),
+                    (Q(latitude__gte=(float(latitude) - (float(proximity) / KM_PER_LAT)))),
+                    (Q(latitude__lte=(float(latitude) + (float(proximity) / KM_PER_LAT))))
                 )))
         elif f == "ElectricVehicleChargingStation":
             if proximity == "":
@@ -115,10 +117,10 @@ def filter(request):
             elif proximity != "":
                 data = list(chain(data, ElectricVehicleChargingStation.objects.filter(
                     (Q(name__icontains=search) | Q(lotOperator__icontains=search) ),
-                    (Q(longitude__gte=(float(longitude) - (float(proximity) / 111.321)))),
-                    (Q(longitude__lte=(float(longitude) + (float(proximity) / 111.321)))),
-                    (Q(latitude__gte=(float(latitude) - (float(proximity) / 111)))),
-                    (Q(latitude__lte=(float(latitude) + (float(proximity) / 111))))
+                    (Q(longitude__gte=(float(longitude) - (float(proximity) / KM_PER_LONG)))),
+                    (Q(longitude__lte=(float(longitude) + (float(proximity) / KM_PER_LONG)))),
+                    (Q(latitude__gte=(float(latitude) - (float(proximity) / KM_PER_LAT)))),
+                    (Q(latitude__lte=(float(latitude) + (float(proximity) / KM_PER_LAT))))
                 )))
 
     return render(request, 'GreenCity/filterData.json', {'features': data})
