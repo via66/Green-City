@@ -17,7 +17,7 @@ function plot_markers(map, data) {
     for (var i = 0; i < data.length; i++)
     {
         var marker = new google.maps.Marker({
-            position: data[i].pos,
+            position: new google.maps.LatLng(data[i].latitude,data[i].longitude),
             map: map,
             icon: markerIcons[data[i].ftype]
         });
@@ -40,7 +40,7 @@ function clear_markers() {
 
 function plot_heatmap(map, data){
     var list_data = $.map(data, function (elem, indx) {
-        return elem.pos;
+        return new google.maps.LatLng(elem.latitude,elem.longitude);
     });
     var heatmap = new google.maps.visualization.HeatmapLayer({
         data: list_data,

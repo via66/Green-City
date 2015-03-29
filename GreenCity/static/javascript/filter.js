@@ -4,19 +4,8 @@ $('button#submitButton').click( function() {
         type: 'POST',
         dataType: 'json',
         data: $('#filterForm').serialize(),
-        success: function(data) {
+        success: function(features) {
             clear_markers();     
-            console.log(data[0])
-
-    		var features = [];
-    		for(i=0; i <= data.length-1; i++){
-    			console.log(i);
-    			console.log(data[i]);
-    			console.log(data[i].fields.name);
-    			features.push( { ftype: data[i].fields.ftype, name: data[i].fields.name, description: data[i].fields.description,
-    					 pos: new google.maps.LatLng(data[i].fields.latitude,data[i].fields.longitude)
-    			});
-    		}
     		plot_markers(map, features);
     		console.log(features);
         },
