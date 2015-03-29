@@ -13,6 +13,7 @@ function plot_markers(map, data) {
     markerIcons['ElectricVehicleChargingStation'] = new google.maps.MarkerImage(customIconURL + "f3e37b", markerSize, markerOrigin, markerAnchor);
     markerIcons['CommunityGarden'] = new google.maps.MarkerImage(customIconURL + "dc99e2", markerSize, markerOrigin, markerAnchor);
     markerIcons['CommunityFoodMarket'] = new google.maps.MarkerImage(customIconURL + "f5a864", markerSize, markerOrigin, markerAnchor);
+
     for (var i = 0; i < data.length; i++)
     {
         var marker = new google.maps.Marker({
@@ -20,7 +21,7 @@ function plot_markers(map, data) {
             map: map,
             icon: markerIcons[data[i].ftype]
         });
-        marker.description = data[i].name;
+        marker.description = data[i].description;
         google.maps.event.addListener(marker, 'click', function () {
             var infowindow = new google.maps.InfoWindow();
             infowindow.setContent(this.description);
