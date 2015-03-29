@@ -1,19 +1,19 @@
-$('button#submitButton').click( function() {
+function filter_data() {
     $.ajax({
         url: '/filter/',
         type: 'POST',
         dataType: 'json',
         data: $('#filterForm').serialize(),
         success: function(features) {
-            clear_markers();     
+            heatmap.setMap(null);
+            clear_markers();
     		plot_markers(map, features);
-    		console.log(features);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
         }
     });
-});
+}
 
 $.ajaxSetup({ 
      beforeSend: function(xhr, settings) {

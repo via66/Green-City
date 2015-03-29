@@ -38,7 +38,7 @@
               <input id="usr_long" type="text" name="longitude"/>
           </div>
           </form>
-          <button class="btn content-btn" type="submit" value="Submit" id="submitButton">Apply</button>
+          <button class="btn content-btn" type="submit" onclick="filter_data()" id="submitButton">Apply</button>
         </div>
       </div>
 
@@ -52,6 +52,7 @@
             var map;
             var mapMarkers;
             var heatmap;
+            var markerCluster;
             function initialize() {
                 mapMarkers = [];
                 var mapOptions = {

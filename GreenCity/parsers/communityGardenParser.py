@@ -30,8 +30,8 @@ def parseCommunityGardens(url):
             else:
                 newNumberOfFoodTrees = 0
 
-        new_lat = unicode(row[8], "ISO-8859-1")
-        new_long = unicode(row[7], "ISO-8859-1")
+        new_lat = unicode(row[7], "ISO-8859-1")
+        new_long = unicode(row[8], "ISO-8859-1")
         newFoodTreeVarieties = unicode(row[12], "ISO-8859-1")
         newJurisdiction = unicode(row[14], "ISO-8859-1")
         newStewarsOrManagingOrganization = unicode(row[15], "ISO-8859-1")

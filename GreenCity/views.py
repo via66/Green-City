@@ -82,6 +82,7 @@ def filter(request):
                                                                                float(latitude) + (float(proximity) / KM_PER_LAT))))
                 )))
         elif f == "CommunityGarden":
+            print "here"
             if proximity == "":
                 data = list(chain(data, CommunityGarden.objects.filter(
                     Q(name__icontains=search) | Q(foodTreeVarieties__icontains=search) | Q(

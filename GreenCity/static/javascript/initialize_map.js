@@ -29,12 +29,15 @@ function plot_markers(map, data) {
         });
         mapMarkers.push(marker);
     }
+    markerCluster = new MarkerClusterer(map, mapMarkers);
 }
 
 function clear_markers() {
   for (var i = 0; i < mapMarkers.length; i++) {
     mapMarkers[i].setMap(null);
   }
+  mapMarkers = [];
+  markerCluster.clearMarkers();
 }
 
 
