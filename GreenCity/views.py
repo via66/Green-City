@@ -28,23 +28,72 @@ def filter(request):
 	longitude = request.POST.get('longitude', '')
 	proximity = request.POST.get('distance')
 	print(proximity)
-
+	
 	data = {}
 	features = request.POST.getlist('feature')
 
 	for f in features:
 		if f == "Park" :
-			data = list(chain(data, Park.objects.filter( Q(name__icontains = search) | Q(neighbourhoodName__icontains = search) )))
+                        if proximity == "": 
+                                data = list(chain(data, Park.objects.filter( Q(name__icontains = search) | Q(neighbourhoodName__icontains = search) )))
+                        elif proximity != "":
+                                data = list(chain(data, Park.objects.filter( Q(name__icontains = search) | Q(neighbourhoodName__icontains = search),
+                                                                            (Q(longitude__gte=(float(longitude)-(float(proximity)/111.321)))),
+                                                                            (Q(longitude__lte=(float(longitude)+(float(proximity)/111.321)))),
+                                                                            (Q(latitude__gte=(float(latitude)-(float(proximity)/111)))),
+                                                                            (Q(latitude__lte=(float(latitude)+(float(proximity)/111))))
+                                                                             )))
+                                
 		elif f == "BikeRack" :
-			data = list(chain(data, BikeRack.objects.filter( Q(name__icontains = search) )))
+                        if proximity == "": 
+                                data = list(chain(data, BikeRack.objects.filter( Q(name__icontains = search) )))
+                        elif proximity != "":
+                                data = list(chain(data, BikeRack.objects.filter( Q(name__icontains = search),
+                                                                                (Q(longitude__gte=(float(longitude)-(float(proximity)/111.321)))),
+                                                                                (Q(longitude__lte=(float(longitude)+(float(proximity)/111.321)))),
+                                                                                (Q(latitude__gte=(float(latitude)-(float(proximity)/111)))),
+                                                                                (Q(latitude__lte=(float(latitude)+(float(proximity)/111))))
+                                                                                )))
 		elif f == "CommunityMarket" :
-			data = list(chain(data, CommunityFoodMarket.objects.filter( Q(name__icontains = search) | Q(marketType__icontains = search) | Q(operator__icontains = search) | Q(offerings__icontains = search) )))
+                        if proximity == "":     
+                                data = list(chain(data, CommunityFoodMarket.objects.filter( Q(name__icontains = search) | Q(marketType__icontains = search) | Q(operator__icontains = search) | Q(offerings__icontains = search) )))
+                        elif proximity != "":
+                                data = list(chain(data, CommunityFoodMarket.objects.filter( (Q(name__icontains = search) | Q(marketType__icontains = search) | Q(operator__icontains = search) | Q(offerings__icontains = search)),
+                                                                                           (Q(longitude__gte=(float(longitude)-(float(proximity)/111.321)))),
+                                                                                           (Q(longitude__lte=(float(longitude)+(float(proximity)/111.321)))),
+                                                                                           (Q(latitude__gte=(float(latitude)-(float(proximity)/111)))),
+                                                                                           (Q(latitude__lte=(float(latitude)+(float(proximity)/111))))
+                                                                                            )))
 		elif f == "CommunityGarden" :
-			data = list(chain(data, CommunityGarden.objects.filter( Q(name__icontains = search) | Q(foodTreeVarieties__icontains = search) | Q(stewarsOrManagingOrganization__icontains = search) )))
+                        if proximity == "": 
+                                data = list(chain(data, CommunityGarden.objects.filter( Q(name__icontains = search) | Q(foodTreeVarieties__icontains = search) | Q(stewarsOrManagingOrganization__icontains = search) )))
+                        elif proximity != "":
+                                data = list(chain(data, CommunityGarden.objects.filter( (Q(name__icontains = search) | Q(foodTreeVarieties__icontains = search) | Q(stewarsOrManagingOrganization__icontains = search)),
+                                                                                        (Q(longitude__gte=(float(longitude)-(float(proximity)/111.321)))),
+                                                                                        (Q(longitude__lte=(float(longitude)+(float(proximity)/111.321)))),
+                                                                                        (Q(latitude__gte=(float(latitude)-(float(proximity)/111)))),
+                                                                                        (Q(latitude__lte=(float(latitude)+(float(proximity)/111))))
+                                                                                        )))
 		elif f == "GreenCityProject" :
-			data = list(chain(data, GreenCityProject.objects.filter( Q(name__icontains = search) | Q(shortDescription__icontains = search) )))
-		elif f == "ElectricVehicleChargingStation" :
-			data = list(chain(data, ElectricVehicleChargingStation.objects.filter( Q(name__icontains = search) | Q(lotOperator__icontains = search) )))
+                        if proximity == "":
+                                data = list(chain(data, GreenCityProject.objects.filter( Q(name__icontains = search) | Q(shortDescription__icontains = search) )))
+                        elif proximity != "":
+                                data = list(chain(data, GreenCityProject.objects.filter( (Q(name__icontains = search) | Q(shortDescription__icontains = search) ),
+                                                                                         (Q(longitude__gte=(float(longitude)-(float(proximity)/111.321)))),
+                                                                                         (Q(longitude__lte=(float(longitude)+(float(proximity)/111.321)))),
+                                                                                         (Q(latitude__gte=(float(latitude)-(float(proximity)/111)))),
+                                                                                         (Q(latitude__lte=(float(latitude)+(float(proximity)/111))))
+                                                                                         )))
+                elif f == "ElectricVehicleChargingStation" :
+                        if proximity == "":
+                                data = list(chain(data, ElectricVehicleChargingStation.objects.filter( Q(name__icontains = search) | Q(lotOperator__icontains = search) )))
+                        elif proximity != "":
+                                data = list(chain(data, ElectricVehicleChargingStation.objects.filter( (Q(name__icontains = search) | Q(lotOperator__icontains = search) ),
+                                                                                         (Q(longitude__gte=(float(longitude)-(float(proximity)/111.321)))),
+                                                                                         (Q(longitude__lte=(float(longitude)+(float(proximity)/111.321)))),
+                                                                                         (Q(latitude__gte=(float(latitude)-(float(proximity)/111)))),
+                                                                                         (Q(latitude__lte=(float(latitude)+(float(proximity)/111))))
+                                                                                         )))
 
 	return render(request, 'GreenCity/filterData.json', { 'features': data } )
 
