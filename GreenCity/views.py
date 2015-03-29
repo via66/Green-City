@@ -1,7 +1,7 @@
 
 from django.http import HttpResponse
 from django.template import RequestContext, loader, Context
-from GreenCity.models import Feature, GreenCityUserProfile, Park, CommunityGarden, CommunityFoodMarket, GreenCityProject, BikeRack
+from GreenCity.models import Feature, GreenCityUserProfile, Park, CommunityGarden, CommunityFoodMarket, GreenCityProject, BikeRack, ElectricVehicleChargingStation
 from django.core import serializers
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect

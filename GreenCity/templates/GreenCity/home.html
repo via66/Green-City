@@ -12,12 +12,12 @@
           <form id= "filterForm" action="">
             {% csrf_token %}
             <div class="filterSection">
-              <labeL><input type="checkbox" name="feature" value="Park"/>&nbsp;Parks</label>
-              <labeL><input type="checkbox" name="feature" value="BikeRack"/>&nbsp;Bike Racks</label>
-              <labeL><input type="checkbox" name="feature" value="GreenCityProject"/>&nbsp;Green Projects</label>
-              <labeL><input type="checkbox" name="feature" value="ElectricVehicleChargingStation"/>&nbsp;Electric Vehicle Charging Stations</label>
-              <labeL><input type="checkbox" name="feature" value="CommunityGarden"/>&nbsp;Community Gardens</label>
-              <labeL><input type="checkbox" name="feature" value="CommunityMarket"/>&nbsp;Community Markets</label>
+              <labeL><input type="checkbox" name="feature" value="Park" checked/>&nbsp;Parks</label>
+              <labeL><input type="checkbox" name="feature" value="BikeRack" checked/>&nbsp;Bike Racks</label>
+              <labeL><input type="checkbox" name="feature" value="GreenCityProject" checked/>&nbsp;Green Projects</label>
+              <labeL><input type="checkbox" name="feature" value="ElectricVehicleChargingStation" checked/>&nbsp;Electric Vehicle Charging Stations</label>
+              <labeL><input type="checkbox" name="feature" value="CommunityGarden" checked/>&nbsp;Community Gardens</label>
+              <labeL><input type="checkbox" name="feature" value="CommunityMarket" checked/>&nbsp;Community Markets</label>
             </div>
             <div class="filterSection">
               <labeL> Search By &nbsp; <input type="text" name="searchBox"/> </label>
@@ -60,14 +60,32 @@
                 var data = [];
                 {% load greencitytags %}
                 {% for feature in features %}
-                   data.push( { name:"{{ feature.name }}",
+                  var desc;
+                  {% if feature|field_type == "Park" %}
+                    desc = "{{ feature.name }} <br/> Address: {{feature.completeAddress}} <br/> Neighbourhood: {{feature.neighbourhoodName}} <br/> {{feature.neighbourhoodURL}} <br/> Size: {{feature.hectare}} hectares <br/> Washrooms: {{feature.washrooms}}";
+                  {% endif %}
+                  {% if feature|field_type == "BikeRack" %}
+                    desc = "{{ feature.name}} <br/> Address: {{feature.completeAddress}} <br/> Street Side: {{feature.streetSide}} <br/> Number of Racks: {{feature.numberOfRacks}}";
+                  {% endif %}
+                  {% if feature|field_type == "CommunityGarden" %}
+                    desc = "{{ feature.name}} <br/> Address: {{feature.streetNumber}} {{feature.streetName}} <br/> Number of Plots: {{feature.numberOfPlots}} <br/> Number of Food Trees: {{feature.numberOfFoodTrees}} <br/> Food Tree Varieties: {{feature.foodTreeVarities}} <br/> Jurisdiction: {{feature.jurisdiction}} <br/> Managing Organization: {{feature.stewarsOrManagingOrganization}} <br/> Email: {{feature.publicEmail}} <br/> URL: {{feature.url}}";
+                  {% endif %}
+                  {% if feature|field_type == "CommunityFoodMarket" %}
+                    desc = "{{feature.name}} <br/> Address: {{feature.completeAddress}} <br/> Operator: {{feature.operator}} <br/> Number of Vendors: {{feature.numberOfVendors}} <br/> Offerings: {{feature.offerings}} <br/> Months of Operation: {{feature.monthsOfOperation}} <br/> Day: {{feature.day}} <br/> Open: {{feature.openHours}} <br/> Close: {{feature.closeHours}} <br/> URL: {{feature.url}}";
+                  {% endif %}
+                  {% if feature|field_type == "ElectricVehicleChargingStation" %}
+                    desc = "{{feature.name}} <br/> Lot Operator: {{feature.lotOperator}}";
+                  {% endif %}
+                  {% if feature|field_type == "GreenCityProject" %}
+                    desc = "{{feature.name}} <br/> Address: {{feature.address}} <br/> Category: {{feature.category1}}";
+                  {% endif %}
+                  data.push( {  description: desc,
                                 ftype:"{{ feature|field_type }}",
                                 pos: new google.maps.LatLng({{ feature.latitude}},{{ feature.longitude }})
-                   });
+                  });
                 {% endfor %}
-		sample_data = data.slice(0, 5);
-		plot_markers(map, sample_data);
-{#                plot_markers(map, data);#}
+
+		            plot_markers(map, data);
                 heatmap = plot_heatmap(map, data);
             }
             google.maps.event.addDomListener(window, 'load', initialize);
