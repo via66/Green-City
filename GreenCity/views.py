@@ -26,6 +26,8 @@ def filter(request):
 	search = request.POST.get('searchBox', '')
 	latitude = request.POST.get('latitude', '')
 	longitude = request.POST.get('longitude', '')
+	proximity = request.POST.get('distance')
+	print(proximity)
 
 	data = {}
 	features = request.POST.getlist('feature')
