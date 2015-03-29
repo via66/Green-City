@@ -1,11 +1,7 @@
 from django.http import HttpResponse
 from django.template import RequestContext, loader, Context
-<<<<<<< HEAD
-from GreenCity.models import Feature, GreenCityUserProfile, Park, CommunityGarden, CommunityFoodMarket, GreenCityProject, BikeRack, ElectricVehicleChargingStation
-=======
 from GreenCity.models import Feature, GreenCityUserProfile, Park, CommunityGarden, CommunityFoodMarket, \
-    GreenCityProject, BikeRack, ElectricVehicleChargingStation
->>>>>>> 1f2c68c8b3c543ed22ab2a17e45703eab0b3b2ea
+    GreenCityProject, BikeRack, ElectricVehicleChargingStation 
 from django.core import serializers
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect
