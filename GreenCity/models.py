@@ -83,13 +83,7 @@ class CommunityGarden(Feature):
     publicEmail = models.EmailField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
   #  completeAddress = models.CharField(max_length=250, unique=True)
-  
-class GreenCityUserProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    website = models.URLField(blank=True,null=True)
 
-    def __unicode__(self):
-        return self.user.username
 
 # UrlTitle, UrlLink, PubDate
 class DatasetLink(models.Model):

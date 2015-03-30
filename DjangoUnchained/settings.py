@@ -158,3 +158,5 @@ AUTHENTICATION_BACKENDS = (
 AUTH_PROFILE_MODULE = 'django_facebook.FacebookProfile'
 
 AUTH_USER_MODEL = 'GreenCity.NewUser'
+
+FACEBOOK_REGISTRATION_TEMPLATE = "GreenCity/register.html"

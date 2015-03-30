@@ -7,9 +7,9 @@
 	{% if registered %}
 		Thank you for registering!
 	{% else %}
-		<form id="user_form" action="/register/" method="post">
+		<form id="user_form" action="" method="post">
 			{% csrf_token %}
-			{{user_form.as_p}}
+			{{form}}
 			{{profile_form.as_p}}
 
 			<input type="submit" name="submit" value="Register" />

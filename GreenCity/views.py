@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template import RequestContext, loader, Context
-from GreenCity.models import Feature, GreenCityUserProfile, Park, CommunityGarden, CommunityFoodMarket, \
+from GreenCity.models import Feature, Park, CommunityGarden, CommunityFoodMarket, \
     GreenCityProject, BikeRack, ElectricVehicleChargingStation 
 from django.core import serializers
 from django.shortcuts import render, render_to_response
@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.context_processors import csrf
-from GreenCity.forms import UserForm, UserProfileForm
+from GreenCity.forms import UserForm
 from itertools import chain
 from django.db.models import Q
 import json
@@ -131,18 +131,12 @@ def register(request):
 
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
 
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid():
             user = user_form.save()
 
             user.set_password(user.password)
             user.save()
-
-            profile = profile_form.save(commit=False)
-            profile.user = user
-
-            profile.save()
 
             registered = True
 
@@ -152,15 +146,14 @@ def register(request):
                           'GreenCity/register.html',
                           {'registered': registered})
         else:
-            print user_form.errors, profile_form.errors
+            print user_form.errors
 
     else:
         user_form = UserForm()
-        profile_form = UserProfileForm()
 
     return render(request,
                   'GreenCity/register.html',
-                  {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+                  {'form': user_form.as_p, 'registered': registered})
 
 
 def user_login(request):
