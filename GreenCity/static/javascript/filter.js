@@ -52,3 +52,15 @@ function fillLocation(position) {
     $( '#usr_lat' ).val(position.coords.latitude);
     $( '#usr_long' ).val(position.coords.longitude); 
 }
+
+$('#feature_checker').change(function(){
+    if($(this).prop('checked')){
+        $('input[type="checkbox"]').each(function(){
+            $(this).prop('checked', true);
+        });
+    }else{
+        $('input[type="checkbox"]').each(function(){
+            $(this).prop('checked', false);
+        });
+    }
+});

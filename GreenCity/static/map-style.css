@@ -12,11 +12,13 @@
 	display:inline;
 	float:left;
 	padding-left: 15px;
-	font-size:10;
+	font-size:12;
 }
 
 #filter label {
 	display:block;
+	font-weight: 530;
+	color: #004d40;
 }
 
 .filterSection {
