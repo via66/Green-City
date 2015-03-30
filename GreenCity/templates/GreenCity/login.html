@@ -10,7 +10,7 @@
         Sorry, wrong username and password combination. <br />
         <a href="{% url 'register' %}">Click here to register!</a>
     {% endif %}
-    <form id="login_form" action="/login/" method="post">{% csrf_token %}
+    <form id="login_form" class="form-signin" action="/login/" method="post">{% csrf_token %}
         <label for="username">Username:</label>
         <input type="text" name="username" value="" id="username">
         <label for="password">Password:</label>
@@ -22,7 +22,7 @@
     <link href="{{ STATIC_URL }}django_facebook/css/facebook.css" type="text/css" rel="stylesheet" media="all" />
     {% include 'django_facebook/_facebook_js.html' %}
 
-    <form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
+    <form class="form-signin" action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
         <input type="hidden" value="{{ request.path }}" name="next" />
         <input type="hidden" value="{{ request.path }}" name="register_next" />
         <input type="hidden" value="{{ request.path }}" name="error_next" />
