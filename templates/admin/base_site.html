@@ -1,10 +1,13 @@
 {% extends "admin/base.html" %}
 {% load staticfiles %}
 {% block title %}GreenCity admin{% endblock %}
-{% block extrastyle %}{{ block.super }}
-<link rel="stylesheet" type="text/css" href="{% static "green_admin/base.css" %}"/>
+{% block extrastyle %}
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "green_admin/base.css" %}"/>
 {% endblock %}
 {% block branding %}
 <h1 id="site-name"><a href="{% url 'admin:index' %}">GreenCity Administration Panel</a></h1>
+<h2><a href="/"><span class="glyphicon glyphicon-share-alt"></span> Back to Main Site</a></h2>
 {% endblock %}
 {% block nav-global %}{% endblock %}

@@ -28,11 +28,14 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
           {% if user.is_authenticated %}
-          <li><a  class="user_name">{{ user.get_username }}</a></li>
-          <li><a class="right-btn" href="/logout" role="button">Logout</a></li>
+          <li><a  class="user_name"><span class="glyphicon glyphicon-user"></span> {{ user.get_username }}</a></li>
+            {% if user.is_staff %}
+                <li><a class="right-btn" href="/admin"><span class="glyphicon glyphicon-share-alt"></span> Go To Admin Panel</a></li>
+            {% endif %}
+          <li><a class="right-btn" href="/logout" role="button"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
           {% else %}
-          <li><a class="right-btn" href="/login" role="button">Login</a></li>
-          <li><a class="right-btn" href="/register" role="button">Register</a></li>
+          <li><a class="right-btn" href="/login" role="button"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <li><a class="right-btn" href="/register" role="button"><span class="glyphicon glyphicon-edit"></span> Register</a></li>
           {% endif %}
           </ul>
         </div><!--/.navbar-collapse -->
@@ -46,7 +49,7 @@
       {% endblock %}
       </div>
       <hr>
-      <footer class="container navbar-fixed-bottom">
+      <footer class="container navbar-static-bottom">
         <p>&copy; Company 2014</p>
       </footer>
 
