@@ -13,14 +13,16 @@
 	color: #F1F6F0;
 }
 
-.navbar-btn {
-	font-weight:bold;
-  background-color: #2E7D32;
-  border-color: #1B5E20;
+.right-btn {
+  font-weight: bold;
   color: #F1F6F0;
 }
 
-.navbar-btn:hover {
+.user_name {
+    color: #F1F6F0;
+}
+
+.right-btn:hover {
 	color:#FFFFFF;
 }
 

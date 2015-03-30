@@ -14,7 +14,7 @@
     {% block headers %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-color navbar-fixed-top">
+    <div class="navbar navbar-color navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -26,15 +26,17 @@
           <a class="navbar-brand" href="/">GreenCity</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <div class="navbar-right">
+          <ul class="nav navbar-nav navbar-right">
           {% if user.is_authenticated %}
-          <a class="btn navbar-btn" href="/logout" role="button">Logout</a>
+          <li><a  class="user_name">{{ user.get_username }}</a></li>
+          <li><a class="right-btn" href="/logout" role="button">Logout</a></li>
           {% else %}
-          <a class="btn navbar-btn" href="/login" role="button">Login</a>
-          <a class="btn navbar-btn" href="/register" role="button">Register</a>
+          <li><a class="right-btn" href="/login" role="button">Login</a></li>
+          <li><a class="right-btn" href="/register" role="button">Register</a></li>
           {% endif %}
-          </div>
+          </ul>
         </div><!--/.navbar-collapse -->
+      </div>
       </div>
     </nav>
     <div class="container">
