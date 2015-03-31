@@ -24,7 +24,7 @@ function plot_markers(map, data) {
         marker.description = data[i].description;
         google.maps.event.addListener(marker, 'click', function () {
             var infowindow = new google.maps.InfoWindow();
-            infowindow.setContent(this.description);
+            infowindow.setContent(this.description + '<br/> <button onclick="saveFavorite()">Favorite!</button>' + '<button onclick="unsaveFavorite()">Unfavorite!</button>');
             infowindow.open(map, this);
         });
         mapMarkers.push(marker);

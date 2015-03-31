@@ -71,11 +71,9 @@
                 var data =
                 {% include "GreenCity/filterData.json" %}
 
-
 		            plot_markers(map, data);
                 heatmap = plot_heatmap(map, data);
 
-                
             }
             google.maps.event.addDomListener(window, 'load', initialize);
 

@@ -24,6 +24,10 @@ def home(request):
     request.session['zoom_level'] = 12
     request.session['lat'] = 49.2827
     request.session['long'] = -123.1207
+    if 'uname' not in request.session:
+        request.session['uname'] = request.user.username
+    if 'uname1' not in request.session:
+        request.session['uname1']= request.user.username + 'axdb34' # for cookies
     if request.user.__str__() != "AnonymousUser":
         uname = request.session['uname']
         uname1 = request.session['uname1']
@@ -55,6 +59,7 @@ def save(request):
         print uname1
         print logl
         print lls
+        print save_data
         response.set_cookie(uname, uname, max_age = 365*24*60*60)
         response.set_cookie(uname, logl, max_age = 365*24*60*60)
         response.set_cookie(uname1, uname1, max_age = 365*24*60*60)
