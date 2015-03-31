@@ -34,7 +34,12 @@
             {% if user.is_staff %}
                 <li><a class="right-btn" href="/admin"><span class="glyphicon glyphicon-share-alt"></span> Go To Admin Panel</a></li>
             {% endif %}
-          <li><a class="right-btn" href="/logout" role="button"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          <form method="POST" id="myform" name="myform" action="/logout/">
+            {% csrf_token %}
+            <input type="hidden" value=None id="latlng" name="latlng">
+            <input type="hidden" value=None id="lll" name="lll">
+            <li><button type="submit" value="Logout" class="right-btn"  role="button" id="ll" name="ll"><span class="glyphicon glyphicon-log-out"></span> Logout</button></li>
+          </form>
           {% else %}
           <li><a class="right-btn" href="/login" role="button"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           <li><a class="right-btn" href="/register" role="button"><span class="glyphicon glyphicon-edit"></span> Register</a></li>
