@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
                 ('raw_data', models.TextField(null=True, blank=True)),
                 ('facebook_open_graph', models.NullBooleanField(help_text='Determines if this user want to share via open graph')),
                 ('new_token_required', models.BooleanField(default=False, help_text='Set to true if the access token is outdated or lacks permissions')),
-                ('image', models.ImageField(max_length=255, null=True, upload_to='images\\facebook_profiles/%Y/%m/%d', blank=True)),
+                ('image', models.ImageField(max_length=255, null=True, upload_to='images/facebook_profiles/%Y/%m/%d', blank=True)),
             ],
             options={
                 'abstract': False,
