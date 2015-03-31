@@ -2,15 +2,15 @@
 
 {% block content %}
 
-        <div class="container">
+        <div class="container text-center">
             {% if registered %}
                 Thank you for registering!
             {% else %}
                 <form class="form-signin" id="user_form" action="" method="post">
                     <h1>Register</h1>
                     {% csrf_token %}
-                    {{form}}
-                    <input type="submit" name="submit" value="Register" />
+                    {{form.as_p}}
+                    <p class="text-center"><input class="btn content-btn" type="submit" name="submit" value="Register"/></p>
                 </form>
             {% endif %}
         </div>

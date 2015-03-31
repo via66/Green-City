@@ -24,7 +24,7 @@ def home(request):
     request.session['zoom_level'] = 12
     request.session['lat'] = 49.2827
     request.session['long'] = -123.1207
-    if request.user.__str__() != "AnonymousUser":
+    if request.user.__str__() != "AnonymousUser" and 'uname' in request.session:
         uname = request.session['uname']
         uname1 = request.session['uname1']
         zoomLevel = request.COOKIES.get(uname, '')
@@ -189,9 +189,7 @@ def register(request):
 
             authenticated_user = authenticate(username=request.POST['username'], password=request.POST['password'])
             login(request, authenticated_user)
-            return render(request,
-                          'GreenCity/login.html',
-                          {'registered': registered})
+            return HttpResponseRedirect('/')
         else:
             print user_form.errors
 
@@ -200,7 +198,7 @@ def register(request):
 
     return render(request,
                   'GreenCity/register.html',
-                  {'form': user_form.as_p, 'registered': registered})
+                  {'form': user_form, 'registered': registered})
 
 
 def user_login(request):

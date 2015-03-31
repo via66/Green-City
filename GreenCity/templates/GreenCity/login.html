@@ -11,17 +11,18 @@
         <a href="{% url 'register' %}">Click here to register!</a>
     {% endif %}
     <form id="login_form" class="form-signin" action="/login/" method="post">{% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" name="username" value="" id="username">
-        <label for="password">Password:</label>
-        <input type="password" name="password" value="" id="password">
-        <input type="submit" value="submit" />
+        <p class="text-center"><label for="username">Username:</label>
+        <input type="text" name="username" value="" id="username"></p>
+        <p class="text-center"><label for="password">Password:</label>
+        <input type="password" name="password" value="" id="password"></p>
+        <p class="text-center"><input class="btn content-btn" type="submit" value="submit" /></p>
     </form>
     
 
     <link href="{{ STATIC_URL }}django_facebook/css/facebook.css" type="text/css" rel="stylesheet" media="all" />
     {% include 'django_facebook/_facebook_js.html' %}
 
+    <div class="text-center">
     <form class="form-signin" action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
         <input type="hidden" value="{{ request.path }}" name="next" />
         <input type="hidden" value="{{ request.path }}" name="register_next" />
@@ -29,5 +30,6 @@
         {% csrf_token %}
         <input onclick="F.connect(this.parentNode); return false;" type="image" src="{{ STATIC_URL }}django_facebook/images/facebook_login.png" />
     </form>
+    </div>
 
 {% endblock %}
