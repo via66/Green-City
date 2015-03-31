@@ -80,7 +80,7 @@ def filter(request):
 
     for f in features:
         if f == "Park":
-            if proximity == "":
+            if (proximity == "" or longitude == "" or latitude == ""):
                 data = list(chain(data, Park.objects.filter(
                     Q(name__icontains=search) | Q(neighbourhoodName__icontains=search))))
             elif proximity != "":
@@ -97,7 +97,7 @@ def filter(request):
                     )))
 
         elif f == "BikeRack":
-            if proximity == "":
+            if (proximity == "" or longitude == "" or latitude == ""):
                 data = list(chain(data, BikeRack.objects.filter(Q(name__icontains=search))))
             elif proximity != "":
                 data = list(chain(data, BikeRack.objects.filter(Q(name__icontains=search),
@@ -114,7 +114,7 @@ def filter(request):
                                                                     float(latitude) + (float(proximity) / KM_PER_LAT))))
                 )))
         elif f == "CommunityMarket":
-            if proximity == "":
+            if (proximity == "" or longitude == "" or latitude == ""):
                 data = list(chain(data, CommunityFoodMarket.objects.filter(
                     Q(name__icontains=search) | Q(marketType__icontains=search) | Q(operator__icontains=search) | Q(
                         offerings__icontains=search))))
@@ -132,7 +132,7 @@ def filter(request):
                                                                                    float(proximity) / KM_PER_LAT))))
                 )))
         elif f == "CommunityGarden":
-            if proximity == "":
+            if (proximity == "" or longitude == "" or latitude == ""):
                 data = list(chain(data, CommunityGarden.objects.filter(
                     Q(name__icontains=search) | Q(foodTreeVarieties__icontains=search) | Q(
                         stewarsOrManagingOrganization__icontains=search))))
@@ -151,7 +151,7 @@ def filter(request):
                                                                                float(proximity) / KM_PER_LAT))))
                 )))
         elif f == "GreenCityProject":
-            if proximity == "":
+            if (proximity == "" or longitude == "" or latitude == ""):
                 data = list(chain(data, GreenCityProject.objects.filter(
                     Q(name__icontains=search) | Q(shortDescription__icontains=search))))
             elif proximity != "":
@@ -163,7 +163,7 @@ def filter(request):
                     (Q(latitude__lte=(float(latitude) + (float(proximity) / KM_PER_LAT))))
                 )))
         elif f == "ElectricVehicleChargingStation":
-            if proximity == "":
+            if (proximity == "" or longitude == "" or latitude == ""):
                 data = list(chain(data, ElectricVehicleChargingStation.objects.filter(
                     Q(name__icontains=search) | Q(lotOperator__icontains=search))))
             elif proximity != "":
