@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import RequestContext, loader, Context
 from GreenCity.models import Feature, Park, CommunityGarden, CommunityFoodMarket, \
-    GreenCityProject, BikeRack, ElectricVehicleChargingStation 
+    GreenCityProject, BikeRack, ElectricVehicleChargingStation
 from django.core import serializers
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect
@@ -18,14 +18,17 @@ import json
 KM_PER_LAT = 111
 KM_PER_LONG = 111.321
 
+
 def home(request):
     features = Feature.objects.select_subclasses()
     return render(request, 'GreenCity/home.html', {'features': features})
-	
-	
+
+
 def save(request):
-	print request.body
-	return HttpResponse('hello')
+    save_data = json.loads(request.body)
+    # put all the request session stuff here. Save data is a python dictionary.
+    # so save_data['zoom_level'] and save_data['lat_long']
+    return HttpResponse('hello')
 
 
 def filter(request):
@@ -51,8 +54,10 @@ def filter(request):
                                                         float(longitude) - (float(proximity) / KM_PER_LONG)))),
                                                     (Q(longitude__lte=(
                                                         float(longitude) + (float(proximity) / KM_PER_LONG)))),
-                                                    (Q(latitude__gte=(float(latitude) - (float(proximity) / KM_PER_LAT)))),
-                                                    (Q(latitude__lte=(float(latitude) + (float(proximity) / KM_PER_LAT))))
+                                                    (Q(latitude__gte=(
+                                                        float(latitude) - (float(proximity) / KM_PER_LAT)))),
+                                                    (Q(latitude__lte=(
+                                                        float(latitude) + (float(proximity) / KM_PER_LAT))))
                     )))
 
         elif f == "BikeRack":
@@ -61,11 +66,14 @@ def filter(request):
             elif proximity != "":
                 data = list(chain(data, BikeRack.objects.filter(Q(name__icontains=search),
                                                                 (Q(longitude__gte=(
-                                                                    float(longitude) - (float(proximity) / KM_PER_LONG)))),
+                                                                    float(longitude) - (
+                                                                        float(proximity) / KM_PER_LONG)))),
                                                                 (Q(longitude__lte=(
-                                                                    float(longitude) + (float(proximity) / KM_PER_LONG)))),
+                                                                    float(longitude) + (
+                                                                        float(proximity) / KM_PER_LONG)))),
                                                                 (Q(latitude__gte=(
-                                                                    float(latitude) - (float(proximity) / KM_PER_LAT)))),
+                                                                    float(latitude) - (
+                                                                        float(proximity) / KM_PER_LAT)))),
                                                                 (Q(latitude__lte=(
                                                                     float(latitude) + (float(proximity) / KM_PER_LAT))))
                 )))
@@ -84,7 +92,8 @@ def filter(request):
                                                                            (Q(latitude__gte=(float(latitude) - (
                                                                                float(proximity) / KM_PER_LAT)))),
                                                                            (Q(latitude__lte=(
-                                                                               float(latitude) + (float(proximity) / KM_PER_LAT))))
+                                                                               float(latitude) + (
+                                                                                   float(proximity) / KM_PER_LAT))))
                 )))
         elif f == "CommunityGarden":
             if proximity == "":
@@ -99,9 +108,11 @@ def filter(request):
                                                                        (Q(longitude__lte=(float(longitude) + (
                                                                            float(proximity) / KM_PER_LONG)))),
                                                                        (Q(latitude__gte=(
-                                                                           float(latitude) - (float(proximity) / KM_PER_LAT)))),
+                                                                           float(latitude) - (
+                                                                               float(proximity) / KM_PER_LAT)))),
                                                                        (Q(latitude__lte=(
-                                                                           float(latitude) + (float(proximity) / KM_PER_LAT))))
+                                                                           float(latitude) + (
+                                                                               float(proximity) / KM_PER_LAT))))
                 )))
         elif f == "GreenCityProject":
             if proximity == "":
