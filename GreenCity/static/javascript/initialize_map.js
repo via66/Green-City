@@ -40,7 +40,6 @@ function clear_markers() {
   markerCluster.clearMarkers();
 }
 
-
 function plot_heatmap(map, data){
     var list_data = $.map(data, function (elem, indx) {
         return new google.maps.LatLng(elem.latitude,elem.longitude);

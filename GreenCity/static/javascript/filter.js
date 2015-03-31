@@ -71,3 +71,9 @@ $('#logout').click(function(e){
 	$.post("/save/", JSON.stringify(data), function(response){
 	}, 'json');
 });
+
+
+function reset_map() {
+    map.setCenter(new google.maps.LatLng(49.2827, -123.1207));
+    map.setZoom(12);
+}

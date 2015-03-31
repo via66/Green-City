@@ -1,5 +1,5 @@
 .form-signin {
-  max-width: 330px;
+  max-width: 400px;
   padding: 15px;
   margin: 0 auto;
 }
@@ -21,4 +21,12 @@
 }
 .form-signin .form-control:focus {
   z-index: 2;
+}
+
+.errorlist {
+    list-style-type: none;
+}
+
+.errorlist {
+    color: #ff8249;
 }
