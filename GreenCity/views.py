@@ -21,6 +21,11 @@ KM_PER_LONG = 111.321
 def home(request):
     features = Feature.objects.select_subclasses()
     return render(request, 'GreenCity/home.html', {'features': features})
+	
+	
+def save(request):
+	print request.body
+	return HttpResponse('hello')
 
 def save(request):
     features = Feature.objects.select_subclasses()
