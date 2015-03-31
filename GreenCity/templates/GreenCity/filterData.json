@@ -5,7 +5,7 @@
 	{ "ftype": "{{feature|field_type}}",
 	"latitude": {{feature.latitude}},
 	"longitude": {{feature.longitude}},
-	"name": "{{feature.name}}",
+	"fname": "{{feature.name}}",
       {% if feature|field_type == "Park" %}
         "description": "{{ feature.name }} <br/> Address: {{feature.completeAddress}} <br/> Neighbourhood: {{feature.neighbourhoodName}} <br/> {{feature.neighbourhoodURL}} <br/> Size: {{feature.hectare}} hectares <br/> Washrooms: {{feature.washrooms}}"   {% endif %}
       {% if feature|field_type == "BikeRack" %}

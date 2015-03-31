@@ -21,10 +21,11 @@ function plot_markers(map, data) {
             map: map,
             icon: markerIcons[data[i].ftype]
         });
+        marker.fname = data[i].fname;
         marker.description = data[i].description;
         google.maps.event.addListener(marker, 'click', function () {
             var infowindow = new google.maps.InfoWindow();
-            infowindow.setContent(this.description + '<br/> <button onclick="saveFavorite()">Favorite!</button>' + '<button onclick="unsaveFavorite()">Unfavorite!</button>');
+            infowindow.setContent(this.description + '<br/> <button onclick="saveFavorite(' + this + ')">Favorite!</button>' + '<button onclick="unsaveFavorite()">Unfavorite!</button>');
             infowindow.open(map, this);
         });
         mapMarkers.push(marker);
