@@ -34,7 +34,7 @@
             {% if user.is_staff %}
                 <li><a class="right-btn" href="/admin"><span class="glyphicon glyphicon-share-alt"></span> Go To Admin Panel</a></li>
             {% endif %}
-          <li><a class="right-btn" href="/logout" role="button"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          <li><a id="logout" class="right-btn" href="/logout" role="button"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
           {% else %}
           <li><a class="right-btn" href="/login" role="button"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           <li><a class="right-btn" href="/register" role="button"><span class="glyphicon glyphicon-edit"></span> Register</a></li>

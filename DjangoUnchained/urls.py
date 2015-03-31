@@ -11,6 +11,7 @@ urlpatterns = patterns('',
 	url(r'^register/$', 'GreenCity.views.register',name='register'),
 	url(r'^restricted/$', 'GreenCity.views.restricted',name='restricted'),
 	url(r'^logout/$', 'GreenCity.views.user_logout',name='logout'),
+	url(r'^save/$', 'GreenCity.views.save', name='save'),
 
 	#django-facebook integration
 	(r'^facebook/', include('django_facebook.urls')),
