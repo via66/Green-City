@@ -21,48 +21,45 @@ KM_PER_LONG = 111.321
 
 def home(request):
     features = Feature.objects.select_subclasses()
+    request.session['zoom_level'] = 12
+    request.session['lat'] = 49.2827
+    request.session['long'] = -123.1207
+    if request.user.__str__() != "AnonymousUser":
+        uname = request.session['uname']
+        uname1 = request.session['uname1']
+        zoomLevel = request.COOKIES.get(uname, '')
+        ll = request.COOKIES.get(uname1, '')
+        if zoomLevel != '' and zoomLevel is not None:
+            request.session['zoom_level'] = zoomLevel
+        if ll != '' and ll is not None:
+            ll = ll.lstrip('[').rstrip(']').split(',')
+            request.session['lat'] = float(ll[0])
+            request.session['long'] = float(ll[1])
     return render(request, 'GreenCity/home.html', {'features': features})
 
 
 def save(request):
-    save_data = json.loads(request.body)
-    # put all the request session stuff here. Save data is a python dictionary.
-    # so save_data['zoom_level'] and save_data['lat_long']
-    request.session['logl'] = save_data['zoom_level']
-    request.session['lls'] = save_data['lat_long']
-    print request.session['lls']
-    print request.session['logl']
-    lls = request.session['lls']
-    uname = request.session['uname']
-    uname1 = request.session['uname1']
-    logl = request.session['logl']
     response = HttpResponseRedirect('/')
-    response.set_cookie(uname, uname, max_age = 365*24*60*60) # cookie set for one year
-    response.set_cookie(uname, logl, max_age = 365*24*60*60)
-    response.set_cookie(uname1, uname1, max_age = 365*24*60*60)
-    response.set_cookie(uname1, lls, max_age = 365*24*60*60)
+    if request.user.__str__() != "AnonymousUser":
+        save_data = json.loads(request.body)
+        # put all the request session stuff here. Save data is a python dictionary.
+        # so save_data['zoom_level'] and save_data['lat_long']
+        request.session['zoom_level'] = save_data['zoom_level']
+        request.session['lat'] = save_data['lat_long']['k']
+        request.session['long'] = save_data['lat_long']['D']
+        lls = [request.session['lat'], request.session['long']]
+        uname = request.session['uname']
+        uname1 = request.session['uname1']
+        logl = request.session['zoom_level']
+        print uname
+        print uname1
+        print logl
+        print lls
+        response.set_cookie(uname, uname, max_age = 365*24*60*60)
+        response.set_cookie(uname, logl, max_age = 365*24*60*60)
+        response.set_cookie(uname1, uname1, max_age = 365*24*60*60)
+        response.set_cookie(uname1, lls, max_age = 365*24*60*60)
     return response
-
-def save(request):
-    features = Feature.objects.select_subclasses()
-    uname = request.session['uname']
-    uname1 = request.session['uname1']
-    zoomLevel = request.COOKIES.get(uname, '')
-    ll = request.COOKIES.get(uname1, '')
-    print zoomLevel
-    print ll
-    if zoomLevel == '' or zoomLevel == 'None':
-        request.session['logl'] = 12 # default zoom at 12, upon first login
-    else:
-        request.session['logl'] = zoomLevel
-    if ll == '' or ll == 'None':
-        request.session['lls'] = (49.2827, -123.1207)
-    else:
-        request.session['lls'] = ll
-    print "session key:"
-    print request.session.session_key
-    # print "Hello " + request.session['uname'] + " I notice this is your session"
-    return render(request, 'GreenCity/home_save.html', {'features': features})
 
 
 def filter(request):
@@ -219,9 +216,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                uname_get = request.session['uname']
-                print "Hello " + uname_get + " I notice this is your session."
-                return HttpResponseRedirect('/saved/')
+                return HttpResponseRedirect('/')
             else:
                 return HttpResponse("Your account is disabled.")
         else:

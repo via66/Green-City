@@ -56,10 +56,17 @@
             var markerCluster;
             function initialize() {
                 mapMarkers = [];
+                {% if request.sessions.zoom_level != '' and request.sessions.lat != '' and request.sessions.long != '' %}
                 var mapOptions = {
+                    zoom: {{ request.session.zoom_level }},
+                    center: new google.maps.LatLng({{ request.session.lat }}, {{ request.session.long }})
+                };
+                {% else %}
+                 var mapOptions = {
                     zoom: 12,
                     center: new google.maps.LatLng(49.2827, -123.1207)
                 };
+                {% endif %}
                 map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
                 var data =
                 {% include "GreenCity/filterData.json" %}
