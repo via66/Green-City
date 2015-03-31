@@ -170,6 +170,8 @@ class DatasetLinkAdmin(admin.ModelAdmin):
                 except:
                     print(request)
                     return render(request, 'admin/duplicate_display.html', {})
+            else :
+                return render(request, 'admin/failure_display.html', {})
         else:
             return HttpResponseRedirect('/admin/GreenCity/datasetlink/')
 
