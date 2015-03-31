@@ -28,7 +28,20 @@ def save(request):
     save_data = json.loads(request.body)
     # put all the request session stuff here. Save data is a python dictionary.
     # so save_data['zoom_level'] and save_data['lat_long']
-    return HttpResponse('hello')
+    request.session['logl'] = save_data['zoom_level']
+    request.session['lls'] = save_data['lat_long']
+    print request.session['lls']
+    print request.session['logl']
+    lls = request.session['lls']
+    uname = request.session['uname']
+    uname1 = request.session['uname1']
+    logl = request.session['logl']
+    response = HttpResponseRedirect('/')
+    response.set_cookie(uname, uname, max_age = 365*24*60*60) # cookie set for one year
+    response.set_cookie(uname, logl, max_age = 365*24*60*60)
+    response.set_cookie(uname1, uname1, max_age = 365*24*60*60)
+    response.set_cookie(uname1, lls, max_age = 365*24*60*60)
+    return response
 
 def save(request):
     features = Feature.objects.select_subclasses()
@@ -225,18 +238,5 @@ def restricted(request):
 
 @login_required
 def user_logout(request):
-    request.session['logl'] = request.POST.get('lll')
-    request.session['lls'] = request.POST.get('latlng')
-    print request.session['lls']
-    print request.session['logl']
-    lls = request.session['lls']
-    uname = request.session['uname']
-    uname1 = request.session['uname1']
-    logl = request.session['logl']
-    response = HttpResponseRedirect('/')
-    response.set_cookie(uname, uname, max_age = 365*24*60*60) # cookie set for one year
-    response.set_cookie(uname, logl, max_age = 365*24*60*60)
-    response.set_cookie(uname1, uname1, max_age = 365*24*60*60)
-    response.set_cookie(uname1, lls, max_age = 365*24*60*60)
     logout(request)
-    return response
+    return HttpResponseRedirect('/')
