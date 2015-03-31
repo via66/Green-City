@@ -30,6 +30,27 @@ def save(request):
     # so save_data['zoom_level'] and save_data['lat_long']
     return HttpResponse('hello')
 
+def save(request):
+    features = Feature.objects.select_subclasses()
+    uname = request.session['uname']
+    uname1 = request.session['uname1']
+    zoomLevel = request.COOKIES.get(uname, '')
+    ll = request.COOKIES.get(uname1, '')
+    print zoomLevel
+    print ll
+    if zoomLevel == '' or zoomLevel == 'None':
+        request.session['logl'] = 12 # default zoom at 12, upon first login
+    else:
+        request.session['logl'] = zoomLevel
+    if ll == '' or ll == 'None':
+        request.session['lls'] = (49.2827, -123.1207)
+    else:
+        request.session['lls'] = ll
+    print "session key:"
+    print request.session.session_key
+    # print "Hello " + request.session['uname'] + " I notice this is your session"
+    return render(request, 'GreenCity/home_save.html', {'features': features})
+
 
 def filter(request):
     # print 'Input Data: "%s"' % request.body
@@ -159,7 +180,7 @@ def register(request):
             authenticated_user = authenticate(username=request.POST['username'], password=request.POST['password'])
             login(request, authenticated_user)
             return render(request,
-                          'GreenCity/register.html',
+                          'GreenCity/login.html',
                           {'registered': registered})
         else:
             print user_form.errors
@@ -178,13 +199,16 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
+        request.session['uname'] = username;
+        request.session['uname1'] = username + "zlkasdh3278"; # this is for cookies, i cant map multiple values to one key...make as many as necessar
         user = authenticate(username=username, password=password)
 
         if user:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect('/')
+                uname_get = request.session['uname']
+                print "Hello " + uname_get + " I notice this is your session."
+                return HttpResponseRedirect('/saved/')
             else:
                 return HttpResponse("Your account is disabled.")
         else:
@@ -201,5 +225,18 @@ def restricted(request):
 
 @login_required
 def user_logout(request):
+    request.session['logl'] = request.POST.get('lll')
+    request.session['lls'] = request.POST.get('latlng')
+    print request.session['lls']
+    print request.session['logl']
+    lls = request.session['lls']
+    uname = request.session['uname']
+    uname1 = request.session['uname1']
+    logl = request.session['logl']
+    response = HttpResponseRedirect('/')
+    response.set_cookie(uname, uname, max_age = 365*24*60*60) # cookie set for one year
+    response.set_cookie(uname, logl, max_age = 365*24*60*60)
+    response.set_cookie(uname1, uname1, max_age = 365*24*60*60)
+    response.set_cookie(uname1, lls, max_age = 365*24*60*60)
     logout(request)
-    return HttpResponseRedirect('/')
+    return response
