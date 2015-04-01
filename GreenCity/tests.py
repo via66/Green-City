@@ -1,6 +1,7 @@
 from django.test import TestCase
 from GreenCity.models import Feature, Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink, NewUser
-from datetime import datetime, date
+from datetime import date
+import datetime
 
 class ParkTestCase(TestCase):
     def setUp(self):
@@ -143,6 +144,8 @@ class CommunityGardenTestCase(TestCase):
         self.newGarden.numberOfFoodTrees = return_valid_value("Y")
         self.newGarden.save()
 
+
+
 class NewUserTestCase(TestCase):
     def setUp(self):
         super(NewUserTestCase,self).setUp()
@@ -159,14 +162,18 @@ class NewUserTestCase(TestCase):
         except:
             print "User does not have a facebook profile linked to his/her account."
 
-# class DatasetLinkTestCase(TestCase):
-#     def setUp(self):
-#         super(DatasetLinkTestCase,self).setUp()
+class DatasetLinkTestCase(TestCase):
+    def setUp(self):
+        super(DatasetLinkTestCase,self).setUp()
+        self.newDataset = DatasetLink.objects.create(url_title="Parks",url_link="ftp://webftp.vancouver.ca/OpenData/csv/parks.csv",pub_date=datetime.date(2015, 10, 10))
 
-#         self.newDataset = DatasetLink.objects.create(url_title="",url_link="")
+    def test_can_save_valid_dataset(self):
+        """ Test if it is possible to save a valid dataset """
+        self.newDataset.save()
 
-#     def test_can_save_invalid_url_dataset(self):
-#         self.newDataset.url_title = "Parks"
-#         self.newDataset.url_link = "http://google.com"
-#         self.newDataset.pub_date = date.strptime("2015-10-10","%Y-%M-%D")
-#         self.newDataset.save()
+    def test_can_save_invalid_dataset(self):
+        """ Test if it is possible to store in the db an invalid url. If this test passes, it is necessary to check the url manually. """
+        self.newDataset.url_title = "Google"
+        self.newDataset.url_link = "http://google.com"
+        self.newDataset.pub_date = datetime.date(2010, 10, 10)
+        self.newDataset.save()
