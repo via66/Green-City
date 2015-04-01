@@ -6,6 +6,7 @@
 	"latitude": {{feature.latitude}},
 	"longitude": {{feature.longitude}},
 	"fname": "{{feature.name}}",
+    "favourite": {% if check_favs and feature.name in favourites %}1{% else %}0{% endif %},
       {% if feature|field_type == "Park" %}
         "description": "<b>{{ feature.name }}</b> <br/> Address: {{feature.completeAddress}} <br/> Neighbourhood: {{feature.neighbourhoodName}} <br/> <a target= '_blank' href='{{feature.neighbourhoodURL}}'>{{feature.neighbourhoodURL}}</a> <br/> Size: {{feature.hectare}} hectares <br/> Washrooms: {{feature.washrooms}}"   {% endif %}
       {% if feature|field_type == "BikeRack" %}

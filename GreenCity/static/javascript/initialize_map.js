@@ -5,21 +5,26 @@ function plot_markers(map, data) {
     var markerSize = new google.maps.Size(21, 34);
     var markerOrigin = new google.maps.Point(0, 0);
     var markerAnchor = new google.maps.Point(10, 34);
-    var customIconURL = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|";
+    var iconURL = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=";
     var markerIcons = {};
-    markerIcons['Park'] = new google.maps.MarkerImage(customIconURL + "a4de94", markerSize, markerOrigin, markerAnchor);
-    markerIcons['GreenCityProject'] = new google.maps.MarkerImage(customIconURL + "f75a70", markerSize, markerOrigin, markerAnchor);
-    markerIcons['BikeRack'] = new google.maps.MarkerImage(customIconURL + "99dbf6", markerSize, markerOrigin, markerAnchor);
-    markerIcons['ElectricVehicleChargingStation'] = new google.maps.MarkerImage(customIconURL + "f3e37b", markerSize, markerOrigin, markerAnchor);
-    markerIcons['CommunityGarden'] = new google.maps.MarkerImage(customIconURL + "dc99e2", markerSize, markerOrigin, markerAnchor);
-    markerIcons['CommunityFoodMarket'] = new google.maps.MarkerImage(customIconURL + "f5a864", markerSize, markerOrigin, markerAnchor);
+    markerIcons['Park'] = "%E2%80%A2|a4de94";
+    markerIcons['GreenCityProject'] = "%E2%80%A2|f75a70";
+    markerIcons['BikeRack'] = "99dbf6";
+    markerIcons['ElectricVehicleChargingStation'] = "%E2%80%A2|f3e37b";
+    markerIcons['CommunityGarden'] = "%E2%80%A2|dc99e2";
+    markerIcons['CommunityFoodMarket'] = "%E2%80%A2|f5a864";
 
     for (var i = 0; i < data.length; i++)
     {
+        if (data[i].favourite == 1){
+            customIconURL = iconURL + "pin_star|" + markerIcons[data[i].ftype] + "||f5a864"
+        } else {
+            customIconURL = iconURL + "pin|" + markerIcons[data[i].ftype]
+        }
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(data[i].latitude,data[i].longitude),
             map: map,
-            icon: markerIcons[data[i].ftype]
+            icon: new google.maps.MarkerImage(customIconURL, markerSize, markerOrigin, markerAnchor)
         });
         marker.fname = data[i].fname;
         marker.description = data[i].description;

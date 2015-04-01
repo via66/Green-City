@@ -22,14 +22,18 @@ KM_PER_LONG = 111.321
 
 def home(request):
     features = Feature.objects.select_subclasses()
+    check_favs = False
     request.session['zoom_level'] = 12
     request.session['lat'] = 49.2827
     request.session['long'] = -123.1207
+    favs = {}
     if 'uname' not in request.session:
         request.session['uname'] = request.user.username
     if 'uname1' not in request.session:
         request.session['uname1']= request.user.username + 'axdb34' # for cookies
     if request.user.__str__() != "AnonymousUser" and 'uname' in request.session:
+        check_favs = True
+        favs = set(map(lambda x: x.favorites.name, Favorites.objects.filter(newuser=request.user)))
         uname = request.session['uname']
         uname1 = request.session['uname1']
         zoomLevel = request.COOKIES.get(uname, '')
@@ -40,7 +44,7 @@ def home(request):
             ll = ll.lstrip('[').rstrip(']').split(',')
             request.session['lat'] = float(ll[0])
             request.session['long'] = float(ll[1])
-    return render(request, 'GreenCity/home.html', {'features': features})
+    return render(request, 'GreenCity/home.html', {'features': features, 'favourites':favs, 'check_favs':check_favs})
 
 
 def save(request):
@@ -103,6 +107,11 @@ def filter(request):
         features = request.GET.getlist('feature')
 
     data = {}
+    favs = {}
+    check_favs = False
+    if request.user.__str__() != "AnonymousUser" and request.user.is_authenticated():
+        check_favs = True
+        favs = set(map(lambda x: x.favorites.name, Favorites.objects.filter(newuser=request.user)))
 
     for f in features:
         if f == "Park":
@@ -202,9 +211,9 @@ def filter(request):
                 )))
 
     if(request.method == "POST"):
-        return render(request, 'GreenCity/filterData.json', {'features': data})
+        return render(request, 'GreenCity/filterData.json', {'features': data, 'favourites':favs, 'check_favs':check_favs})
     else:
-        return render(request, 'GreenCity/home.html', {'features': data})
+        return render(request, 'GreenCity/home.html', {'features': data, 'favourites':favs, 'check_favs':check_favs})
 
 
 def register(request):
