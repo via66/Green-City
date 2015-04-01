@@ -7,15 +7,15 @@
 	"longitude": {{feature.longitude}},
 	"fname": "{{feature.name}}",
       {% if feature|field_type == "Park" %}
-        "description": "{{ feature.name }} <br/> Address: {{feature.completeAddress}} <br/> Neighbourhood: {{feature.neighbourhoodName}} <br/> {{feature.neighbourhoodURL}} <br/> Size: {{feature.hectare}} hectares <br/> Washrooms: {{feature.washrooms}}"   {% endif %}
+        "description": "{{ feature.name }} <br/> Address: {{feature.completeAddress}} <br/> Neighbourhood: {{feature.neighbourhoodName}} <br/> <a href='{{feature.neighbourhoodURL}}'>{{feature.neighbourhoodURL}}</a> <br/> Size: {{feature.hectare}} hectares <br/> Washrooms: {{feature.washrooms}}"   {% endif %}
       {% if feature|field_type == "BikeRack" %}
         "description": "{{ feature.name}} <br/> Address: {{feature.completeAddress}} <br/> Street Side: {{feature.streetSide}} <br/> Number of Racks: {{feature.numberOfRacks}}"
       {% endif %}
       {% if feature|field_type == "CommunityGarden" %}
-        "description": "{{ feature.name}} <br/> Address: {{feature.streetNumber}} {{feature.streetName}} <br/> Number of Plots: {{feature.numberOfPlots}} <br/> Number of Food Trees: {{feature.numberOfFoodTrees}} <br/> Food Tree Varieties: {{feature.foodTreeVarities}} <br/> Jurisdiction: {{feature.jurisdiction}} <br/> Managing Organization: {{feature.stewarsOrManagingOrganization}} <br/> Email: {{feature.publicEmail}} <br/> URL: {{feature.url}}"
+        "description": "{{ feature.name}} <br/> Address: {{feature.streetNumber}} {{feature.streetName}} <br/> Number of Plots: {{feature.numberOfPlots}} <br/> Number of Food Trees: {{feature.numberOfFoodTrees}} <br/> Food Tree Varieties: {{feature.foodTreeVarities}} <br/> Jurisdiction: {{feature.jurisdiction}} <br/> Managing Organization: {{feature.stewarsOrManagingOrganization}} <br/> Email: {{feature.publicEmail}} <br/> URL: <a href='{{feature.url}}'>{{feature.url}}</a>"
       {% endif %}
       {% if feature|field_type == "CommunityFoodMarket" %}
-        "description": "{{feature.name}} <br/> Address: {{feature.completeAddress}} <br/> Operator: {{feature.operator}} <br/> Number of Vendors: {{feature.numberOfVendors}} <br/> Offerings: {{feature.offerings}} <br/> Months of Operation: {{feature.monthsOfOperation}} <br/> Day: {{feature.day}} <br/> Open: {{feature.openHours}} <br/> Close: {{feature.closeHours}} <br/> URL: {{feature.url}}"          {% endif %}
+        "description": "{{feature.name}} <br/> Address: {{feature.completeAddress}} <br/> Operator: {{feature.operator}} <br/> Number of Vendors: {{feature.numberOfVendors}} <br/> Offerings: {{feature.offerings}} <br/> Months of Operation: {{feature.monthsOfOperation}} <br/> Day: {{feature.day}} <br/> Open: {{feature.openHours}} <br/> Close: {{feature.closeHours}} <br/> URL: <a href='{{feature.url}}'>{{feature.url}}</a>"          {% endif %}
       {% if feature|field_type == "ElectricVehicleChargingStation" %}
         "description": "{{feature.name}} <br/> Lot Operator: {{feature.lotOperator}}"
       {% endif %}
