@@ -5,6 +5,11 @@ function filter_data() {
         dataType: 'json',
         data: $('#filterForm').serialize(),
         success: function(features) {
+            var formData = $('#filterForm').serialize();
+            var url = "http://team-django-unchained.herokuapp.com/filter/" + encodeURIComponent("?" + formData);
+            $('#fb-sb').attr('data-href', url);
+            FB.XFBML.parse();
+
             heatmap.setMap(null);
             clear_markers();
     		plot_markers(map, features);

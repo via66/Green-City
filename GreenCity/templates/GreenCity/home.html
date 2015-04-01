@@ -13,7 +13,7 @@
           <form id= "filterForm" action="">
             {% csrf_token %}
             <div class="filterSection">
-							<label><input id="feature_checker" type="checkbox" checked/>Check All</label>
+							<label><input id="feature_checker" type="checkbox" checked/>&nbsp;Check All</label>
               <labeL><input type="checkbox" name="feature" value="Park" checked/>&nbsp;Parks</label>
               <labeL><input type="checkbox" name="feature" value="BikeRack" checked/>&nbsp;Bike Racks</label>
               <labeL><input type="checkbox" name="feature" value="GreenCityProject" checked/>&nbsp;Green Projects</label>
@@ -43,7 +43,8 @@
           <button class="btn content-btn" type="submit" onclick="filter_data()" id="submitButton">Apply</button>
         </div>
       </div>
-      <div class="fb-share-button" data-href="http://team-django-unchained.herokuapp.com" data-layout="button"></div>
+      <div id="fb-sb" class="fb-share-button" data-href="http://team-django-unchained.herokuapp.com" data-layout="button"></div>
+      
 {% endblock %}
 
 {% block scripts %}

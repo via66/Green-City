@@ -68,15 +68,21 @@ def save(request):
 
 
 def filter(request):
-    # print 'Input Data: "%s"' % request.body
-    search = request.POST.get('searchBox', '')
-    latitude = request.POST.get('latitude', '')
-    longitude = request.POST.get('longitude', '')
-    proximity = request.POST.get('distance')
-    print(proximity)
+    search = latitude = longitude = proximity = features = ""
+    if(request.method == "POST"):
+        search = request.POST.get('searchBox', '')
+        latitude = request.POST.get('latitude', '')
+        longitude = request.POST.get('longitude', '')
+        proximity = request.POST.get('distance')
+        features = request.POST.getlist('feature')
+    else:
+        search = request.GET.get('searchBox', '')
+        latitude = request.GET.get('latitude', '')
+        longitude = request.GET.get('longitude', '')
+        proximity = request.GET.get('distance')
+        features = request.GET.getlist('feature')
 
     data = {}
-    features = request.POST.getlist('feature')
 
     for f in features:
         if f == "Park":
@@ -175,7 +181,10 @@ def filter(request):
                     (Q(latitude__lte=(float(latitude) + (float(proximity) / KM_PER_LAT))))
                 )))
 
-    return render(request, 'GreenCity/filterData.json', {'features': data})
+    if(request.method == "POST"):
+        return render(request, 'GreenCity/filterData.json', {'features': data})
+    else:
+        return render(request, 'GreenCity/home.html', {'features': data})
 
 
 def register(request):
