@@ -13,6 +13,7 @@ urlpatterns = patterns('',
 	url(r'^logout/$', 'GreenCity.views.user_logout',name='logout'),
 	url(r'^save/$', 'GreenCity.views.save', name='save'),
     url(r'^save_favorite/$', 'GreenCity.views.save_favorite', name='save_f'),
+    url(r'^remove_favorite/$', 'GreenCity.views.remove_favorite', name='del_f'),
 
 	#django-facebook integration
 	(r'^facebook/', include('django_facebook.urls')),

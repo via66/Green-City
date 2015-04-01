@@ -157,5 +157,5 @@ class NewUser(AbstractUser):
 
 class Favorites(models.Model):
     newuser = models.ForeignKey(NewUser, related_name='new_u')
-    favorites = models.CharField(max_length=250)
+    favorites = models.ForeignKey(Feature, related_name='feat')
 

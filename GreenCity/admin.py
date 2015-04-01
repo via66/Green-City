@@ -183,7 +183,7 @@ class NewUserAdmin(admin.ModelAdmin):
         FavoritesInLine,
         ]
 
-# admin.site.register(FavoritesInLine)
+
 admin.site.register(DatasetLink, DatasetLinkAdmin)
 admin.site.register(Park, ParkAdmin)
 admin.site.register(GreenCityProject, GreenCityProjectAdmin)
@@ -191,5 +191,5 @@ admin.site.register(ElectricVehicleChargingStation,ChargingStationAdmin)
 admin.site.register(BikeRack, BikeRackAdmin)
 admin.site.register(CommunityFoodMarket, FoodMarketAdmin)
 admin.site.register(CommunityGarden, GardenAdmin)
-admin.site.register(NewUser)
+admin.site.register(NewUser, NewUserAdmin)
 

@@ -12,6 +12,7 @@ from django.core.context_processors import csrf
 from GreenCity.forms import UserForm
 from itertools import chain
 from django.db.models import Q
+from django.db import IntegrityError
 import json
 
 # Create your views here.
@@ -69,13 +70,20 @@ def save(request):
 @login_required()
 def save_favorite(request):
     save_data = json.loads(request.body)
-    print "Created: "
-    new = Favorites.objects.create(newuser=request.user, favorites=save_data['obj'])
-    new.save()
-    print new.newuser
-    print new.favorites
-    print "In the db"
-    # For map initialization, store in session vars?
+    try:
+        feat_obj = Feature.objects.get(name=save_data['obj'])
+        new, p = Favorites.objects.get_or_create(newuser=request.user, favorites=feat_obj)
+        print p
+    except:
+        print "fail"
+    return HttpResponse("worked")
+
+@login_required()
+def remove_favorite(request):
+    save_data = json.loads(request.body)
+    feat_obj = Feature.objects.get(name=save_data['obj'])
+    toDel = Favorites.objects.filter(newuser=request.user, favorites=feat_obj)
+    toDel.delete()
     return HttpResponse("worked")
 
 
