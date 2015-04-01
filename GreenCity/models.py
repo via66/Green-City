@@ -7,7 +7,7 @@ from django_facebook.models import FacebookModel
 from django.db.models.signals import post_save
 from django_facebook.utils import get_user_model, get_profile_model
 from django.conf import settings
-
+import json
 # List of models:
 # Park, GreenCityProjects, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden
 
@@ -119,6 +119,7 @@ class NewUser(AbstractUser):
 
     Username, password and email are required. Other fields are optional.
     """
+
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
 
@@ -153,4 +154,8 @@ class NewUser(AbstractUser):
             except (ImportError, ImproperlyConfigured):
                 raise SiteProfileNotAvailable
         return self._profile_cache
+
+class Favorites(models.Model):
+    newuser = models.ForeignKey(NewUser, related_name='new_u')
+    favorites = models.ForeignKey(Feature, related_name='feat')
 
