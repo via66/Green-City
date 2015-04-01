@@ -60,11 +60,6 @@ def save(request):
         uname = request.session['uname']
         uname1 = request.session['uname1']
         logl = request.session['zoom_level']
-        print uname
-        print uname1
-        print logl
-        print lls
-        print save_data
         response.set_cookie(uname, uname, max_age = 365*24*60*60)
         response.set_cookie(uname, logl, max_age = 365*24*60*60)
         response.set_cookie(uname1, uname1, max_age = 365*24*60*60)
@@ -74,21 +69,23 @@ def save(request):
 @login_required()
 def save_favorite(request):
     save_data = json.loads(request.body)
-    try:
-        feat_obj = Feature.objects.get(name=save_data['obj'])
-        new, p = Favorites.objects.get_or_create(newuser=request.user, favorites=feat_obj)
-        print p
-    except:
-        print "fail"
-    return HttpResponse("worked")
+    feat_obj = Feature.objects.get(name=save_data['obj'])
+    new, p = Favorites.objects.get_or_create(newuser=request.user, favorites=feat_obj)
+    return json_response(True, "this worked")
 
 @login_required()
 def remove_favorite(request):
     save_data = json.loads(request.body)
     feat_obj = Feature.objects.get(name=save_data['obj'])
     toDel = Favorites.objects.filter(newuser=request.user, favorites=feat_obj)
-    toDel.delete()
-    return HttpResponse("worked")
+    if toDel is not None:
+        toDel.delete()
+    return json_response(True, "this worked")
+
+
+def json_response(result, data):
+    response = json.dumps({"result" : result, "data" : data })
+    return HttpResponse(response, content_type="application/json")
 
 
 def filter(request):

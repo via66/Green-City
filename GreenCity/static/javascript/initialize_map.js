@@ -1,19 +1,19 @@
 /**
  * Created by Walter on 3/8/2015.
  */
-function plot_markers(map, data) {
-    var markerSize = new google.maps.Size(21, 34);
-    var markerOrigin = new google.maps.Point(0, 0);
-    var markerAnchor = new google.maps.Point(10, 34);
-    var iconURL = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=";
-    var markerIcons = {};
-    markerIcons['Park'] = "%E2%80%A2|a4de94";
-    markerIcons['GreenCityProject'] = "%E2%80%A2|f75a70";
-    markerIcons['BikeRack'] = "99dbf6";
-    markerIcons['ElectricVehicleChargingStation'] = "%E2%80%A2|f3e37b";
-    markerIcons['CommunityGarden'] = "%E2%80%A2|dc99e2";
-    markerIcons['CommunityFoodMarket'] = "%E2%80%A2|f5a864";
+var markerSize = new google.maps.Size(21, 34);
+var markerOrigin = new google.maps.Point(0, 0);
+var markerAnchor = new google.maps.Point(10, 34);
+var iconURL = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=";
+var markerIcons = {};
+markerIcons['Park'] = "%E2%80%A2|a4de94";
+markerIcons['GreenCityProject'] = "%E2%80%A2|f75a70";
+markerIcons['BikeRack'] = "99dbf6";
+markerIcons['ElectricVehicleChargingStation'] = "%E2%80%A2|f3e37b";
+markerIcons['CommunityGarden'] = "%E2%80%A2|dc99e2";
+markerIcons['CommunityFoodMarket'] = "%E2%80%A2|f5a864";
 
+function plot_markers(map, data) {
     for (var i = 0; i < data.length; i++)
     {
         if (data[i].favourite == 1){
@@ -28,6 +28,7 @@ function plot_markers(map, data) {
         });
         marker.fname = data[i].fname;
         marker.description = data[i].description;
+        marker.ftype = data[i].ftype;
         google.maps.event.addListener(marker, 'click', function () {
             var infowindow = new google.maps.InfoWindow();
             infowindow.setContent(this.description + '<br/> <button class="btn btn-sm content-btn" onclick="saveFavorite(\'' + this.fname + '\')">Favorite!</button>' + '<button class="btn btn-sm content-btn" onclick="removeFavorite(\'' + this.fname + '\')">Unfavorite!</button>');
