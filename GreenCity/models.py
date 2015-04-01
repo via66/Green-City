@@ -155,3 +155,9 @@ class NewUser(AbstractUser):
                 raise SiteProfileNotAvailable
         return self._profile_cache
 
+class Favorites(models.Model):
+    newuser = models.ForeignKey(NewUser, related_name='favs')
+    favorites = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.favorites

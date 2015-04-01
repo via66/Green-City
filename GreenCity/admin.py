@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Feature, Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink, NewUser
+from GreenCity.models import Favorites, Feature, Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink, NewUser
 from django.contrib import admin
 from django.shortcuts import render, HttpResponseRedirect
 from parsers.parkParser import parsePark
@@ -175,6 +175,15 @@ class DatasetLinkAdmin(admin.ModelAdmin):
         else:
             return HttpResponseRedirect('/admin/GreenCity/datasetlink/')
 
+class FavoritesInLine(admin.TabularInline):
+    model = Favorites
+
+class NewUserAdmin(admin.ModelAdmin):
+    inlines = [
+        FavoritesInLine,
+        ]
+
+# admin.site.register(FavoritesInLine)
 admin.site.register(DatasetLink, DatasetLinkAdmin)
 admin.site.register(Park, ParkAdmin)
 admin.site.register(GreenCityProject, GreenCityProjectAdmin)

@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import RequestContext, loader, Context
 from GreenCity.models import Feature, Park, CommunityGarden, CommunityFoodMarket, \
-    GreenCityProject, BikeRack, ElectricVehicleChargingStation, NewUser
+    GreenCityProject, BikeRack, ElectricVehicleChargingStation, NewUser, Favorites
 from django.core import serializers
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect
@@ -66,12 +66,23 @@ def save(request):
         response.set_cookie(uname1, lls, max_age = 365*24*60*60)
     return response
 
+@login_required()
 def save_favorite(request):
     save_data = json.loads(request.body)
+    print Favorites.objects.all()
+    usr = NewUser.objects.get(username=request.session['uname'])
+    print Favorites.objects.get(pk=usr.username)
+    print usr
+#    fav = Favorites.objects.get(newuser=usr)
+#    setattr(usr, 'favorites', save_data['obj'])
+#    usr.save()
+ #   usr.set(favorites=save_data['obj'])
+ #   usr.favorites = save_data['obj']
     print save_data
     print "matches:"
     print save_data['obj']
     print type(save_data)
+ #   print usr.favorites
     return HttpResponse("worked")
 
 def filter(request):
@@ -220,6 +231,7 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         request.session['uname'] = username
+        request.session['pass'] = password
         request.session['uname1'] = username + "zlkasdh3278" # this is for cookies, i cant map multiple values to one key...make as many as necessar
         user = authenticate(username=username, password=password)
 
