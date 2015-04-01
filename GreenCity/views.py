@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import RequestContext, loader, Context
 from GreenCity.models import Feature, Park, CommunityGarden, CommunityFoodMarket, \
-    GreenCityProject, BikeRack, ElectricVehicleChargingStation
+    GreenCityProject, BikeRack, ElectricVehicleChargingStation, NewUser, Favorites
 from django.core import serializers
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect
@@ -12,6 +12,7 @@ from django.core.context_processors import csrf
 from GreenCity.forms import UserForm
 from itertools import chain
 from django.db.models import Q
+from django.db import IntegrityError
 import json
 
 # Create your views here.
@@ -65,6 +66,25 @@ def save(request):
         response.set_cookie(uname1, uname1, max_age = 365*24*60*60)
         response.set_cookie(uname1, lls, max_age = 365*24*60*60)
     return response
+
+@login_required()
+def save_favorite(request):
+    save_data = json.loads(request.body)
+    try:
+        feat_obj = Feature.objects.get(name=save_data['obj'])
+        new, p = Favorites.objects.get_or_create(newuser=request.user, favorites=feat_obj)
+        print p
+    except:
+        print "fail"
+    return HttpResponse("worked")
+
+@login_required()
+def remove_favorite(request):
+    save_data = json.loads(request.body)
+    feat_obj = Feature.objects.get(name=save_data['obj'])
+    toDel = Favorites.objects.filter(newuser=request.user, favorites=feat_obj)
+    toDel.delete()
+    return HttpResponse("worked")
 
 
 def filter(request):
@@ -221,8 +241,9 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        request.session['uname'] = username;
-        request.session['uname1'] = username + "zlkasdh3278"; # this is for cookies, i cant map multiple values to one key...make as many as necessar
+        request.session['uname'] = username
+        request.session['pass'] = password
+        request.session['uname1'] = username + "zlkasdh3278" # this is for cookies, i cant map multiple values to one key...make as many as necessar
         user = authenticate(username=username, password=password)
 
         if user:

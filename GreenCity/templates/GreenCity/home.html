@@ -51,6 +51,8 @@
 
     <script src = {% static "javascript/initialize_map.js" %}></script>
     <script src = {% static "javascript/filter.js" %}></script>
+    <script src = {% static "javascript/favorites.js" %}></script>
+
     <script>
             var map;
             var mapMarkers;
@@ -98,4 +100,5 @@
          fjs.parentNode.insertBefore(js, fjs);
        }(document, 'script', 'facebook-jssdk'));
     </script>
+
 {% endblock %}
