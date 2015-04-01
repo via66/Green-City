@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import RequestContext, loader, Context
 from GreenCity.models import Feature, Park, CommunityGarden, CommunityFoodMarket, \
-    GreenCityProject, BikeRack, ElectricVehicleChargingStation
+    GreenCityProject, BikeRack, ElectricVehicleChargingStation, NewUser
 from django.core import serializers
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect
@@ -66,6 +66,13 @@ def save(request):
         response.set_cookie(uname1, lls, max_age = 365*24*60*60)
     return response
 
+def save_favorite(request):
+    save_data = json.loads(request.body)
+    print save_data
+    print "matches:"
+    print save_data['obj']
+    print type(save_data)
+    return HttpResponse("worked")
 
 def filter(request):
     # print 'Input Data: "%s"' % request.body
@@ -212,8 +219,8 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        request.session['uname'] = username;
-        request.session['uname1'] = username + "zlkasdh3278"; # this is for cookies, i cant map multiple values to one key...make as many as necessar
+        request.session['uname'] = username
+        request.session['uname1'] = username + "zlkasdh3278" # this is for cookies, i cant map multiple values to one key...make as many as necessar
         user = authenticate(username=username, password=password)
 
         if user:
