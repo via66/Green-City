@@ -235,7 +235,10 @@ def user_login(request):
             user_not_found = True
             return render(request, 'GreenCity/login.html', {'user_not_found': user_not_found})
     else:
-        return render(request, 'GreenCity/login.html', {})
+        if request.user.is_authenticated():
+            return HttpResponseRedirect('/')
+        else:
+            return render(request, 'GreenCity/login.html', {})
 
 
 @login_required
