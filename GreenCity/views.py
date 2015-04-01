@@ -69,21 +69,15 @@ def save(request):
 @login_required()
 def save_favorite(request):
     save_data = json.loads(request.body)
-    print Favorites.objects.all()
-    usr = NewUser.objects.get(username=request.session['uname'])
-    print Favorites.objects.get(pk=usr.username)
-    print usr
-#    fav = Favorites.objects.get(newuser=usr)
-#    setattr(usr, 'favorites', save_data['obj'])
-#    usr.save()
- #   usr.set(favorites=save_data['obj'])
- #   usr.favorites = save_data['obj']
-    print save_data
-    print "matches:"
-    print save_data['obj']
-    print type(save_data)
- #   print usr.favorites
+    print "Created: "
+    new = Favorites.objects.create(newuser=request.user, favorites=save_data['obj'])
+    new.save()
+    print new.newuser
+    print new.favorites
+    print "In the db"
+    # For map initialization, store in session vars?
     return HttpResponse("worked")
+
 
 def filter(request):
     # print 'Input Data: "%s"' % request.body

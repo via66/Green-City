@@ -156,8 +156,6 @@ class NewUser(AbstractUser):
         return self._profile_cache
 
 class Favorites(models.Model):
-    newuser = models.ForeignKey(NewUser, related_name='favs')
+    newuser = models.ForeignKey(NewUser, related_name='new_u')
     favorites = models.CharField(max_length=250)
 
-    def __str__(self):
-        return self.favorites
