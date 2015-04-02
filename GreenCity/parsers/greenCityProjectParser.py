@@ -10,7 +10,7 @@ def parseGreenCityProject(url):
 
     for row in reader:
         GreenCityProject.objects.update_or_create(
-            name=unicode(row[1], "ISO-8859-1"),
+            name=unicode(row[0], "ISO-8859-1"),
             longitude=unicode(row[10], "ISO-8859-1"),
             latitude=unicode(row[9], "ISO-8859-1"),
             category1=unicode(row[2], "ISO-8859-1"),

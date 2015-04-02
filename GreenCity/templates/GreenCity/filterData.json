@@ -18,10 +18,10 @@
       {% if feature|field_type == "CommunityFoodMarket" %}
         "description": "<b>{{feature.name}}</b> <br/> Address: {{feature.completeAddress}} <br/> Operator: {{feature.operator}} <br/> Number of Vendors: {{feature.numberOfVendors}} <br/> Offerings: {{feature.offerings}} <br/> Months of Operation: {{feature.monthsOfOperation}} <br/> Day: {{feature.day}} <br/> Open: {{feature.openHours}} <br/> Close: {{feature.closeHours}} <br/> URL: <a target= '_blank' href='{{feature.url}}'>{{feature.url}}</a>"          {% endif %}
       {% if feature|field_type == "ElectricVehicleChargingStation" %}
-        "description": "<b>{{feature.lotOperator}}</b> <br/> {{feature.name}} " 
+        "description": "<b>{{feature.name}}</b> <br/> Address: {{feature.completeAddress}} <br/> Operator: {{feature.operator}}"
       {% endif %}
       {% if feature|field_type == "GreenCityProject" %}
-        "description": "<b>{{feature.name}}</b> <br/> {{"Green City Project"}} <br/> Address: {{feature.address}} <br/> Category: {{feature.category1}}" 
+        "description": " <b> Green City Project </b> <br/> Id: {{feature.name}} <br/> Address: {{feature.address}} <br/> Category: {{feature.category1}}"
       {% endif %}
     }{% if not forloop.last %}
 		,
