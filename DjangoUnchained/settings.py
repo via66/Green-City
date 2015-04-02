@@ -96,7 +96,7 @@ if DEPLOYMENT == PRODUCTION:
 
     STATICFILES_DIRS = (
     os.path.join(BASE_DIR, '../GreenCity/static'),
-        '../static',
+        os.path.join(BASE_DIR, '../static'),
     )
     TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  '../templates'),
