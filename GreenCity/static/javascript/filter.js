@@ -71,10 +71,11 @@ $('#feature_checker').change(function(){
 });
 
 $('#logout').click(function(e){
+    e.preventDefault();
 	data = {zoom_level:map.getZoom(), lat_long:map.getCenter()};
 	console.log(JSON.stringify(data));
 	$.post("/save/", JSON.stringify(data), function(response){
-	}, 'json');
+	}, 'json').always(function(){location.href = "/logout";});
 });
 
 
