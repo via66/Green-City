@@ -27,9 +27,9 @@ def home(request):
     request.session['lat'] = 49.2827
     request.session['long'] = -123.1207
     favs = {}
-    if 'uname' not in request.session:
+    if 'uname' not in request.session or request.session['uname'] == '':
         request.session['uname'] = request.user.username
-    if 'uname1' not in request.session:
+    if 'uname1' not in request.session or request.session['uname1'] == '':
         request.session['uname1']= request.user.username + 'axdb34' # for cookies
     if request.user.__str__() != "AnonymousUser" and 'uname' in request.session:
         check_favs = True
