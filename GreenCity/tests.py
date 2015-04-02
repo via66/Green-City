@@ -2,15 +2,37 @@ from django.test import TestCase
 from GreenCity.models import Feature, Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink, NewUser
 from datetime import date
 import datetime
+from django.utils import timezone
 
+from parsers.parkParser import parsePark
+from parsers.communityGardenParser import parseCommunityGardens
+from parsers.bikeRackParser import parseBikeRack
+from parsers.communityFoodMarketParser import parseCommunityFoodMarket
+from parsers.electricVehicleChargingStationParser import parseElectricVehicleChargingStation
+from parsers.greenCityProjectParser import parseGreenCityProject
+
+#  -parks-  #
 class ParkTestCase(TestCase):
     def setUp(self):
         super(ParkTestCase, self).setUp()
         self.newPark = Park.objects.create(name="ParkName", longitude=12.1234531, latitude=12.1234531, streetNumber="123", streetName="Streen Name Blablabla", hectare=33.2,neighbourhoodName="Neighbourhood Name", neighbourhoodURL="", washrooms=True)
 
     def test_can_save_valid_park(self):
-        """Test to see if the models is being saved when it has all right fields."""
+        """ Test to see if the models is being saved when it has all right fields. """
         self.newPark.save()
+
+class ParkParserTestCase(TestCase):
+    def setUp(self):
+        super(ParkParserTestCase,self).setUp()
+        parsePark("ftp://webftp.vancouver.ca/OpenData/csv/parks.csv")
+
+    def test_can_parse_valid_parks_from_url(self):
+        """ Test if the park parser is parsing the data. """
+        self.assertGreater(Park.objects.all().count(),0)
+
+#  -/parks-  #
+
+#  -bike racks-  #
 
 def generateName(streetNumber, streetName):
     return streetNumber + " " + streetName
@@ -58,7 +80,19 @@ class BikeRackTestCase(TestCase):
         """ Test to see if the models is being saved when it has all right fields with the the necessary extra functions (to get the latitude and longitude). """
         self.newBikeRack.save()
 
-# Park, GreenCityProject, ElectricVehicleChargingStation, BikeRack, CommunityFoodMarket, CommunityGarden, DatasetLink, NewUser
+class BikeRackParserTestCase(TestCase):
+    def setUp(self):
+        super(BikeRackParserTestCase,self).setUp()
+        parseBikeRack("ftp://webftp.vancouver.ca/opendata/bike_rack/BikeRackData.csv")
+    
+    def test_can_parse_valid_bike_racks_from_url(self):
+        """ Test if the parser is actually saving the info in the database"""
+        self.assertGreater(BikeRack.objects.all().count(),0)
+
+#  -/bike racks-  #
+
+#  -green city project-  #
+
 class GreenCityProjectTestCase(TestCase):
     def setUp(self):
         super(GreenCityProjectTestCase,self).setUp()
@@ -68,14 +102,40 @@ class GreenCityProjectTestCase(TestCase):
         """ Test if it is possible to save a valid instance of a project """
         self.newProject.save()
 
+class GreenCityProjectParserTestCase(TestCase):
+    def setUp(self):
+        super(GreenCityProjectParserTestCase, self).setUp()
+        parseGreenCityProject("ftp://webftp.vancouver.ca/OpenData/csv/greenest_city_projects.csv")
+
+    def test_can_parse_valid_projects_from_url(self):
+        """ Test if the green city project parser is parsing the data. """
+        self.assertGreater(GreenCityProject.objects.all().count(),0)
+
+#  -/green city projects-  #
+
+#  -electric vehicle charging stations-  #
+
 class ElectricVehicleChargingStationTestCase(TestCase):
     def setUp(self):
         super(ElectricVehicleChargingStationTestCase,self).setUp()
-        self.newStation = ElectricVehicleChargingStation.objects.create(name="1055 Eveleigh St.",longitude=49.22249551,latitude=-123.1002624,lotOperator="Vancouver Aquarium",address="1055 Eveleigh St.")
+        self.newStation = ElectricVehicleChargingStation.objects.create(name="1234 Eveleigh St.",longitude=49.22249551,latitude=-123.1002624,lotOperator="Vancouver Aquarium",address="1055 Eveleigh St.")
 
     def test_can_save_valid_station(self):
         """ Test if it is possible to save a valid instance of a electric vehicle charging station """
         self.newStation.save()
+
+class ElectricVehicleChargingStationParserTestCase(TestCase):
+    def setUp(self):
+        super(ElectricVehicleChargingStationParserTestCase,self).setUp()
+        parseElectricVehicleChargingStation("ftp://webftp.vancouver.ca/OpenData/csv/electric_vehicle_charging_stations.csv")
+
+    def test_can_parse_valid_charging_stations_from_url(self):
+        """ Test if the electric charging station parser is parsing the data. """       
+        self.assertGreater(ElectricVehicleChargingStation.objects.all().count(), 0)
+
+#  -/electric vehicle charging stations-  #
+
+#  -community food markets-  #
 
 class CommunityFoodMarketTestCase(TestCase):
     def setUp(self):
@@ -89,6 +149,18 @@ class CommunityFoodMarketTestCase(TestCase):
         """ Test if it is possible to save a valid instance of a market """
         self.newMarket.save()
 
+class CommunityFoodMarketParserTestCase(TestCase):
+    def setUp(self):
+        super(CommunityFoodMarketParserTestCase,self).setUp()
+        parseCommunityFoodMarket("ftp://webftp.vancouver.ca/OpenData/csv/CommunityFoodMarketsandFarmersMarkets.csv")
+
+    def test_can_parse_valid_community_food_markets_from_url(self):
+        """ Test if the community food market parser is working. """
+        self.assertGreater(CommunityFoodMarket.objects.all().count(),0)
+
+# -/community food markets- #
+
+# -community gardens #
 def is_number(s):
     try:
         float(s)
@@ -144,6 +216,59 @@ class CommunityGardenTestCase(TestCase):
         self.newGarden.numberOfFoodTrees = return_valid_value("Y")
         self.newGarden.save()
 
+class CommunityGardenParserTestCase(TestCase):
+    def setUp(self):
+        super(CommunityGardenParserTestCase,self).setUp()
+        parseCommunityGardens("ftp://webftp.vancouver.ca/OpenData/csv/CommunityGardensandFoodTrees.csv")
+
+    def test_can_parse_valid_community_garden_from_url(self):
+        """ Test if the community garden parser is working. """
+        self.assertGreater(CommunityGarden.objects.all().count(),0)
+
+# -/community gardens- #
+
+# -parsers together- #
+class AllParsersTestCase(TestCase):
+    def setUp(self):
+        super(AllParsersTestCase,self).setUp()
+        parsePark("ftp://webftp.vancouver.ca/OpenData/csv/parks.csv")
+        parseBikeRack("ftp://webftp.vancouver.ca/opendata/bike_rack/BikeRackData.csv")
+        parseGreenCityProject("ftp://webftp.vancouver.ca/OpenData/csv/greenest_city_projects.csv")
+        parseElectricVehicleChargingStation("ftp://webftp.vancouver.ca/OpenData/csv/electric_vehicle_charging_stations.csv")
+        parseCommunityFoodMarket("ftp://webftp.vancouver.ca/OpenData/csv/CommunityFoodMarketsandFarmersMarkets.csv")
+        parseCommunityGardens("ftp://webftp.vancouver.ca/OpenData/csv/CommunityGardensandFoodTrees.csv")
+
+    def test_can_run_all_parsers_together(self):
+        self.assertGreater(Park.objects.all().count(),0)
+        self.assertGreater(BikeRack.objects.all().count(),0)
+        self.assertGreater(GreenCityProject.objects.all().count(),0)
+        self.assertGreater(ElectricVehicleChargingStation.objects.all().count(), 0)
+        self.assertGreater(CommunityFoodMarket.objects.all().count(),0)
+        self.assertGreater(CommunityGarden.objects.all().count(),0)
+
+# -/parsers- #
+
+# -datasets- #
+
+class DatasetLinkTestCase(TestCase):
+    def setUp(self):
+        super(DatasetLinkTestCase,self).setUp()
+        self.newDataset = DatasetLink.objects.create(url_title="Parks",url_link="ftp://webftp.vancouver.ca/OpenData/csv/parks.csv",pub_date=timezone.now())
+
+    def test_can_save_valid_dataset(self):
+        """ Test if it is possible to save a valid dataset """
+        self.newDataset.save()
+
+    def test_can_save_invalid_dataset(self):
+        """ Test if it is possible to store in the db an invalid url. If this test passes, it is necessary to check the url manually on the admin file. """
+        self.newDataset.url_title = "Google"
+        self.newDataset.url_link = "http://google.com"
+        self.newDataset.pub_date = timezone.now()
+        self.newDataset.save()
+
+# -/datasets- #
+
+# -new user- #
 
 
 class NewUserTestCase(TestCase):
@@ -154,26 +279,6 @@ class NewUserTestCase(TestCase):
     def test_can_create_user(self):
         """ Test if it is possible to create new users """
         self.newUser.save()
+     
 
-    def test_user_has_profile(self):
-        """ Test if the user has a facebook profile associated to his/her account """
-        try:
-            self.newUser.get_profile()
-        except:
-            print "User does not have a facebook profile linked to his/her account."
-
-class DatasetLinkTestCase(TestCase):
-    def setUp(self):
-        super(DatasetLinkTestCase,self).setUp()
-        self.newDataset = DatasetLink.objects.create(url_title="Parks",url_link="ftp://webftp.vancouver.ca/OpenData/csv/parks.csv",pub_date=datetime.date(2015, 10, 10))
-
-    def test_can_save_valid_dataset(self):
-        """ Test if it is possible to save a valid dataset """
-        self.newDataset.save()
-
-    def test_can_save_invalid_dataset(self):
-        """ Test if it is possible to store in the db an invalid url. If this test passes, it is necessary to check the url manually. """
-        self.newDataset.url_title = "Google"
-        self.newDataset.url_link = "http://google.com"
-        self.newDataset.pub_date = datetime.date(2010, 10, 10)
-        self.newDataset.save()
+# -/new user- #
