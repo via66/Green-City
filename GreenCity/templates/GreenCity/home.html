@@ -1,8 +1,14 @@
 {% extends "GreenCity/base_site.html" %}
 {% load static from staticfiles %}
 {% block content %}
-
-      <div>
+      <div class="row">
+      <div class="container col-md-10" style="font-size:150%;color: #004d40;margin-bottom:20px;padding-left:30px;padding-right: 30px;">
+      <p>The City of Vancouver has employed the Greenest City Action Plan in the hopes of becoming the greenest city in the world.
+      The major areas of focus are Carbon emission, Waste and Ecosystems.</p>
+      <p>This site hopes to point out some features of Vancouver that make it 'green' and provide information
+      additional information. Below you can map these features and filter for specific ones.</p>
+      </div></div>
+      <div class="row">
           <button  type="button" class="btn content-btn" onclick="toggleHeatmap()">Toggle Heatmap</button>
           <button  type="button" class="btn content-btn" onclick="reset_map()">Center Map</button>
       </div>
