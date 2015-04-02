@@ -8,7 +8,7 @@ var iconURL = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=";
 var markerIcons = {};
 markerIcons['Park'] = "%E2%80%A2|a4de94";
 markerIcons['GreenCityProject'] = "%E2%80%A2|f75a70";
-markerIcons['BikeRack'] = "99dbf6";
+markerIcons['BikeRack'] = "%E2%80%A2|99dbf6";
 markerIcons['ElectricVehicleChargingStation'] = "%E2%80%A2|f3e37b";
 markerIcons['CommunityGarden'] = "%E2%80%A2|dc99e2";
 markerIcons['CommunityFoodMarket'] = "%E2%80%A2|f5a864";
